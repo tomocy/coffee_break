@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import './page.dart';
+import './page/links_page.dart';
+import './page/page.dart';
 import './theme.dart' as theme;
 
 void main() => runApp(const App());
