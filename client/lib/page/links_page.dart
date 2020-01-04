@@ -13,40 +13,33 @@ class LinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider<LinksRepository>(
         create: (context) => LinksRepository(fetch)..invoke(),
-        child: const LinksListView(),
-      );
-}
+        child: Consumer<LinksRepository>(
+          builder: (context, repository, child) {
+            if (repository.status == FetchStatus.fetched) {
+              return ListView.builder(
+                itemCount: repository.links.length,
+                itemBuilder: (context, i) =>
+                    ListTile(title: Text(repository.links[i])),
+              );
+            }
 
-class LinksListView extends StatelessWidget {
-  const LinksListView({Key key}) : super(key: key);
+            if (repository.status == FetchStatus.failed) {
+              WidgetsBinding.instance
+                  .addPostFrameCallback((duration) => Scaffold.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                      content: Text(repository.error.toString()),
+                      action: SnackBarAction(
+                        label: 'Refetch',
+                        onPressed: () => repository.invoke(),
+                      ),
+                    )));
+            }
 
-  @override
-  Widget build(BuildContext context) => Consumer<LinksRepository>(
-        builder: (context, repository, child) {
-          if (repository.status == FetchStatus.fetched) {
-            return ListView.builder(
-              itemCount: repository.links.length,
-              itemBuilder: (context, i) =>
-                  ListTile(title: Text(repository.links[i])),
-            );
-          }
-
-          if (repository.status == FetchStatus.failed) {
-            WidgetsBinding.instance
-                .addPostFrameCallback((duration) => Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-                    content: Text(repository.error.toString()),
-                    action: SnackBarAction(
-                      label: 'Refetch',
-                      onPressed: () => repository.invoke(),
-                    ),
-                  )));
-          }
-
-          return child;
-        },
-        child: const Center(child: CircularProgressIndicator()),
+            return child;
+          },
+          child: const Center(child: CircularProgressIndicator()),
+        ),
       );
 }
 
