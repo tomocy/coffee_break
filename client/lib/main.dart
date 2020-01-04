@@ -17,12 +17,12 @@ class App extends StatelessWidget {
           routes[PageType.home]: (context) => const Page(
                 type: PageType.home,
                 title: 'Home',
-                fetch: _fetchMock,
+                body: LinksPage(fetch: _fetchMock),
               ),
           routes[PageType.read]: (context) => const Page(
                 type: PageType.read,
                 title: 'Read',
-                fetch: _fetchMock,
+                body: LinksPage(fetch: _fetchMock),
               ),
         },
       );

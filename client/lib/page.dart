@@ -14,15 +14,14 @@ class Page extends StatelessWidget {
     Key key,
     @required this.type,
     @required this.title,
-    @required this.fetch,
+    this.body,
   })  : assert(type != null),
         assert(title != null),
-        assert(fetch != null),
         super(key: key);
 
   final PageType type;
   final String title;
-  final Fetch fetch;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -58,10 +57,23 @@ class Page extends StatelessWidget {
           ),
         ),
         drawerScrimColor: Colors.black12,
-        body: ChangeNotifierProvider<LinksRepository>(
-          create: (context) => LinksRepository(fetch)..invoke(),
-          child: const LinksListView(),
-        ),
+        body: body,
+      );
+}
+
+class LinksPage extends StatelessWidget {
+  const LinksPage({
+    Key key,
+    this.fetch,
+  })  : assert(fetch != null),
+        super(key: key);
+
+  final Fetch fetch;
+
+  @override
+  Widget build(BuildContext context) => ChangeNotifierProvider<LinksRepository>(
+        create: (context) => LinksRepository(fetch)..invoke(),
+        child: const LinksListView(),
       );
 }
 
