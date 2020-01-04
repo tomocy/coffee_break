@@ -9,6 +9,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        themeMode: ThemeMode.light,
         theme: CoffeeBreakThemeData.light(),
         darkTheme: CoffeeBreakThemeData.dark(),
         initialRoute: _routes[PageType.home],
@@ -39,6 +40,7 @@ class CoffeeBreakThemeData {
         primaryTextTheme: _light.primaryTextTheme.copyWith(
           title: _light.primaryTextTheme.title.copyWith(color: Colors.black),
         ),
+        primaryIconTheme: _dark.iconTheme.copyWith(color: Colors.black),
         snackBarTheme: _light.snackBarTheme.copyWith(
           backgroundColor: Colors.black,
           actionTextColor: Colors.white,
@@ -53,6 +55,7 @@ class CoffeeBreakThemeData {
         primaryTextTheme: _dark.primaryTextTheme.copyWith(
           title: _dark.primaryTextTheme.title.copyWith(color: Colors.white),
         ),
+        primaryIconTheme: _dark.iconTheme.copyWith(color: Colors.white),
         snackBarTheme: _light.snackBarTheme.copyWith(
           backgroundColor: Colors.white,
           actionTextColor: Colors.black,
@@ -78,27 +81,36 @@ class Page extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: Text(title)),
         drawer: Drawer(
-          child: ListView(children: <Widget>[
-            ListTile(
-              title: const Text('Home'),
-              onTap: () => type == PageType.home
-                  ? Navigator.pop(context)
-                  : Navigator.pushNamed(
-                      context,
-                      _routes[PageType.home],
-                    ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              border: Border(
+                  right:
+                      BorderSide(color: Theme.of(context).colorScheme.surface)),
             ),
-            ListTile(
-              title: const Text('Read'),
-              onTap: () => type == PageType.read
-                  ? Navigator.pop(context)
-                  : Navigator.pushNamed(
-                      context,
-                      _routes[PageType.read],
-                    ),
-            ),
-          ]),
+            child: ListView(children: <Widget>[
+              ListTile(
+                title: const Text('Home'),
+                onTap: () => type == PageType.home
+                    ? Navigator.pop(context)
+                    : Navigator.pushNamed(
+                        context,
+                        _routes[PageType.home],
+                      ),
+              ),
+              ListTile(
+                title: const Text('Read'),
+                onTap: () => type == PageType.read
+                    ? Navigator.pop(context)
+                    : Navigator.pushNamed(
+                        context,
+                        _routes[PageType.read],
+                      ),
+              ),
+            ]),
+          ),
         ),
+        drawerScrimColor: Colors.black12,
         body: ChangeNotifierProvider<LinksRepository>(
           create: (context) => LinksRepository(fetch)..invoke(),
           child: const LinksListView(),
