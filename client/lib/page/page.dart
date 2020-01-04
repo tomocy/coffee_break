@@ -26,51 +26,44 @@ class Page extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: Text(title)),
         drawer: Drawer(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              border: Border(
-                  right:
-                      BorderSide(color: Theme.of(context).colorScheme.surface)),
-            ),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView(children: <Widget>[
-                    ListTile(
-                      title: const Text('Home'),
-                      onTap: () => type == PageType.home
-                          ? Navigator.pop(context)
-                          : Navigator.pushNamed(
-                              context,
-                              routes[PageType.home],
-                            ),
-                    ),
-                    ListTile(
-                      title: const Text('Read'),
-                      onTap: () => type == PageType.read
-                          ? Navigator.pop(context)
-                          : Navigator.pushNamed(
-                              context,
-                              routes[PageType.read],
-                            ),
-                    ),
-                  ]),
-                ),
-                ListTile(
-                  title: const Text('Settings'),
-                  onTap: () => type == PageType.settings
-                      ? Navigator.pop(context)
-                      : Navigator.pushNamed(
-                          context,
-                          routes[PageType.settings],
-                        ),
-                )
-              ],
-            ),
+          elevation: 1,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView(children: <Widget>[
+                  ListTile(
+                    title: const Text('Home'),
+                    onTap: () => type == PageType.home
+                        ? Navigator.pop(context)
+                        : Navigator.pushNamed(
+                            context,
+                            routes[PageType.home],
+                          ),
+                  ),
+                  ListTile(
+                    title: const Text('Read'),
+                    onTap: () => type == PageType.read
+                        ? Navigator.pop(context)
+                        : Navigator.pushNamed(
+                            context,
+                            routes[PageType.read],
+                          ),
+                  ),
+                ]),
+              ),
+              ListTile(
+                title: const Text('Settings'),
+                onTap: () => type == PageType.settings
+                    ? Navigator.pop(context)
+                    : Navigator.pushNamed(
+                        context,
+                        routes[PageType.settings],
+                      ),
+              )
+            ],
           ),
         ),
-        drawerScrimColor: Colors.black12,
+        drawerScrimColor: Colors.transparent,
         body: body,
       );
 }

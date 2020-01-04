@@ -1,37 +1,21 @@
-import 'package:flutter/material.dart' hide ThemeData;
-import 'package:flutter/material.dart' as material show ThemeData;
+import 'package:flutter/material.dart';
 
-material.ThemeData light() => _light.copyWith(
-      appBarTheme: _light.appBarTheme.copyWith(elevation: 0),
-      canvasColor: Colors.white,
-      scaffoldBackgroundColor: Colors.white,
-      accentColor: Colors.black,
-      primaryColor: Colors.white,
-      primaryTextTheme: _light.primaryTextTheme.copyWith(
-        title: _light.primaryTextTheme.title.copyWith(color: Colors.black),
+ThemeData light() =>
+    _from(ThemeData.from(colorScheme: const ColorScheme.light()));
+
+ThemeData dark() =>
+    _from(ThemeData.from(colorScheme: const ColorScheme.dark()));
+
+ThemeData _from(ThemeData theme) => theme.copyWith(
+      appBarTheme: theme.appBarTheme.copyWith(
+        elevation: 0,
+        color: theme.colorScheme.background,
       ),
-      primaryIconTheme: _dark.iconTheme.copyWith(color: Colors.black),
-      snackBarTheme: _light.snackBarTheme.copyWith(
-        backgroundColor: Colors.black,
-        actionTextColor: Colors.white,
+      primaryTextTheme: theme.textTheme.apply(
+        displayColor: theme.colorScheme.onBackground,
+        bodyColor: theme.colorScheme.onBackground,
+      ),
+      primaryIconTheme: theme.primaryIconTheme.copyWith(
+        color: theme.colorScheme.onBackground,
       ),
     );
-
-material.ThemeData dark() => _dark.copyWith(
-      appBarTheme: _dark.appBarTheme.copyWith(elevation: 0),
-      canvasColor: Colors.black,
-      scaffoldBackgroundColor: Colors.black,
-      accentColor: Colors.white,
-      primaryColor: Colors.black,
-      primaryTextTheme: _dark.primaryTextTheme.copyWith(
-        title: _dark.primaryTextTheme.title.copyWith(color: Colors.white),
-      ),
-      primaryIconTheme: _dark.iconTheme.copyWith(color: Colors.white),
-      snackBarTheme: _light.snackBarTheme.copyWith(
-        backgroundColor: Colors.white,
-        actionTextColor: Colors.black,
-      ),
-    );
-
-final _light = material.ThemeData.light();
-final _dark = material.ThemeData.dark();
