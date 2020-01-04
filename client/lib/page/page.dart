@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 const routes = <PageType, String>{
   PageType.home: '/home',
   PageType.read: '/read',
+  PageType.settings: '/settings',
 };
 
-enum PageType { home, read }
+enum PageType { home, read, settings }
 
 class Page extends StatelessWidget {
   const Page({
@@ -32,26 +33,41 @@ class Page extends StatelessWidget {
                   right:
                       BorderSide(color: Theme.of(context).colorScheme.surface)),
             ),
-            child: ListView(children: <Widget>[
-              ListTile(
-                title: const Text('Home'),
-                onTap: () => type == PageType.home
-                    ? Navigator.pop(context)
-                    : Navigator.pushNamed(
-                        context,
-                        routes[PageType.home],
-                      ),
-              ),
-              ListTile(
-                title: const Text('Read'),
-                onTap: () => type == PageType.read
-                    ? Navigator.pop(context)
-                    : Navigator.pushNamed(
-                        context,
-                        routes[PageType.read],
-                      ),
-              ),
-            ]),
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView(children: <Widget>[
+                    ListTile(
+                      title: const Text('Home'),
+                      onTap: () => type == PageType.home
+                          ? Navigator.pop(context)
+                          : Navigator.pushNamed(
+                              context,
+                              routes[PageType.home],
+                            ),
+                    ),
+                    ListTile(
+                      title: const Text('Read'),
+                      onTap: () => type == PageType.read
+                          ? Navigator.pop(context)
+                          : Navigator.pushNamed(
+                              context,
+                              routes[PageType.read],
+                            ),
+                    ),
+                  ]),
+                ),
+                ListTile(
+                  title: const Text('Settings'),
+                  onTap: () => type == PageType.settings
+                      ? Navigator.pop(context)
+                      : Navigator.pushNamed(
+                          context,
+                          routes[PageType.settings],
+                        ),
+                )
+              ],
+            ),
           ),
         ),
         drawerScrimColor: Colors.black12,
