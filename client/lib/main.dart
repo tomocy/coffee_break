@@ -11,17 +11,19 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         theme: CoffeeBreakThemeData.light(),
         darkTheme: CoffeeBreakThemeData.dark(),
-        home: Page(
-          title: 'Home',
-          fetch: () async {
-            return Future.delayed(
-              const Duration(seconds: 1),
-              () => Random().nextBool()
-                  ? List.generate(100, (i) => 'List $i')
-                  : throw FetchException(),
-            );
-          },
-        ),
+        initialRoute: _routes[PageType.home],
+        routes: {
+          _routes[PageType.home]: (context) => const Page(
+                type: PageType.home,
+                title: 'Home',
+                fetch: _fetchMock,
+              ),
+          _routes[PageType.read]: (context) => const Page(
+                type: PageType.read,
+                title: 'Read',
+                fetch: _fetchMock,
+              ),
+        },
       );
 }
 
@@ -61,24 +63,55 @@ class CoffeeBreakThemeData {
 class Page extends StatelessWidget {
   const Page({
     Key key,
+    @required this.type,
     @required this.title,
     @required this.fetch,
   })  : assert(title != null),
         assert(fetch != null),
         super(key: key);
 
+  final PageType type;
   final String title;
   final Fetch fetch;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: Text(title)),
+        drawer: Drawer(
+          child: ListView(children: <Widget>[
+            ListTile(
+              title: const Text('Home'),
+              onTap: () => type == PageType.home
+                  ? Navigator.pop(context)
+                  : Navigator.pushNamed(
+                      context,
+                      _routes[PageType.home],
+                    ),
+            ),
+            ListTile(
+              title: const Text('Read'),
+              onTap: () => type == PageType.read
+                  ? Navigator.pop(context)
+                  : Navigator.pushNamed(
+                      context,
+                      _routes[PageType.read],
+                    ),
+            ),
+          ]),
+        ),
         body: ChangeNotifierProvider<LinksRepository>(
           create: (context) => LinksRepository(fetch)..invoke(),
           child: const LinksListView(),
         ),
       );
 }
+
+const _routes = <PageType, String>{
+  PageType.home: '/home',
+  PageType.read: '/read',
+};
+
+enum PageType { home, read }
 
 class LinksListView extends StatelessWidget {
   const LinksListView({Key key}) : super(key: key);
@@ -149,10 +182,13 @@ class LinksRepository extends ChangeNotifier {
 
 typedef Fetch = Future<List<String>> Function();
 
-enum FetchStatus {
-  fetching,
-  fetched,
-  failed,
-}
+Future<List<String>> _fetchMock() async => Future.delayed(
+      const Duration(seconds: 1),
+      () => Random().nextBool()
+          ? List.generate(100, (i) => 'List $i')
+          : throw FetchException(),
+    );
+
+enum FetchStatus { fetching, fetched, failed }
 
 class FetchException implements Exception {}
