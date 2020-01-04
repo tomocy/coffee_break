@@ -15,7 +15,8 @@ class Page extends StatelessWidget {
     @required this.type,
     @required this.title,
     @required this.fetch,
-  })  : assert(title != null),
+  })  : assert(type != null),
+        assert(title != null),
         assert(fetch != null),
         super(key: key);
 
