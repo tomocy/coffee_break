@@ -55,6 +55,7 @@ class _SettingsListTileState extends State<SettingsListTile> {
   Widget build(BuildContext context) => ListTile(
         title: Text(widget.title),
         trailing: DropdownButton<String>(
+          elevation: 0,
           value: _selectedItem,
           onChanged: (item) {
             setState(() => _selectedItem = item);

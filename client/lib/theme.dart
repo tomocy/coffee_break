@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' as material show ThemeData;
 
 material.ThemeData light() => _light.copyWith(
       appBarTheme: _light.appBarTheme.copyWith(elevation: 0),
+      canvasColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
       accentColor: Colors.black,
       primaryColor: Colors.white,
@@ -18,6 +19,7 @@ material.ThemeData light() => _light.copyWith(
 
 material.ThemeData dark() => _dark.copyWith(
       appBarTheme: _dark.appBarTheme.copyWith(elevation: 0),
+      canvasColor: Colors.black,
       scaffoldBackgroundColor: Colors.black,
       accentColor: Colors.white,
       primaryColor: Colors.black,
