@@ -9,6 +9,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        theme: CoffeeBreakThemeData.light(),
+        darkTheme: CoffeeBreakThemeData.dark(),
         home: Page(
           title: 'Home',
           fetch: () async {
@@ -19,6 +21,39 @@ class App extends StatelessWidget {
                   : throw FetchException(),
             );
           },
+        ),
+      );
+}
+
+class CoffeeBreakThemeData {
+  static final _light = ThemeData.light();
+  static final _dark = ThemeData.dark();
+
+  static ThemeData light() => _light.copyWith(
+        appBarTheme: _light.appBarTheme.copyWith(elevation: 0),
+        scaffoldBackgroundColor: Colors.white,
+        accentColor: Colors.black,
+        primaryColor: Colors.white,
+        primaryTextTheme: _light.primaryTextTheme.copyWith(
+          title: _light.primaryTextTheme.title.copyWith(color: Colors.black),
+        ),
+        snackBarTheme: _light.snackBarTheme.copyWith(
+          backgroundColor: Colors.black,
+          actionTextColor: Colors.white,
+        ),
+      );
+
+  static ThemeData dark() => _dark.copyWith(
+        appBarTheme: _dark.appBarTheme.copyWith(elevation: 0),
+        scaffoldBackgroundColor: Colors.black,
+        accentColor: Colors.white,
+        primaryColor: Colors.black,
+        primaryTextTheme: _dark.primaryTextTheme.copyWith(
+          title: _dark.primaryTextTheme.title.copyWith(color: Colors.white),
+        ),
+        snackBarTheme: _light.snackBarTheme.copyWith(
+          backgroundColor: Colors.white,
+          actionTextColor: Colors.black,
         ),
       );
 }
