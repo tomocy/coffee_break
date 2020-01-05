@@ -30,26 +30,28 @@ class Page extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: ListView(children: <Widget>[
-                  ListTile(
-                    title: const Text('Home'),
-                    onTap: () => type == PageType.home
-                        ? Navigator.pop(context)
-                        : Navigator.pushNamed(
-                            context,
-                            routes[PageType.home],
-                          ),
-                  ),
-                  ListTile(
-                    title: const Text('Read'),
-                    onTap: () => type == PageType.read
-                        ? Navigator.pop(context)
-                        : Navigator.pushNamed(
-                            context,
-                            routes[PageType.read],
-                          ),
-                  ),
-                ]),
+                child: ListView(
+                  children: <Widget>[
+                    ListTile(
+                      title: const Text('Home'),
+                      onTap: () => type == PageType.home
+                          ? Navigator.pop(context)
+                          : Navigator.pushNamed(
+                              context,
+                              routes[PageType.home],
+                            ),
+                    ),
+                    ListTile(
+                      title: const Text('Read'),
+                      onTap: () => type == PageType.read
+                          ? Navigator.pop(context)
+                          : Navigator.pushNamed(
+                              context,
+                              routes[PageType.read],
+                            ),
+                    ),
+                  ],
+                ),
               ),
               ListTile(
                 title: const Text('Settings'),

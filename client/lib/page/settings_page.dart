@@ -12,15 +12,18 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<Settings>(
-        builder: (context, settings, child) => ListView(children: <Widget>[
-          SettingsListTile(
-            title: 'Theme',
-            onChanged: (theme) => settings.themeMode =
-                _themes.entries.firstWhere((entry) => entry.value == theme).key,
-            selectedItem: _themes[settings.themeMode],
-            items: _themes.values.toList(),
-          )
-        ]),
+        builder: (context, settings, child) => ListView(
+          children: <Widget>[
+            SettingsListTile(
+              title: 'Theme',
+              onChanged: (theme) => settings.themeMode = _themes.entries
+                  .firstWhere((entry) => entry.value == theme)
+                  .key,
+              selectedItem: _themes[settings.themeMode],
+              items: _themes.values.toList(),
+            )
+          ],
+        ),
       );
 }
 
