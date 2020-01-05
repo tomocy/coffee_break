@@ -19,7 +19,7 @@ class LinksPage extends StatelessWidget {
               return ListView.builder(
                 itemCount: repository.links.length,
                 itemBuilder: (context, i) =>
-                    ListTile(title: Text(repository.links[i])),
+                    LinksListTile(title: repository.links[i]),
               );
             }
 
@@ -40,6 +40,20 @@ class LinksPage extends StatelessWidget {
           },
           child: const Center(child: CircularProgressIndicator()),
         ),
+      );
+}
+
+class LinksListTile extends StatelessWidget {
+  const LinksListTile({
+    Key key,
+    this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) => ListTile(
+        title: Text(title),
       );
 }
 
