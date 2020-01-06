@@ -30,7 +30,7 @@ class LinksPage extends StatelessWidget {
                     ..showSnackBar(SnackBar(
                       content: Text(repository.error.toString()),
                       action: SnackBarAction(
-                        label: 'Refetch',
+                        label: 'RETRY',
                         onPressed: () => repository.invoke(),
                       ),
                     )));
