@@ -11,7 +11,9 @@ ThemeData _from(ThemeData theme) => theme.copyWith(
         elevation: 0,
         color: theme.colorScheme.background,
       ),
-      accentColor: theme.colorScheme.primary,
+      accentColor: theme.brightness == Brightness.light
+          ? theme.colorScheme.secondary
+          : theme.colorScheme.primary,
       primaryTextTheme: theme.textTheme.apply(
         displayColor: theme.colorScheme.onBackground,
         bodyColor: theme.colorScheme.onBackground,
