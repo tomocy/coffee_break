@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './page/links_page.dart';
 import './page/page.dart';
 import './page/settings_page.dart';
 import './theme.dart' as theme;
 
-void main() => runApp(ChangeNotifierProvider(
-      create: (context) => Settings(),
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Settings()),
+        ChangeNotifierProvider(create: (context) => Links()),
+      ],
       child: const App(),
     ));
 
@@ -17,12 +21,17 @@ class App extends StatelessWidget {
         themeMode: Provider.of<Settings>(context).themeMode,
         theme: theme.light(),
         darkTheme: theme.dark(),
-        initialRoute: routes[PageType.home],
+        initialRoute: routes[PageType.unread],
         routes: {
-          routes[PageType.home]: (context) => Page(
-                type: PageType.home,
-                title: 'Home',
-                body: Container(),
+          routes[PageType.unread]: (context) => const Page(
+                type: PageType.unread,
+                title: 'Unread',
+                body: UnreadLinksPage(),
+              ),
+          routes[PageType.read]: (context) => const Page(
+                type: PageType.read,
+                title: 'Read',
+                body: ReadLinksPage(),
               ),
           routes[PageType.settings]: (context) => const Page(
                 type: PageType.settings,
