@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+class ReadLinksPage extends StatelessWidget {
+  const ReadLinksPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Consumer<Links>(
+      builder: (context, links, child) => LinkListView(links: links.read));
+}
+
 class LinkListView extends StatelessWidget {
   const LinkListView({
     Key key,
