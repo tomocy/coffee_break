@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+class LinkListView extends StatelessWidget {
+  const LinkListView({
+    Key key,
+    @required this.links,
+  })  : assert(links != null),
+        super(key: key);
+
+  final List<Link> links;
+
+  @override
+  Widget build(BuildContext context) => ListView.builder(
+        itemCount: links.length,
+        itemBuilder: (context, i) => LinkListTile(link: links[i]),
+      );
+}
+
 class LinkListTile extends StatelessWidget {
   const LinkListTile({
     Key key,
