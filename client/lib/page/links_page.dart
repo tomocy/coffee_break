@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+class LinkListTile extends StatelessWidget {
+  const LinkListTile({
+    Key key,
+    @required this.link,
+  })  : assert(link != null),
+        super(key: key);
+
+  final Link link;
+
+  @override
+  Widget build(BuildContext context) => ListTile(
+        title: Text(link.uri),
+        trailing: MarkAsReadButton(link: link),
+      );
+}
+
 class MarkAsReadButton extends StatelessWidget {
   const MarkAsReadButton({
     Key key,
