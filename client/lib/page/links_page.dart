@@ -1,4 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class MarkAsReadButton extends StatelessWidget {
+  const MarkAsReadButton({
+    Key key,
+    @required this.link,
+  })  : assert(link != null),
+        super(key: key);
+
+  final Link link;
+
+  @override
+  Widget build(BuildContext context) => link.read
+      ? FlatButton(
+          onPressed: () =>
+              Provider.of<Links>(context, listen: false).markAsUnread(link),
+          child: const Text('Unread'),
+        )
+      : FlatButton(
+          onPressed: () =>
+              Provider.of<Links>(context, listen: false).markAsRead(link),
+          child: const Text('Read'),
+        );
+}
 
 class Links extends ChangeNotifier {
   final List<Link> _links = [];
