@@ -26,33 +26,35 @@ class Page extends StatelessWidget {
         appBar: AppBar(title: Text(title)),
         drawer: Drawer(
           elevation: 1,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: const Text('Home'),
-                      onTap: () => type == PageType.home
-                          ? Navigator.pop(context)
-                          : Navigator.pushNamed(
-                              context,
-                              routes[PageType.home],
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-              ListTile(
-                title: const Text('Settings'),
-                onTap: () => type == PageType.settings
-                    ? Navigator.pop(context)
-                    : Navigator.pushNamed(
-                        context,
-                        routes[PageType.settings],
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: const Text('Home'),
+                        onTap: () => type == PageType.home
+                            ? Navigator.pop(context)
+                            : Navigator.pushNamed(
+                                context,
+                                routes[PageType.home],
+                              ),
                       ),
-              )
-            ],
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Settings'),
+                  onTap: () => type == PageType.settings
+                      ? Navigator.pop(context)
+                      : Navigator.pushNamed(
+                          context,
+                          routes[PageType.settings],
+                        ),
+                )
+              ],
+            ),
           ),
         ),
         drawerScrimColor: Colors.transparent,
