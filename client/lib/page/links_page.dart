@@ -2,58 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LinksPage extends StatelessWidget {
-  const LinksPage({
-    Key key,
-    this.fetch,
-  })  : assert(fetch != null),
-        super(key: key);
-
-  final Fetch fetch;
+  const LinksPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider<LinksRepository>(
-        create: (context) => LinksRepository(fetch: fetch)..invokeFetch(),
-        child: Consumer<LinksRepository>(
-          builder: (context, repository, child) {
-            if (repository.status == LinksRepositoryStatus.succeeded) {
-              return ListView.builder(
-                itemCount: repository.links.length,
-                itemBuilder: (context, i) =>
-                    LinksListTile(title: repository.links[i]),
-              );
-            }
+  Widget build(BuildContext context) => Consumer<LinksRepository>(
+        builder: (context, repository, child) {
+          if (repository.status == LinksRepositoryStatus.successed) {
+            return ListView.builder(
+              itemCount: repository.links.length,
+              itemBuilder: (context, i) =>
+                  LinksListTile(link: repository.links[i]),
+            );
+          }
 
-            if (repository.status == LinksRepositoryStatus.failed) {
-              WidgetsBinding.instance
-                  .addPostFrameCallback((duration) => Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                      content: Text(repository.error.toString()),
-                      action: SnackBarAction(
-                        label: 'RETRY',
-                        onPressed: () => repository.invokeFetch(),
-                      ),
-                    )));
-            }
+          if (repository.status == LinksRepositoryStatus.failed) {
+            WidgetsBinding.instance
+                .addPostFrameCallback((duration) => Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(
+                    content: Text(repository.error.toString()),
+                    action: SnackBarAction(
+                      label: 'RETRY',
+                      onPressed: () => repository.invokeFetch(),
+                    ),
+                  )));
+          }
 
-            return child;
-          },
-          child: const Center(child: CircularProgressIndicator()),
-        ),
+          return child;
+        },
+        child: const Center(child: CircularProgressIndicator()),
       );
 }
 
 class LinksListTile extends StatelessWidget {
   const LinksListTile({
     Key key,
-    this.title,
+    this.link,
   }) : super(key: key);
 
-  final String title;
+  final Link link;
 
   @override
   Widget build(BuildContext context) => ListTile(
-        title: Text(title),
+        title: Text(link.uri),
       );
 }
 
@@ -62,11 +53,11 @@ class LinksRepository extends ChangeNotifier {
 
   final Fetch fetch;
   LinksRepositoryStatus _status;
-  List<String> _links;
+  List<Link> _links;
   LinksRepositoryException _error;
 
   LinksRepositoryStatus get status => _status;
-  List<String> get links => _links;
+  List<Link> get links => _links;
   LinksRepositoryException get error => _error;
 
   Future<void> invokeFetch() async {
@@ -91,10 +82,16 @@ class LinksRepository extends ChangeNotifier {
   }
 }
 
-typedef Fetch = Future<List<String>> Function();
+typedef Fetch = Future<List<Link>> Function();
 
 enum LinksRepositoryStatus { waiting, succeeded, failed }
 
 class FetchException implements LinksRepositoryException {}
 
 class LinksRepositoryException implements Exception {}
+
+class Link {
+  const Link({@required this.uri}) : assert(uri != null);
+
+  final String uri;
+}

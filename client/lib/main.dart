@@ -15,34 +15,37 @@ class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        themeMode: Provider.of<Settings>(context).themeMode,
-        theme: theme.light(),
-        darkTheme: theme.dark(),
-        initialRoute: routes[PageType.home],
-        routes: {
-          routes[PageType.home]: (context) => const Page(
-                type: PageType.home,
-                title: 'Home',
-                body: LinksPage(fetch: _fetchMock),
-              ),
-          routes[PageType.read]: (context) => const Page(
-                type: PageType.read,
-                title: 'Read',
-                body: LinksPage(fetch: _fetchMock),
-              ),
-          routes[PageType.settings]: (context) => const Page(
-                type: PageType.settings,
-                title: 'Settings',
-                body: SettingsPage(),
-              ),
-        },
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => LinksRepository(fetch: _fetchMock)..invokeFetch(),
+        child: MaterialApp(
+          themeMode: Provider.of<Settings>(context).themeMode,
+          theme: theme.light(),
+          darkTheme: theme.dark(),
+          initialRoute: routes[PageType.home],
+          routes: {
+            routes[PageType.home]: (context) => const Page(
+                  type: PageType.home,
+                  title: 'Home',
+                  body: LinksPage(),
+                ),
+            routes[PageType.read]: (context) => const Page(
+                  type: PageType.read,
+                  title: 'Read',
+                  body: LinksPage(),
+                ),
+            routes[PageType.settings]: (context) => const Page(
+                  type: PageType.settings,
+                  title: 'Settings',
+                  body: SettingsPage(),
+                ),
+          },
+        ),
       );
 }
 
-Future<List<String>> _fetchMock() async => Future.delayed(
+Future<List<Link>> _fetchMock() async => Future.delayed(
       const Duration(seconds: 1),
       () => Random().nextBool()
-          ? List.generate(100, (i) => 'List $i')
+          ? List.generate(100, (i) => Link(uri: 'List $i'))
           : throw FetchException(),
     );
