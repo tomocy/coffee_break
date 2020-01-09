@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<Settings>(
         builder: (context, settings, child) => ListView(
           children: <Widget>[
-            SettingsListTile(
+            SettingListTile(
               title: 'Theme',
               onChanged: (theme) => settings.themeMode = _themes.entries
                   .firstWhere((entry) => entry.value == theme)
@@ -27,8 +27,8 @@ class SettingsPage extends StatelessWidget {
       );
 }
 
-class SettingsListTile extends StatefulWidget {
-  const SettingsListTile({
+class SettingListTile extends StatefulWidget {
+  const SettingListTile({
     Key key,
     this.title,
     this.onChanged,
@@ -42,10 +42,10 @@ class SettingsListTile extends StatefulWidget {
   final List<String> items;
 
   @override
-  _SettingsListTileState createState() => _SettingsListTileState();
+  _SettingListTileState createState() => _SettingListTileState();
 }
 
-class _SettingsListTileState extends State<SettingsListTile> {
+class _SettingListTileState extends State<SettingListTile> {
   String _selectedItem;
 
   @override
