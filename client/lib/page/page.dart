@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 const routes = <PageType, String>{
   PageType.home: '/home',
-  PageType.read: '/read',
   PageType.settings: '/settings',
 };
 
-enum PageType { home, read, settings }
+enum PageType { home, settings }
 
 class Page extends StatelessWidget {
   const Page({
@@ -39,15 +38,6 @@ class Page extends StatelessWidget {
                           : Navigator.pushNamed(
                               context,
                               routes[PageType.home],
-                            ),
-                    ),
-                    ListTile(
-                      title: const Text('Read'),
-                      onTap: () => type == PageType.read
-                          ? Navigator.pop(context)
-                          : Navigator.pushNamed(
-                              context,
-                              routes[PageType.read],
                             ),
                     ),
                   ],
