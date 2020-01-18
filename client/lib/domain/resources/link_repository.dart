@@ -1,4 +1,5 @@
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/resources/resource.dart';
 
 abstract class LinkRepository {
   Future<List<Link>> fetch();
@@ -13,8 +14,6 @@ class LinkRepositorySaveException extends LinkRepositoryException {
   LinkRepositorySaveException([String message]) : super(message);
 }
 
-class LinkRepositoryException implements Exception {
-  const LinkRepositoryException([this.message]);
-
-  final String message;
+class LinkRepositoryException extends ResourceException {
+  const LinkRepositoryException([String message]) : super(message);
 }

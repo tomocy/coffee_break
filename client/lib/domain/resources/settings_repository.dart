@@ -1,4 +1,5 @@
 import 'package:coffee_break/domain/models/settings.dart';
+import 'package:coffee_break/domain/resources/resource.dart';
 
 abstract class SettingsRepositoory {
   Future<Settings> fetch();
@@ -14,8 +15,6 @@ class SettingsRepositorySaveException extends SettingsRepositoryException {
   SettingsRepositorySaveException([String message]) : super(message);
 }
 
-class SettingsRepositoryException implements Exception {
-  const SettingsRepositoryException([this.message]);
-
-  final String message;
+class SettingsRepositoryException extends ResourceException {
+  const SettingsRepositoryException([String message]) : super(message);
 }
