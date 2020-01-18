@@ -68,6 +68,6 @@ class Page extends StatelessWidget {
           ),
         ),
         drawerScrimColor: Colors.transparent,
-        body: body,
+        body: SafeArea(child: body),
       );
 }
