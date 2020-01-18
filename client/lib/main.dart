@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './page/links_page.dart';
-import './page/page.dart';
-import './page/settings_page.dart';
-import './theme.dart' as theme;
+import 'package:coffee_break/pages/links_page.dart';
+import 'package:coffee_break/pages/page.dart';
+import 'package:coffee_break/pages/settings_page.dart';
+import 'package:coffee_break/theme.dart' as theme;
 
 void main() => runApp(MultiProvider(
       providers: [

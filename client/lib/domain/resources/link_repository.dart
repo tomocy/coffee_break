@@ -1,4 +1,4 @@
-import 'package:coffee_break/page/links_page.dart';
+import 'package:coffee_break/domain/models/link.dart';
 
 abstract class LinkRepository {
   Future<List<Link>> fetch();

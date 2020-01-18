@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:coffee_break/domain/resources/link_repository.dart';
-import 'package:coffee_break/page/links_page.dart';
+import 'package:coffee_break/domain/models/link.dart';
 
 class LinkRepositoryBloc {
   LinkRepositoryBloc(this._repository) {
