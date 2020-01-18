@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/domain/models/link.dart';
 
-class LinkRepositoryBloc {
-  LinkRepositoryBloc(this._repository) {
+class LinkBloc {
+  LinkBloc(this._repository) {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
   }

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:coffee_break/domain/models/settings.dart';
 import 'package:coffee_break/domain/resources/settings_repository.dart';
 
-class SettingsRepositoryBloc {
-  SettingsRepositoryBloc(this._repository) {
+class SettingsBloc {
+  SettingsBloc(this._repository) {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
   }
