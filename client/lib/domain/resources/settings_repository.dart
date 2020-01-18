@@ -1,7 +1,7 @@
 import 'package:coffee_break/domain/models/settings.dart';
 import 'package:coffee_break/domain/resources/resource.dart';
 
-abstract class SettingsRepositoory {
+abstract class SettingsRepository {
   Future<Settings> fetch();
 
   Future<void> save(Settings settings);
