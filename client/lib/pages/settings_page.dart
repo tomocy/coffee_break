@@ -1,26 +1,33 @@
+import 'package:coffee_break/blocs/settings_bloc.dart';
+import 'package:coffee_break/domain/models/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-const _themes = <ThemeMode, String>{
-  ThemeMode.system: 'System',
-  ThemeMode.dark: 'Dark',
-  ThemeMode.light: 'Light',
-};
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<Settings>(
-        builder: (context, settings, child) => ListView(
+        builder: (_, settings, __) => ListView(
           children: <Widget>[
             SettingListTile(
               title: 'Theme',
-              onChanged: (theme) => settings.themeMode = _themes.entries
-                  .firstWhere((entry) => entry.value == theme)
-                  .key,
-              selectedItem: _themes[settings.themeMode],
-              items: _themes.values.toList(),
+              onChanged: (theme) {
+                final newThemeMode = themes.entries
+                    .firstWhere((entry) => entry.value == theme)
+                    .key;
+                if (settings.themeMode == newThemeMode) {
+                  return;
+                }
+
+                settings.themeMode = newThemeMode;
+                Provider.of<SettingsBloc>(
+                  context,
+                  listen: false,
+                ).save.add(settings);
+              },
+              selectedItem: themes[settings.themeMode],
+              items: themes.values.toList(),
             )
           ],
         ),
@@ -72,14 +79,4 @@ class _SettingListTileState extends State<SettingListTile> {
               .toList(),
         ),
       );
-}
-
-class Settings extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
-
-  ThemeMode get themeMode => _themeMode;
-  set themeMode(ThemeMode mode) {
-    _themeMode = mode;
-    notifyListeners();
-  }
 }

@@ -14,6 +14,14 @@ class SettingsBloc {
   final _savedController = StreamController<void>.broadcast();
   final _saveController = StreamController<Settings>();
 
+  Stream<Settings> get settings => _settingsController.stream;
+
+  Sink<void> get fetch => _fetchController.sink;
+
+  Stream<void> get saved => _savedController.stream;
+
+  Sink<Settings> get save => _saveController.sink;
+
   Future<void> _invokeFetch(void _) async {
     try {
       final settings = await _repository.fetch();

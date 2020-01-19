@@ -12,3 +12,9 @@ class Settings extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+const themes = <ThemeMode, String>{
+  ThemeMode.system: 'System',
+  ThemeMode.dark: 'Dark',
+  ThemeMode.light: 'Light',
+};
