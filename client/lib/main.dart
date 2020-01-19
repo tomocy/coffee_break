@@ -1,11 +1,15 @@
 import 'package:coffee_break/app.dart';
+import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/blocs/settings_bloc.dart';
+import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/models/links.dart';
 import 'package:coffee_break/domain/models/settings.dart';
+import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/domain/resources/settings_repository.dart';
+import 'package:coffee_break/infra/link_repository.dart';
 import 'package:coffee_break/infra/settings_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:coffee_break/pages/links_page.dart';
 
 void main() => runApp(MultiProvider(
       providers: [
@@ -36,7 +40,34 @@ void main() => runApp(MultiProvider(
             listen: false,
           ),
         ),
-        ChangeNotifierProvider(create: (context) => Links()),
+        Provider<LinkRepository>(
+          create: (_) => MockLinkRepository(),
+        ),
+        Provider<LinkBloc>(
+          create: (context) => LinkBloc(Provider.of<LinkRepository>(
+            context,
+            listen: false,
+          )),
+          dispose: (_, bloc) => bloc.dispose(),
+        ),
+        StreamProvider<List<Link>>(
+          create: (context) {
+            final bloc = Provider.of<LinkBloc>(
+              context,
+              listen: false,
+            );
+            bloc.fetch.add(null);
+            return bloc.links;
+          },
+          initialData: const [],
+          catchError: (_, __) => const [],
+        ),
+        ChangeNotifierProvider<Links>(
+          create: (context) => Links(Provider.of<List<Link>>(
+            context,
+            listen: false,
+          )),
+        ),
       ],
       child: const App(),
     ));

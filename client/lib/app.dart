@@ -14,17 +14,17 @@ class App extends StatelessWidget {
         themeMode: Provider.of<Settings>(context).themeMode,
         theme: light(),
         darkTheme: dark(),
-        initialRoute: routes[PageType.unread],
+        initialRoute: routes[PageType.todo],
         routes: {
-          routes[PageType.unread]: (context) => const Page(
-                type: PageType.unread,
-                title: 'Unread',
-                body: UnreadLinksPage(),
+          routes[PageType.todo]: (context) => const Page(
+                type: PageType.todo,
+                title: 'Todo',
+                body: TodoLinksPage(),
               ),
-          routes[PageType.read]: (context) => const Page(
-                type: PageType.read,
-                title: 'Read',
-                body: ReadLinksPage(),
+          routes[PageType.done]: (context) => const Page(
+                type: PageType.done,
+                title: 'Done',
+                body: DoneLinksPage(),
               ),
           routes[PageType.settings]: (context) => const Page(
                 type: PageType.settings,

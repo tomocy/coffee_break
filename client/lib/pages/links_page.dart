@@ -1,20 +1,42 @@
+import 'package:coffee_break/blocs/link_bloc.dart';
+import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/models/links.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class UnreadLinksPage extends StatelessWidget {
-  const UnreadLinksPage({Key key}) : super(key: key);
+class TodoLinksPage extends StatelessWidget {
+  const TodoLinksPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Consumer<Links>(
-      builder: (context, links, child) => LinkListView(links: links.unread));
+  Widget build(BuildContext context) => Consumer<LinkBloc>(
+        builder: (_, bloc, child) => StreamBuilder<List<Link>>(
+          stream: bloc.links,
+          builder: (_, snapshot) {
+            if (snapshot.hasError) {
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) => Scaffold.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                      content: Text(snapshot.error.toString()),
+                    )));
+            }
+
+            return child;
+          },
+        ),
+        child: Consumer<Links>(
+          builder: (_, links, __) => LinkListView(links: links.todo),
+        ),
+      );
 }
 
-class ReadLinksPage extends StatelessWidget {
-  const ReadLinksPage({Key key}) : super(key: key);
+class DoneLinksPage extends StatelessWidget {
+  const DoneLinksPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<Links>(
-      builder: (context, links, child) => LinkListView(links: links.read));
+        builder: (_, links, __) => LinkListView(links: links.done),
+      );
 }
 
 class LinkListView extends StatelessWidget {
@@ -45,12 +67,12 @@ class LinkListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
         title: Text(link.uri),
-        trailing: MarkAsReadButton(link: link),
+        trailing: MarkAsDoneButton(link: link),
       );
 }
 
-class MarkAsReadButton extends StatelessWidget {
-  const MarkAsReadButton({
+class MarkAsDoneButton extends StatelessWidget {
+  const MarkAsDoneButton({
     Key key,
     @required this.link,
   })  : assert(link != null),
@@ -59,47 +81,19 @@ class MarkAsReadButton extends StatelessWidget {
   final Link link;
 
   @override
-  Widget build(BuildContext context) => link.read
+  Widget build(BuildContext context) => link.isDone
       ? FlatButton(
-          onPressed: () =>
-              Provider.of<Links>(context, listen: false).markAsUnread(link),
-          child: const Text('Unread'),
+          onPressed: () => Provider.of<Links>(
+            context,
+            listen: false,
+          ).markAsUndone(link),
+          child: const Text('Undo'),
         )
       : FlatButton(
-          onPressed: () =>
-              Provider.of<Links>(context, listen: false).markAsRead(link),
-          child: const Text('Read'),
+          onPressed: () => Provider.of<Links>(
+            context,
+            listen: false,
+          ).markAsDone(link),
+          child: const Text('Done'),
         );
-}
-
-class Links extends ChangeNotifier {
-  final List<Link> _links = [];
-
-  List<Link> get all => _links;
-  List<Link> get unread => _links.where((link) => !link.read).toList();
-  List<Link> get read => _links.where((link) => link.read).toList();
-
-  void markAsRead(Link link) => _markAsRead(link, true);
-
-  void markAsUnread(Link link) => _markAsRead(link, false);
-
-  void _markAsRead(Link link, bool read) {
-    final i = all.indexOf(link);
-    if (i < 0 || all[i].read == read) {
-      return;
-    }
-
-    all[i].read = read;
-    notifyListeners();
-  }
-}
-
-class Link {
-  Link({
-    @required this.uri,
-    this.read = false,
-  }) : assert(uri != null);
-
-  final String uri;
-  bool read;
 }

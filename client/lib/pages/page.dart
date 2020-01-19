@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 const routes = <PageType, String>{
-  PageType.unread: '/unread',
-  PageType.read: '/read',
+  PageType.todo: '/todo',
+  PageType.done: '/done',
   PageType.settings: '/settings',
 };
 
-enum PageType { unread, read, settings }
+enum PageType { todo, done, settings }
 
 class Page extends StatelessWidget {
   const Page({
@@ -34,21 +34,21 @@ class Page extends StatelessWidget {
                   child: ListView(
                     children: <Widget>[
                       ListTile(
-                        title: const Text('Unread'),
-                        onTap: () => type == PageType.unread
+                        title: const Text('Todo'),
+                        onTap: () => type == PageType.todo
                             ? Navigator.pop(context)
                             : Navigator.pushNamed(
                                 context,
-                                routes[PageType.unread],
+                                routes[PageType.todo],
                               ),
                       ),
                       ListTile(
-                        title: const Text('Read'),
-                        onTap: () => type == PageType.read
+                        title: const Text('Done'),
+                        onTap: () => type == PageType.done
                             ? Navigator.pop(context)
                             : Navigator.pushNamed(
                                 context,
-                                routes[PageType.read],
+                                routes[PageType.done],
                               ),
                       ),
                     ],
