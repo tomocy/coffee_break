@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.0.1
+  url_launcher: ^5.4.1
   liquid_pull_to_refresh: ^1.1.1
 
   # The following adds the Cupertino Icons font to your application.

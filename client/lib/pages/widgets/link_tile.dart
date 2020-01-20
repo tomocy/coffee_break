@@ -3,6 +3,7 @@ import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/widgets/marked_link_tile_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LinkTile extends StatelessWidget {
   const LinkTile({
@@ -29,6 +30,8 @@ class LinkTile extends StatelessWidget {
           link: link,
         ),
         child: ListTile(
+          onTap: () async =>
+              await canLaunch(link.uri) ? launch(link.uri) : null,
           title: Text(link.uri),
           trailing: PopupMenuButton<LinkTileActions>(
             onSelected: (action) {
