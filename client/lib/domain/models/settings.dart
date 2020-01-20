@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Settings extends ChangeNotifier {
-  Settings({ThemeMode themeMode}) : _themeMode = themeMode;
+class Settings {
+  Settings({this.themeMode});
 
-  ThemeMode _themeMode = ThemeMode.system;
-
-  ThemeMode get themeMode => _themeMode;
-
-  set themeMode(ThemeMode mode) {
-    _themeMode = mode;
-    notifyListeners();
-  }
+  ThemeMode themeMode = ThemeMode.system;
 }
 
 const themes = <ThemeMode, String>{

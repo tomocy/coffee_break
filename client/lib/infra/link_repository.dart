@@ -3,7 +3,10 @@ import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/domain/resources/link_repository.dart';
 
 class MockLinkRepository implements LinkRepository {
-  final _links = <Link>[];
+  final _links = <Link>[
+    Link.todo(uri: 'https://localhost/a'),
+    Link.done(uri: 'https://localhost/b'),
+  ];
   final _random = Random();
 
   @override

@@ -6,11 +6,16 @@ class Link {
     bool done,
   }) : isDone = done;
 
-  Link.todo({
-    String uri,
-  }) : this(
+  Link.todo({String uri})
+      : this(
           uri: uri,
           done: false,
+        );
+
+  Link.done({String uri})
+      : this(
+          uri: uri,
+          done: true,
         );
 
   final String uri;

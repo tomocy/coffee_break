@@ -23,23 +23,6 @@ void main() => runApp(MultiProvider(
           )),
           dispose: (_, bloc) => bloc.dispose(),
         ),
-        FutureProvider<Settings>(
-          create: (context) async {
-            final bloc = Provider.of<SettingsBloc>(
-              context,
-              listen: false,
-            );
-            bloc.fetch.add(null);
-            return bloc.settings.first;
-          },
-          initialData: Settings(),
-        ),
-        ChangeNotifierProvider<Settings>(
-          create: (context) => Provider.of<Settings>(
-            context,
-            listen: false,
-          ),
-        ),
         Provider<LinkRepository>(
           create: (_) => MockLinkRepository(),
         ),

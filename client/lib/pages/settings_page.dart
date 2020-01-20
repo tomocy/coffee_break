@@ -7,30 +7,38 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Consumer<Settings>(
-        builder: (_, settings, __) => ListView(
-          children: <Widget>[
-            SettingListTile(
-              title: 'Theme',
-              onChanged: (theme) {
-                final newThemeMode = themes.entries
-                    .firstWhere((entry) => entry.value == theme)
-                    .key;
-                if (settings.themeMode == newThemeMode) {
-                  return;
-                }
+  Widget build(BuildContext context) => Consumer<SettingsBloc>(
+        builder: (_, bloc, child) => StreamBuilder<Settings>(
+          stream: bloc.settings,
+          builder: (_, snapshot) {
+            if (!snapshot.hasData) {
+              bloc.notify.add(null);
+              return child;
+            }
 
-                settings.themeMode = newThemeMode;
-                Provider.of<SettingsBloc>(
-                  context,
-                  listen: false,
-                ).save.add(settings);
-              },
-              selectedItem: themes[settings.themeMode],
-              items: themes.values.toList(),
-            )
-          ],
+            return ListView(
+              children: <Widget>[
+                SettingListTile(
+                  title: 'Theme',
+                  onChanged: (theme) {
+                    final newThemeMode = themes.entries
+                        .firstWhere((entry) => entry.value == theme)
+                        .key;
+                    if (snapshot.data.themeMode == newThemeMode) {
+                      return;
+                    }
+
+                    snapshot.data.themeMode = newThemeMode;
+                    bloc.save.add(snapshot.data);
+                  },
+                  selectedItem: themes[snapshot.data.themeMode],
+                  items: themes.values.toList(),
+                )
+              ],
+            );
+          },
         ),
+        child: ListView(),
       );
 }
 
