@@ -5,7 +5,7 @@ import 'package:coffee_break/domain/resources/settings_repository.dart';
 
 class MockSettingsRepository implements SettingsRepository {
   var _settings = Settings();
-  var _random = Random();
+  final _random = Random();
 
   @override
   Future<Settings> fetch() async => _random.nextBool()
