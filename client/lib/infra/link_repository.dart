@@ -20,6 +20,7 @@ class MockLinkRepository implements LinkRepository {
     final i = _links.indexOf(link);
     if (i < 0) {
       _links.add(link);
+      return;
     }
 
     _links[i] = link;
