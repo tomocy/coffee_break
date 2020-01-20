@@ -1,5 +1,6 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/link_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -27,17 +28,16 @@ class StreamedLinkListView extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            WidgetsBinding.instance
-                .addPostFrameCallback((_) => Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-                    action: SnackBarAction(
-                      onPressed: () => bloc.fetch.add(null),
-                      label: 'RETRY',
-                    ),
-                    content: Text(snapshot.error.toString()),
-                  )));
-
+            showSnackBar(
+              context,
+              SnackBar(
+                action: SnackBarAction(
+                  onPressed: () => bloc.fetch.add(null),
+                  label: 'RETRY',
+                ),
+                content: Text(snapshot.error.toString()),
+              ),
+            );
             return child;
           }
 

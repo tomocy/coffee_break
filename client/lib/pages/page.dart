@@ -93,3 +93,8 @@ class Page extends StatelessWidget {
         body: SafeArea(child: body),
       );
 }
+
+void showSnackBar(BuildContext context, SnackBar snackbar) =>
+    WidgetsBinding.instance.addPostFrameCallback((_) => Scaffold.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackbar));
