@@ -16,24 +16,36 @@ class MarkedLinkTileBackground extends StatelessWidget {
   final Link link;
 
   @override
-  Widget build(BuildContext context) => Container(
-        alignment: direction == AxisDirection.right
-            ? Alignment.centerLeft
-            : Alignment.centerRight,
-        color: Theme.of(context).colorScheme.primary,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: link.isDone
-            ? Text(
-                'Todo',
-                style: Theme.of(context).textTheme.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-              )
-            : Text(
-                'Done',
-                style: Theme.of(context).textTheme.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-              ),
-      );
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final background = theme.brightness == Brightness.dark
+        ? theme.colorScheme.primary
+        : theme.colorScheme.secondary;
+    final onBackground = theme.brightness == Brightness.dark
+        ? theme.colorScheme.onPrimary
+        : theme.colorScheme.onSecondary;
+
+    return Container(
+      alignment: direction == AxisDirection.right
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
+      color: background,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: link.isDone
+          ? Text(
+              'Todo',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  .copyWith(color: onBackground),
+            )
+          : Text(
+              'Done',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  .copyWith(color: onBackground),
+            ),
+    );
+  }
 }
