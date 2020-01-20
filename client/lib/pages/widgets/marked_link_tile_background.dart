@@ -20,19 +20,19 @@ class MarkedLinkTileBackground extends StatelessWidget {
         alignment: direction == AxisDirection.right
             ? Alignment.centerLeft
             : Alignment.centerRight,
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.primary,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: link.isDone
             ? Text(
                 'Todo',
                 style: Theme.of(context).textTheme.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondary,
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
               )
             : Text(
                 'Done',
                 style: Theme.of(context).textTheme.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondary,
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
               ),
       );
