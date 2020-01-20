@@ -21,10 +21,13 @@ class AddLinkPage extends SearchDelegate {
         builder: (_, bloc, child) => StreamBuilder<bool>(
             stream: bloc.saved,
             builder: (context, snapshot) {
+              if (query.isEmpty) {
+                return child;
+              }
+
               final link = Link.todo(uri: query);
               if (!snapshot.hasData && !snapshot.hasError) {
                 bloc.save.add(link);
-
                 return child;
               }
 
