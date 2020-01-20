@@ -59,8 +59,8 @@ void main() => runApp(MultiProvider(
             bloc.fetch.add(null);
             return bloc.links;
           },
-          initialData: const [],
-          catchError: (_, __) => const [],
+          initialData: initialDataOfListOfLinks,
+          catchError: (_, __) => initialDataOfListOfLinks,
         ),
         ChangeNotifierProvider<Links>(
           create: (context) => Links(Provider.of<List<Link>>(

@@ -10,6 +10,16 @@ class Links extends ChangeNotifier {
   List<Link> get todo => _links.where((link) => !link.isDone).toList();
   List<Link> get done => _links.where((link) => link.isDone).toList();
 
+  void save(Link link) {
+    final i = _links.indexOf(link);
+    if (i < 0) {
+      _links.add(link);
+      return;
+    }
+
+    _links[i] = link;
+  }
+
   void markAsDone(Link link) => _markAsDone(
         link,
         true,

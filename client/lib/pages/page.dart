@@ -1,3 +1,4 @@
+import 'package:coffee_break/pages/add_link_page.dart';
 import 'package:flutter/material.dart';
 
 const routes = <PageType, String>{
@@ -55,6 +56,16 @@ class Page extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  title: const Text('Add'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    showSearch(
+                      context: context,
+                      delegate: AddLinkPage(),
+                    );
+                  },
+                ),
+                ListTile(
                   title: const Text('Settings'),
                   onTap: () => type == PageType.settings
                       ? Navigator.pop(context)
@@ -62,7 +73,7 @@ class Page extends StatelessWidget {
                           context,
                           routes[PageType.settings],
                         ),
-                )
+                ),
               ],
             ),
           ),

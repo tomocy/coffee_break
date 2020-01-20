@@ -1,3 +1,5 @@
+final List<Link> initialDataOfListOfLinks = [];
+
 class Link {
   Link({
     this.uri,
