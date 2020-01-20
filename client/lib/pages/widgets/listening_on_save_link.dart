@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/pages/page.dart';
+import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +38,8 @@ class ListeningOnSaveLink extends StatelessWidget {
               showSnackBar(
                 context,
                 SnackBar(
-                  action: SnackBarAction(
+                  action: RetrySnackBarAction(
                     onPressed: () => bloc.save.add(error.link),
-                    label: 'RETRY',
                   ),
                   content: Text(snapshot.error.toString()),
                 ),

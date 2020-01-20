@@ -2,6 +2,7 @@ import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/link_list_view.dart';
+import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:flutter/material.dart';
 
 class StreamedLinkListView extends StatelessWidget {
@@ -31,9 +32,8 @@ class StreamedLinkListView extends StatelessWidget {
             showSnackBar(
               context,
               SnackBar(
-                action: SnackBarAction(
+                action: RetrySnackBarAction(
                   onPressed: () => bloc.fetch.add(null),
-                  label: 'RETRY',
                 ),
                 content: Text(snapshot.error.toString()),
               ),
