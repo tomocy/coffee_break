@@ -30,6 +30,25 @@ class LinkTile extends StatelessWidget {
         ),
         child: ListTile(
           title: Text(link.uri),
+          trailing: PopupMenuButton<LinkTileActions>(
+            onSelected: (action) {
+              switch (action) {
+                case LinkTileActions.delete:
+                  Provider.of<LinkBloc>(
+                    context,
+                    listen: false,
+                  ).delete.add(link);
+              }
+            },
+            itemBuilder: (_) => [
+              const PopupMenuItem(
+                value: LinkTileActions.delete,
+                child: Text('Delete'),
+              ),
+            ],
+          ),
         ),
       );
 }
+
+enum LinkTileActions { delete }

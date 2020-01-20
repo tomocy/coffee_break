@@ -7,6 +7,7 @@ class LinkBloc {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
     _searchController.stream.listen(_invokeSearch);
+    _deleteController.stream.listen(_invokeDelete);
     _notifyController.stream.listen(_invokeNotify);
   }
 
@@ -18,6 +19,8 @@ class LinkBloc {
   final _saveController = StreamController<Link>();
   final _searchedLinksController = StreamController<List<Link>>.broadcast();
   final _searchController = StreamController<String>();
+  final _deletedController = StreamController<bool>.broadcast();
+  final _deleteController = StreamController<Link>();
   final _notifyController = StreamController<void>();
 
   Stream<List<Link>> get links => _linksController.stream;
@@ -37,6 +40,10 @@ class LinkBloc {
   Stream<List<Link>> get searchedLinks => _searchedLinksController.stream;
 
   Sink<String> get search => _searchController.sink;
+
+  Stream<bool> get deleted => _deletedController.stream;
+
+  Sink<Link> get delete => _deleteController.sink;
 
   Sink<void> get notify => _notifyController.sink;
 
@@ -75,6 +82,17 @@ class LinkBloc {
     );
   }
 
+  Future<void> _invokeDelete(Link link) async {
+    try {
+      await _repository.delete(link);
+      _links.remove(link);
+      _deletedController.add(true);
+      _invokeNotify(null);
+    } on LinkRepositoryDeleteException catch (e) {
+      _deletedController.addError(e);
+    }
+  }
+
   void _invokeNotify(void _) => _linksController.add(_links);
 
   void dispose() {
@@ -84,6 +102,8 @@ class LinkBloc {
     _saveController.close();
     _searchedLinksController.close();
     _searchController.close();
+    _deletedController.close();
+    _deleteController.close();
     _notifyController.close();
   }
 }
