@@ -93,7 +93,8 @@ class LinkBloc {
     }
   }
 
-  void _invokeNotify(void _) => _linksController.add(_links);
+  void _invokeNotify(void _) => _linksController
+      .add(_links..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
 
   void dispose() {
     _linksController.close();

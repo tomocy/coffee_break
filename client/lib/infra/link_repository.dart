@@ -4,8 +4,14 @@ import 'package:coffee_break/domain/resources/link_repository.dart';
 
 class MockLinkRepository implements LinkRepository {
   final _links = <Link>[
-    Link.todo(uri: 'https://localhost/a'),
-    Link.done(uri: 'https://localhost/b'),
+    Link.todo(
+      uri: 'https://twitter.com/towocy',
+      createdAt: DateTime(2020, 1, 1),
+    ),
+    Link.todo(
+      uri: 'https://github.com/tomocy',
+      createdAt: DateTime(2020, 1, 11),
+    ),
   ];
   final _random = Random();
 
