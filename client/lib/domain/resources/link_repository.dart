@@ -16,7 +16,9 @@ class LinkRepositorySaveException extends LinkRepositoryException {
 }
 
 class LinkRepositoryDeleteException extends LinkRepositoryException {
-  LinkRepositoryDeleteException([String message]) : super(message);
+  LinkRepositoryDeleteException(this.link, [String message]) : super(message);
+
+  final Link link;
 }
 
 class LinkRepositoryException extends ResourceException {
