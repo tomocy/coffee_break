@@ -14,7 +14,7 @@ class TodoLinksPage extends StatelessWidget {
           stream: bloc.todoLinks,
           child: child,
         ),
-        child: LinkListView(links: const []),
+        child: const LinkListView(links: []),
       );
 }
 
@@ -28,6 +28,6 @@ class DoneLinksPage extends StatelessWidget {
           stream: bloc.doneLinks,
           child: child,
         ),
-        child: ListView(),
+        child: const LinkListView(links: []),
       );
 }
