@@ -28,4 +28,9 @@ class MockLinkRepository implements LinkRepository {
 
     _links[i] = link;
   }
+
+  @override
+  Future<void> delete(Link link) async => _random.nextBool()
+      ? _links.remove(link)
+      : throw LinkRepositoryDeleteException('failed to delete link');
 }
