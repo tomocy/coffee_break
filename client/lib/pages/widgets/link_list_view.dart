@@ -1,6 +1,8 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/widgets/link_tile.dart';
+import 'package:coffee_break/pages/widgets/listening_on_delete_link.dart';
+import 'package:coffee_break/pages/widgets/listening_on_save_link.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -18,16 +20,21 @@ class LinkListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return LiquidPullToRefresh(
-      color: theme.colorScheme.background,
-      backgroundColor: primaryOrSecondaryFrom(theme),
-      onRefresh: () async => Provider.of<LinkBloc>(
-        context,
-        listen: false,
-      ).fetch.add(null),
-      child: ListView.builder(
-        itemCount: links.length,
-        itemBuilder: (context, i) => LinkTile(link: links[i]),
+
+    return ListeningOnDeleteLink(
+      child: ListeningOnSaveLink(
+        child: LiquidPullToRefresh(
+          color: theme.colorScheme.background,
+          backgroundColor: primaryOrSecondaryFrom(theme),
+          onRefresh: () async => Provider.of<LinkBloc>(
+            context,
+            listen: false,
+          ).fetch.add(null),
+          child: ListView.builder(
+            itemCount: links.length,
+            itemBuilder: (context, i) => LinkTile(link: links[i]),
+          ),
+        ),
       ),
     );
   }
