@@ -1,5 +1,6 @@
 import 'package:coffee_break/blocs/settings_bloc.dart';
 import 'package:coffee_break/domain/models/settings.dart';
+import 'package:coffee_break/pages/widgets/setting_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class SettingsPage extends StatelessWidget {
 
             return ListView(
               children: <Widget>[
-                SettingListTile(
+                SettingTile(
                   title: 'Theme',
                   onChanged: (theme) {
                     final newThemeMode = themes.entries
@@ -39,52 +40,5 @@ class SettingsPage extends StatelessWidget {
           },
         ),
         child: ListView(),
-      );
-}
-
-class SettingListTile extends StatefulWidget {
-  const SettingListTile({
-    Key key,
-    this.title,
-    this.onChanged,
-    this.selectedItem,
-    this.items,
-  }) : super(key: key);
-
-  final String title;
-  final void Function(String) onChanged;
-  final String selectedItem;
-  final List<String> items;
-
-  @override
-  _SettingListTileState createState() => _SettingListTileState();
-}
-
-class _SettingListTileState extends State<SettingListTile> {
-  String _selectedItem;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedItem = widget.selectedItem;
-  }
-
-  @override
-  Widget build(BuildContext context) => ListTile(
-        title: Text(widget.title),
-        trailing: DropdownButton<String>(
-          elevation: 1,
-          value: _selectedItem,
-          onChanged: (item) {
-            setState(() => _selectedItem = item);
-            widget.onChanged(item);
-          },
-          items: widget.items
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  ))
-              .toList(),
-        ),
       );
 }
