@@ -1,4 +1,5 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
+import 'package:coffee_break/pages/widgets/link_list_view.dart';
 import 'package:coffee_break/pages/widgets/streamed_link_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class TodoLinksPage extends StatelessWidget {
           stream: bloc.todoLinks,
           child: child,
         ),
-        child: ListView(),
+        child: LinkListView(links: const []),
       );
 }
 
