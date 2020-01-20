@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class AddLinkPage extends SearchDelegate {
   AddLinkPage()
       : super(
-          searchFieldLabel: 'Add link',
+          searchFieldLabel: 'Add',
           textInputAction: TextInputAction.send,
         );
 
@@ -18,21 +18,38 @@ class AddLinkPage extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) => _container;
 
   @override
-  Widget buildResults(BuildContext context) {
-    final link = Link.todo(uri: query);
-    Provider.of<LinkBloc>(
-      context,
-      listen: false,
-    ).save.add(link);
-    Provider.of<Links>(
-      context,
-      listen: false,
-    ).save(link);
+  Widget buildResults(BuildContext context) => Consumer<LinkBloc>(
+        builder: (_, bloc, child) => StreamBuilder<bool>(
+            stream: bloc.saved,
+            builder: (context, snapshot) {
+              final link = Link.todo(uri: query);
+              if (!snapshot.hasData && !snapshot.hasError) {
+                bloc.save.add(link);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => close(context, query));
+                return child;
+              }
 
-    query = '';
+              if (snapshot.hasError) {
+                WidgetsBinding.instance
+                    .addPostFrameCallback((_) => Scaffold.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(SnackBar(
+                        content: Text(snapshot.error.toString()),
+                      )));
+                return child;
+              }
 
-    return _container;
-  }
+              Provider.of<Links>(
+                context,
+                listen: false,
+              ).save(link);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                close(context, query);
+                query = '';
+              });
+
+              return child;
+            }),
+        child: _container,
+      );
 }

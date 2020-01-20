@@ -13,7 +13,7 @@ class LinkBloc {
   final _links = <Link>[];
   final _linksController = StreamController<List<Link>>.broadcast();
   final _fetchController = StreamController<void>();
-  final _savedController = StreamController<void>.broadcast();
+  final _savedController = StreamController<bool>.broadcast();
   final _saveController = StreamController<Link>();
   final _searchedLinksController = StreamController<List<Link>>.broadcast();
   final _searchController = StreamController<String>();
@@ -22,7 +22,7 @@ class LinkBloc {
 
   Sink<void> get fetch => _fetchController.sink;
 
-  Stream<void> get saved => _savedController.stream;
+  Stream<bool> get saved => _savedController.stream;
 
   Sink<Link> get save => _saveController.sink;
 
@@ -37,7 +37,6 @@ class LinkBloc {
         ..clear()
         ..addAll(links);
       _linksController.add(links);
-      print(_links);
     } on LinkRepositoryFetchException catch (e) {
       _linksController.addError(e);
     }
@@ -49,6 +48,7 @@ class LinkBloc {
       _links
         ..remove(link)
         ..add(link);
+      _savedController.add(true);
     } on LinkRepositorySaveException catch (e) {
       _savedController.addError(e);
     }
