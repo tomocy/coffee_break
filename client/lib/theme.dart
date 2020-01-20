@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 ThemeData light() =>
@@ -14,6 +15,7 @@ ThemeData _from(ThemeData theme) => theme.copyWith(
       accentColor: theme.brightness == Brightness.light
           ? theme.colorScheme.secondary
           : theme.colorScheme.primary,
+      primaryColor: theme.colorScheme.background,
       primaryTextTheme: theme.textTheme.apply(
         displayColor: theme.colorScheme.onBackground,
         bodyColor: theme.colorScheme.onBackground,
