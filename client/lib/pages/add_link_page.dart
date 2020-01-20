@@ -36,6 +36,10 @@ class AddLinkPage extends SearchDelegate {
                     .addPostFrameCallback((_) => Scaffold.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(SnackBar(
+                        action: SnackBarAction(
+                          onPressed: () => bloc.save.add(link),
+                          label: 'RETRY',
+                        ),
                         content: Text(snapshot.error.toString()),
                       )));
                 return child;
