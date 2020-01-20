@@ -1,6 +1,5 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
-import 'package:coffee_break/domain/models/links.dart';
 import 'package:coffee_break/pages/widgets/link_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +10,13 @@ class TodoLinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamBuilder<List<Link>>(
-          stream: bloc.links,
+          stream: bloc.todoLinks,
           builder: (_, snapshot) {
+            if (!snapshot.hasData && !snapshot.hasError) {
+              bloc.notify.add(null);
+              return child;
+            }
+
             if (snapshot.hasError) {
               WidgetsBinding.instance
                   .addPostFrameCallback((_) => Scaffold.of(context)
@@ -20,14 +24,14 @@ class TodoLinksPage extends StatelessWidget {
                     ..showSnackBar(SnackBar(
                       content: Text(snapshot.error.toString()),
                     )));
+
+              return child;
             }
 
-            return child;
+            return LinkListView(links: snapshot.data);
           },
         ),
-        child: Consumer<Links>(
-          builder: (_, links, __) => LinkListView(links: links.todo),
-        ),
+        child: ListView(),
       );
 }
 
@@ -37,8 +41,13 @@ class DoneLinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamBuilder<List<Link>>(
-          stream: bloc.links,
+          stream: bloc.doneLinks,
           builder: (_, snapshot) {
+            if (!snapshot.hasData && !snapshot.hasError) {
+              bloc.notify.add(null);
+              return child;
+            }
+
             if (snapshot.hasError) {
               WidgetsBinding.instance
                   .addPostFrameCallback((_) => Scaffold.of(context)
@@ -46,13 +55,13 @@ class DoneLinksPage extends StatelessWidget {
                     ..showSnackBar(SnackBar(
                       content: Text(snapshot.error.toString()),
                     )));
+
+              return child;
             }
 
-            return child;
+            return LinkListView(links: snapshot.data);
           },
         ),
-        child: Consumer<Links>(
-          builder: (_, links, __) => LinkListView(links: links.done),
-        ),
+        child: ListView(),
       );
 }

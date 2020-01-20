@@ -1,9 +1,6 @@
 import 'package:coffee_break/app.dart';
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/blocs/settings_bloc.dart';
-import 'package:coffee_break/domain/models/link.dart';
-import 'package:coffee_break/domain/models/links.dart';
-import 'package:coffee_break/domain/models/settings.dart';
 import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/domain/resources/settings_repository.dart';
 import 'package:coffee_break/infra/link_repository.dart';
@@ -30,26 +27,9 @@ void main() => runApp(MultiProvider(
           create: (context) => LinkBloc(Provider.of<LinkRepository>(
             context,
             listen: false,
-          )),
+          ))
+            ..fetch.add(null),
           dispose: (_, bloc) => bloc.dispose(),
-        ),
-        StreamProvider<List<Link>>(
-          create: (context) {
-            final bloc = Provider.of<LinkBloc>(
-              context,
-              listen: false,
-            );
-            bloc.fetch.add(null);
-            return bloc.links;
-          },
-          initialData: initialDataOfListOfLinks,
-          catchError: (_, __) => initialDataOfListOfLinks,
-        ),
-        ChangeNotifierProvider<Links>(
-          create: (context) => Links(Provider.of<List<Link>>(
-            context,
-            listen: false,
-          )),
         ),
       ],
       child: const App(),

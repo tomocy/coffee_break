@@ -7,6 +7,7 @@ class LinkBloc {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
     _searchController.stream.listen(_invokeSearch);
+    _notifyController.stream.listen(_invokeNotify);
   }
 
   final LinkRepository _repository;
@@ -17,8 +18,15 @@ class LinkBloc {
   final _saveController = StreamController<Link>();
   final _searchedLinksController = StreamController<List<Link>>.broadcast();
   final _searchController = StreamController<String>();
+  final _notifyController = StreamController<void>();
 
   Stream<List<Link>> get links => _linksController.stream;
+
+  Stream<List<Link>> get todoLinks =>
+      links.map((links) => links.where((link) => !link.isDone).toList());
+
+  Stream<List<Link>> get doneLinks =>
+      links.map((links) => links.where((links) => links.isDone).toList());
 
   Sink<void> get fetch => _fetchController.sink;
 
@@ -30,13 +38,15 @@ class LinkBloc {
 
   Sink<String> get search => _searchController.sink;
 
+  Sink<void> get notify => _notifyController.sink;
+
   Future<void> _invokeFetch(void _) async {
     try {
       final links = await _repository.fetch();
       _links
         ..clear()
         ..addAll(links);
-      _linksController.add(links);
+      _invokeNotify(null);
     } on LinkRepositoryFetchException catch (e) {
       _linksController.addError(e);
     }
@@ -49,6 +59,7 @@ class LinkBloc {
         ..remove(link)
         ..add(link);
       _savedController.add(true);
+      _invokeNotify(null);
     } on LinkRepositorySaveException catch (e) {
       _savedController.addError(e);
     }
@@ -64,6 +75,8 @@ class LinkBloc {
     );
   }
 
+  void _invokeNotify(void _) => _linksController.add(_links);
+
   void dispose() {
     _linksController.close();
     _savedController.close();
@@ -71,5 +84,6 @@ class LinkBloc {
     _saveController.close();
     _searchedLinksController.close();
     _searchController.close();
+    _notifyController.close();
   }
 }
