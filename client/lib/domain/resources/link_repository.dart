@@ -12,7 +12,9 @@ class LinkRepositoryFetchException extends LinkRepositoryException {
 }
 
 class LinkRepositorySaveException extends LinkRepositoryException {
-  LinkRepositorySaveException([String message]) : super(message);
+  LinkRepositorySaveException(this.link, [String message]) : super(message);
+
+  final Link link;
 }
 
 class LinkRepositoryDeleteException extends LinkRepositoryException {

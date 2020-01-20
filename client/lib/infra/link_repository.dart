@@ -23,7 +23,7 @@ class MockLinkRepository implements LinkRepository {
   @override
   Future<void> save(Link link) async {
     if (_random.nextBool()) {
-      throw LinkRepositorySaveException('failed to save links');
+      throw LinkRepositorySaveException(link, 'failed to save links');
     }
 
     final i = _links.indexOf(link);
