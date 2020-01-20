@@ -31,3 +31,8 @@ Color primaryOrSecondaryFrom(ThemeData theme) =>
     theme.brightness == Brightness.light
         ? theme.colorScheme.secondary
         : theme.colorScheme.primary;
+
+Color onPrimaryOrOnSecondaryFrom(ThemeData theme) =>
+    theme.brightness == Brightness.light
+        ? theme.colorScheme.onSecondary
+        : theme.colorScheme.onPrimary;

@@ -1,4 +1,5 @@
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 
 class MarkedLinkTileBackground extends StatelessWidget {
@@ -18,12 +19,8 @@ class MarkedLinkTileBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final background = theme.brightness == Brightness.dark
-        ? theme.colorScheme.primary
-        : theme.colorScheme.secondary;
-    final onBackground = theme.brightness == Brightness.dark
-        ? theme.colorScheme.onPrimary
-        : theme.colorScheme.onSecondary;
+    final background = primaryOrSecondaryFrom(theme);
+    final onBackground = onPrimaryOrOnSecondaryFrom(theme);
 
     return Container(
       alignment: direction == AxisDirection.right
