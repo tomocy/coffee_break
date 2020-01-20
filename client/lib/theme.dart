@@ -12,11 +12,11 @@ ThemeData _from(ThemeData theme) => theme.copyWith(
         elevation: 0,
         color: theme.colorScheme.background,
       ),
-      accentColor: _primaryOrSecondaryFrom(theme),
+      accentColor: primaryOrSecondaryFrom(theme),
       cupertinoOverrideTheme: CupertinoThemeData(
-        primaryColor: _primaryOrSecondaryFrom(theme),
+        primaryColor: primaryOrSecondaryFrom(theme),
       ),
-      cursorColor: _primaryOrSecondaryFrom(theme),
+      cursorColor: primaryOrSecondaryFrom(theme),
       primaryColor: theme.colorScheme.background,
       primaryTextTheme: theme.textTheme.apply(
         displayColor: theme.colorScheme.onBackground,
@@ -27,7 +27,7 @@ ThemeData _from(ThemeData theme) => theme.copyWith(
       ),
     );
 
-Color _primaryOrSecondaryFrom(ThemeData theme) =>
+Color primaryOrSecondaryFrom(ThemeData theme) =>
     theme.brightness == Brightness.light
         ? theme.colorScheme.secondary
         : theme.colorScheme.primary;
