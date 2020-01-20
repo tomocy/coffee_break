@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/domain/models/links.dart';
+import 'package:coffee_break/pages/widgets/marked_link_tile_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,35 +66,26 @@ class LinkListTile extends StatelessWidget {
   final Link link;
 
   @override
-  Widget build(BuildContext context) => ListTile(
-        title: Text(link.uri),
-        trailing: MarkAsDoneButton(link: link),
+  Widget build(BuildContext context) => Dismissible(
+        key: Key(link.uri),
+        onDismissed: (_) {
+          link.isDone = !link.isDone;
+          Provider.of<Links>(
+            context,
+            listen: false,
+          ).save(link);
+          Provider.of<LinkBloc>(
+            context,
+            listen: false,
+          ).save.add(link);
+        },
+        background: MarkedLinkTileBackground(link: link),
+        secondaryBackground: MarkedLinkTileBackground(
+          direction: AxisDirection.left,
+          link: link,
+        ),
+        child: ListTile(
+          title: Text(link.uri),
+        ),
       );
-}
-
-class MarkAsDoneButton extends StatelessWidget {
-  const MarkAsDoneButton({
-    Key key,
-    @required this.link,
-  })  : assert(link != null),
-        super(key: key);
-
-  final Link link;
-
-  @override
-  Widget build(BuildContext context) => link.isDone
-      ? FlatButton(
-          onPressed: () => Provider.of<Links>(
-            context,
-            listen: false,
-          ).markAsUndone(link),
-          child: const Text('Undo'),
-        )
-      : FlatButton(
-          onPressed: () => Provider.of<Links>(
-            context,
-            listen: false,
-          ).markAsDone(link),
-          child: const Text('Done'),
-        );
 }
