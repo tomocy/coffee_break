@@ -1,4 +1,5 @@
 import 'package:coffee_break/pages/add_link_page.dart';
+import 'package:coffee_break/pages/search_links_page.dart';
 import 'package:flutter/material.dart';
 
 const routes = <PageType, String>{
@@ -62,6 +63,16 @@ class Page extends StatelessWidget {
                     showSearch(
                       context: context,
                       delegate: AddLinkPage(),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text('Search'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    showSearch(
+                      context: context,
+                      delegate: SearchLinksPage(),
                     );
                   },
                 ),

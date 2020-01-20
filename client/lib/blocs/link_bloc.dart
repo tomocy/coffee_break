@@ -6,7 +6,7 @@ class LinkBloc {
   LinkBloc(this._repository) {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
-    _filterController.stream.listen(_invokeFilter);
+    _searchController.stream.listen(_invokeSearch);
   }
 
   final LinkRepository _repository;
@@ -15,8 +15,8 @@ class LinkBloc {
   final _fetchController = StreamController<void>();
   final _savedController = StreamController<void>.broadcast();
   final _saveController = StreamController<Link>();
-  final _filteredLinksController = StreamController<List<Link>>.broadcast();
-  final _filterController = StreamController<String>();
+  final _searchedLinksController = StreamController<List<Link>>.broadcast();
+  final _searchController = StreamController<String>();
 
   Stream<List<Link>> get links => _linksController.stream;
 
@@ -26,9 +26,9 @@ class LinkBloc {
 
   Sink<Link> get save => _saveController.sink;
 
-  Stream<List<Link>> get filteredLinks => _filteredLinksController.stream;
+  Stream<List<Link>> get searchedLinks => _searchedLinksController.stream;
 
-  Sink<String> get filter => _filterController.sink;
+  Sink<String> get search => _searchController.sink;
 
   Future<void> _invokeFetch(void _) async {
     try {
@@ -54,8 +54,8 @@ class LinkBloc {
     }
   }
 
-  void _invokeFilter(String query) {
-    _filteredLinksController.add(
+  void _invokeSearch(String query) {
+    _searchedLinksController.add(
       _links
           .where((link) =>
               query.isNotEmpty &&
@@ -69,7 +69,7 @@ class LinkBloc {
     _savedController.close();
     _fetchController.close();
     _saveController.close();
-    _filteredLinksController.close();
-    _filterController.close();
+    _searchedLinksController.close();
+    _searchController.close();
   }
 }
