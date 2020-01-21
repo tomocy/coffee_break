@@ -10,6 +10,10 @@ class TodoLinksPage extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamedLinkListView(
           stream: bloc.todoLinks,
+          onNothing: () => Provider.of<LinkBloc>(
+            context,
+            listen: false,
+          ).notify.add(null),
           child: child,
         ),
         child: Container(),
@@ -23,6 +27,10 @@ class DoneLinksPage extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamedLinkListView(
           stream: bloc.doneLinks,
+          onNothing: () => Provider.of<LinkBloc>(
+            context,
+            listen: false,
+          ).notify.add(null),
           child: child,
         ),
         child: Container(),

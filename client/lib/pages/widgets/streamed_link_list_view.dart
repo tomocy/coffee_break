@@ -8,11 +8,13 @@ class StreamedLinkListView extends StatelessWidget {
   const StreamedLinkListView({
     Key key,
     @required this.stream,
+    this.onNothing,
     this.child,
   })  : assert(stream != null),
         super(key: key);
 
   final Stream<List<Link>> stream;
+  final Function onNothing;
   final Widget child;
 
   @override
@@ -20,10 +22,9 @@ class StreamedLinkListView extends StatelessWidget {
         stream: stream,
         builder: (_, snapshot) {
           if (!snapshot.hasData && !snapshot.hasError) {
-            Provider.of<LinkBloc>(
-              context,
-              listen: false,
-            ).notify.add(null);
+            if (onNothing != null) {
+              onNothing();
+            }
             return child;
           }
           if (snapshot.hasError) {
