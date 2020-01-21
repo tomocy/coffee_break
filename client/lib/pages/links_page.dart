@@ -1,6 +1,6 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
+import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/widgets/link_list_view.dart';
-import 'package:coffee_break/pages/widgets/streamed_link_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,13 +9,15 @@ class TodoLinksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<LinkBloc>(
-        builder: (_, bloc, child) => StreamedLinkListView(
+        builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.todoLinks,
-          onNothing: () => Provider.of<LinkBloc>(
-            context,
-            listen: false,
-          ).notify.add(null),
-          child: child,
+          builder: (_, snapshot) {
+            if (!snapshot.hasData || snapshot.hasError) {
+              return child;
+            }
+
+            return LinkListView(links: snapshot.data);
+          },
         ),
         child: const LinkListView(),
       );
@@ -26,13 +28,15 @@ class DoneLinksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<LinkBloc>(
-        builder: (_, bloc, child) => StreamedLinkListView(
+        builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.doneLinks,
-          onNothing: () => Provider.of<LinkBloc>(
-            context,
-            listen: false,
-          ).notify.add(null),
-          child: child,
+          builder: (_, snapshot) {
+            if (!snapshot.hasData || snapshot.hasError) {
+              return child;
+            }
+
+            return LinkListView(links: snapshot.data);
+          },
         ),
         child: const LinkListView(),
       );

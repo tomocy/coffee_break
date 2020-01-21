@@ -1,9 +1,7 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/widgets/link_list_view.dart';
-import 'package:coffee_break/pages/widgets/link_tile.dart';
 import 'package:coffee_break/pages/widgets/search_delegate.dart';
-import 'package:coffee_break/pages/widgets/streamed_link_list_view.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
 
@@ -15,11 +13,17 @@ class SearchLinksPage extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) => Consumer<LinkBloc>(
-        builder: (_, bloc, child) => StreamedLinkListView(
+        builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.searchedLinks,
-          onSnapshot: (_) => bloc.search.add(query),
-          child: child,
+          builder: (_, snapshot) {
+            bloc.search.add(query);
+            if (!snapshot.hasData || snapshot.hasError) {
+              return child;
+            }
+
+            return LinkListView(links: snapshot.data);
+          },
         ),
-        child: const LinkListView(),
+        child: _container,
       );
 }
