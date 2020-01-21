@@ -13,7 +13,11 @@ class TodoLinksPage extends StatelessWidget {
         builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.todoLinks,
           builder: (_, snapshot) {
-            if (!snapshot.hasData || snapshot.hasError) {
+            if (!snapshot.hasData && !snapshot.hasError) {
+              bloc.notify.add(null);
+              return child;
+            }
+            if (snapshot.hasError) {
               return child;
             }
 
@@ -32,7 +36,11 @@ class DoneLinksPage extends StatelessWidget {
         builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.doneLinks,
           builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.hasError) {
+            if (!snapshot.hasData && !snapshot.hasError) {
+              bloc.notify.add(null);
+              return child;
+            }
+            if (snapshot.hasError) {
               return child;
             }
 
