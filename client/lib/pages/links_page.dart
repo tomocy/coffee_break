@@ -50,8 +50,5 @@ Widget _buildFetchableLinkListView(BuildContext context,
         context,
         listen: false,
       ).fetch.add(null),
-      child: ListView.builder(
-        itemCount: links.length,
-        itemBuilder: (_, i) => LinkTile(link: links[i]),
-      ),
+      child: buildLinkListView(links),
     );
