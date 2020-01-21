@@ -63,6 +63,31 @@ class StreamErrorHandlers extends StatelessWidget {
               );
             },
           ),
+          StreamErrorHandler<void>(
+            stream: Provider.of<LinkBloc>(
+              context,
+              listen: false,
+            ).deleted,
+            onError: (error) {
+              if (error is! LinkRepositoryDeleteException) {
+                return;
+              }
+
+              final deleteError = error as LinkRepositoryDeleteException;
+              showSnackBar(
+                context,
+                SnackBar(
+                  action: RetrySnackBarAction(
+                    onPressed: () => Provider.of<LinkBloc>(
+                      context,
+                      listen: false,
+                    ).delete.add(deleteError.link),
+                  ),
+                  content: Text(error.toString()),
+                ),
+              );
+            },
+          ),
         ],
         child: child,
       );
