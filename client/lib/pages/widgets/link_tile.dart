@@ -16,7 +16,7 @@ class LinkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Dismissible(
-        key: Key(link.uri),
+        key: UniqueKey(),
         onDismissed: (_) {
           link.isDone = !link.isDone;
           Provider.of<LinkBloc>(
