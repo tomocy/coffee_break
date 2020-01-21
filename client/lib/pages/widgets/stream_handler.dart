@@ -22,7 +22,10 @@ class StreamHandler<T> extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget child) => StreamBuilder<T>(
         stream: stream,
         builder: (_, snapshot) {
-          if (snapshot.hasError) {
+          if (snapshot.hasData && onData != null) {
+            onData(snapshot.data);
+          }
+          if (snapshot.hasError && onError != null) {
             onError(snapshot.error);
           }
 
