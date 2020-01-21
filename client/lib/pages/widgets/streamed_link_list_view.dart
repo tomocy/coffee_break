@@ -28,20 +28,7 @@ class StreamedLinkListView extends StatelessWidget {
             ).notify.add(null);
             return child;
           }
-
           if (snapshot.hasError) {
-            showSnackBar(
-              context,
-              SnackBar(
-                action: RetrySnackBarAction(
-                  onPressed: () => Provider.of<LinkBloc>(
-                    context,
-                    listen: false,
-                  ).fetch.add(null),
-                ),
-                content: Text(snapshot.error.toString()),
-              ),
-            );
             return child;
           }
 
