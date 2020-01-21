@@ -4,6 +4,7 @@ import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:coffee_break/pages/widgets/stream_handler.dart';
+import 'package:coffee_break/pages/widgets/undo_snack_bar_action.dart';
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
@@ -68,6 +69,18 @@ class StreamHandlers extends StatelessWidget {
               context,
               listen: false,
             ).deleted,
+            onData: (link) => showSnackBar(
+              context,
+              SnackBar(
+                action: UndoSnackBarAction(
+                  onPressed: () => Provider.of<LinkBloc>(
+                    context,
+                    listen: false,
+                  ).save.add(link),
+                ),
+                content: const Text('Link was deleted.'),
+              ),
+            ),
             onError: (error) {
               if (error is! LinkRepositoryDeleteException) {
                 return;
