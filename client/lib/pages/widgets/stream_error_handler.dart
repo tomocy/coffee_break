@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:nested/nested.dart';
 
-class StreamErrorHandler<T> extends StatelessWidget {
+class StreamErrorHandler<T> extends SingleChildStatelessWidget {
   const StreamErrorHandler({
     Key key,
     @required this.stream,
     @required this.onError,
-    @required this.child,
+    Widget child,
   })  : assert(stream != null),
         assert(onError != null),
-        assert(child != null),
-        super(key: key);
+        super(
+          key: key,
+          child: child,
+        );
 
   final Stream<T> stream;
   final Function(Object) onError;
-  final Widget child;
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<T>(
+  Widget buildWithChild(BuildContext context, Widget child) => StreamBuilder<T>(
         stream: stream,
         builder: (_, snapshot) {
           if (snapshot.hasError) {
             onError(snapshot.error);
           }
 
-          return child;
+          return child ?? Container();
         },
       );
 }
