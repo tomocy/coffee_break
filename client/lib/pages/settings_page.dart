@@ -22,23 +22,24 @@ class SettingsPage extends StatelessWidget {
                 SettingTile(
                   title: 'Theme',
                   onChanged: (theme) {
-                    final newThemeMode = themes.entries
-                        .firstWhere((entry) => entry.value == theme)
+                    snapshot.data.themeMode = themes.entries
+                        .firstWhere(
+                          (entry) => entry.value == theme,
+                          orElse: () => MapEntry(
+                            snapshot.data.themeMode,
+                            themes[snapshot.data.themeMode],
+                          ),
+                        )
                         .key;
-                    if (snapshot.data.themeMode == newThemeMode) {
-                      return;
-                    }
-
-                    snapshot.data.themeMode = newThemeMode;
                     bloc.save.add(snapshot.data);
                   },
                   selectedItem: themes[snapshot.data.themeMode],
                   items: themes.values.toList(),
-                )
+                ),
               ],
             );
           },
         ),
-        child: ListView(),
+        child: Container(),
       );
 }
