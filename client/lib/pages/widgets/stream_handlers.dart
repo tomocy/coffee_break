@@ -3,13 +3,13 @@ import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
-import 'package:coffee_break/pages/widgets/stream_error_handler.dart';
+import 'package:coffee_break/pages/widgets/stream_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-class StreamErrorHandlers extends StatelessWidget {
-  const StreamErrorHandlers({
+class StreamHandlers extends StatelessWidget {
+  const StreamHandlers({
     Key key,
     @required this.child,
   })  : assert(child != null),
@@ -18,9 +18,9 @@ class StreamErrorHandlers extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => MultiStreamErrorHandler(
+  Widget build(BuildContext context) => MultiStreamHandler(
         handlers: [
-          StreamErrorHandler<List<Link>>(
+          StreamHandler<List<Link>>(
             stream: Provider.of<LinkBloc>(
               context,
               listen: false,
@@ -38,7 +38,7 @@ class StreamErrorHandlers extends StatelessWidget {
               ),
             ),
           ),
-          StreamErrorHandler<void>(
+          StreamHandler<void>(
             stream: Provider.of<LinkBloc>(
               context,
               listen: false,
@@ -63,7 +63,7 @@ class StreamErrorHandlers extends StatelessWidget {
               );
             },
           ),
-          StreamErrorHandler<void>(
+          StreamHandler<Link>(
             stream: Provider.of<LinkBloc>(
               context,
               listen: false,
@@ -93,8 +93,8 @@ class StreamErrorHandlers extends StatelessWidget {
       );
 }
 
-class MultiStreamErrorHandler extends Nested {
-  MultiStreamErrorHandler({
+class MultiStreamHandler extends Nested {
+  MultiStreamHandler({
     Key key,
     @required List<SingleChildWidget> handlers,
     @required Widget child,

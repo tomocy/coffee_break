@@ -1,6 +1,6 @@
 import 'package:coffee_break/pages/add_link_page.dart';
 import 'package:coffee_break/pages/search_links_page.dart';
-import 'package:coffee_break/pages/widgets/stream_error_handlers.dart';
+import 'package:coffee_break/pages/widgets/stream_handlers.dart';
 import 'package:flutter/material.dart';
 
 const routes = <PageType, String>{
@@ -91,7 +91,7 @@ class Page extends StatelessWidget {
           ),
         ),
         drawerScrimColor: Colors.transparent,
-        body: StreamErrorHandlers(child: SafeArea(child: body)),
+        body: StreamHandlers(child: SafeArea(child: body)),
       );
 }
 
