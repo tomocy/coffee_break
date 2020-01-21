@@ -3,4 +3,6 @@ class Verb {
 
   final String base;
   final String pastParticle;
+
+  String get infinitive => 'to $base';
 }
