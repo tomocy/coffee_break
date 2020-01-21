@@ -5,7 +5,7 @@ final List<Link> initialDataOfListOfLinks = [];
 class Link {
   Link({
     this.uri,
-    this.verb = const Verb('do', 'done'),
+    this.verb = const Verb('todo', 'done'),
     DateTime createdAt,
     bool done,
   })  : createdAt = createdAt ?? DateTime.now(),
@@ -13,7 +13,7 @@ class Link {
 
   Link.todo({
     String uri,
-    Verb verb,
+    Verb verb = const Verb('todo', 'done'),
     DateTime createdAt,
   }) : this(
           uri: uri,
@@ -24,7 +24,7 @@ class Link {
 
   Link.done({
     String uri,
-    Verb verb,
+    Verb verb = const Verb('todo', 'done'),
     DateTime createdAt,
   }) : this(
           uri: uri,
