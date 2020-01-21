@@ -1,6 +1,6 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
-import 'package:coffee_break/pages/widgets/link_list_view.dart';
+import 'package:coffee_break/pages/widgets/link_tile.dart';
 import 'package:coffee_break/pages/widgets/search_delegate.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
@@ -21,7 +21,10 @@ class SearchLinksPage extends SearchDelegate {
               return child;
             }
 
-            return LinkListView(links: snapshot.data);
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (_, i) => LinkTile(link: snapshot.data[i]),
+            );
           },
         ),
         child: _container,

@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
-import 'package:coffee_break/pages/widgets/link_list_view.dart';
+import 'package:coffee_break/pages/widgets/link_tile.dart';
+import 'package:coffee_break/pages/widgets/refreshable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,10 +17,10 @@ class TodoLinksPage extends StatelessWidget {
               return child;
             }
 
-            return LinkListView(links: snapshot.data);
+            return _buildFetchableLinkListView(context, snapshot.data);
           },
         ),
-        child: const LinkListView(),
+        child: _buildFetchableLinkListView(context),
       );
 }
 
@@ -30,14 +31,27 @@ class DoneLinksPage extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.doneLinks,
-          builder: (_, snapshot) {
+          builder: (context, snapshot) {
             if (!snapshot.hasData || snapshot.hasError) {
               return child;
             }
 
-            return LinkListView(links: snapshot.data);
+            return _buildFetchableLinkListView(context, snapshot.data);
           },
         ),
-        child: const LinkListView(),
+        child: _buildFetchableLinkListView(context),
       );
 }
+
+Widget _buildFetchableLinkListView(BuildContext context,
+        [List<Link> links = const []]) =>
+    Refreshable(
+      onRefresh: () async => Provider.of<LinkBloc>(
+        context,
+        listen: false,
+      ).fetch.add(null),
+      child: ListView.builder(
+        itemCount: links.length,
+        itemBuilder: (_, i) => LinkTile(link: links[i]),
+      ),
+    );
