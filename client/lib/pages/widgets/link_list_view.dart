@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class LinkListView extends StatelessWidget {
   const LinkListView({
     Key key,
-    @required this.links,
+    this.links = const [],
   })  : assert(links != null),
         super(key: key);
 
