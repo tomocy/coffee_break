@@ -4,18 +4,16 @@ import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/link_list_view.dart';
 import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StreamedLinkListView extends StatelessWidget {
   const StreamedLinkListView({
     Key key,
-    @required this.bloc,
     @required this.stream,
     this.child,
-  })  : assert(bloc != null),
-        assert(stream != null),
+  })  : assert(stream != null),
         super(key: key);
 
-  final LinkBloc bloc;
   final Stream<List<Link>> stream;
   final Widget child;
 
@@ -24,7 +22,10 @@ class StreamedLinkListView extends StatelessWidget {
         stream: stream,
         builder: (_, snapshot) {
           if (!snapshot.hasData && !snapshot.hasError) {
-            bloc.notify.add(null);
+            Provider.of<LinkBloc>(
+              context,
+              listen: false,
+            ).notify.add(null);
             return child;
           }
 
@@ -33,7 +34,10 @@ class StreamedLinkListView extends StatelessWidget {
               context,
               SnackBar(
                 action: RetrySnackBarAction(
-                  onPressed: () => bloc.fetch.add(null),
+                  onPressed: () => Provider.of<LinkBloc>(
+                    context,
+                    listen: false,
+                  ).fetch.add(null),
                 ),
                 content: Text(snapshot.error.toString()),
               ),

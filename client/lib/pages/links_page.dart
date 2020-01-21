@@ -10,11 +10,10 @@ class TodoLinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamedLinkListView(
-          bloc: bloc,
           stream: bloc.todoLinks,
           child: child,
         ),
-        child: const LinkListView(links: []),
+        child: Container(),
       );
 }
 
@@ -24,10 +23,9 @@ class DoneLinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<LinkBloc>(
         builder: (_, bloc, child) => StreamedLinkListView(
-          bloc: bloc,
           stream: bloc.doneLinks,
           child: child,
         ),
-        child: const LinkListView(links: []),
+        child: Container(),
       );
 }
