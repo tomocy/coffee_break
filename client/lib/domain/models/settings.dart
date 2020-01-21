@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Settings {
-  Settings({this.themeMode});
+  Settings({this.themeMode = ThemeMode.system});
 
-  ThemeMode themeMode = ThemeMode.system;
+  ThemeMode themeMode;
 }
 
 const themes = <ThemeMode, String>{
