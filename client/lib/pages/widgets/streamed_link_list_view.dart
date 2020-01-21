@@ -8,12 +8,14 @@ class StreamedLinkListView extends StatelessWidget {
   const StreamedLinkListView({
     Key key,
     @required this.stream,
+    this.onSnapshot,
     this.onNothing,
     this.child,
   })  : assert(stream != null),
         super(key: key);
 
   final Stream<List<Link>> stream;
+  final Function(AsyncSnapshot) onSnapshot;
   final Function onNothing;
   final Widget child;
 
@@ -21,6 +23,9 @@ class StreamedLinkListView extends StatelessWidget {
   Widget build(BuildContext context) => StreamBuilder<List<Link>>(
         stream: stream,
         builder: (_, snapshot) {
+          if (onSnapshot != null) {
+            onSnapshot(snapshot);
+          }
           if (!snapshot.hasData && !snapshot.hasError) {
             if (onNothing != null) {
               onNothing();
