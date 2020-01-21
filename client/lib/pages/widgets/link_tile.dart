@@ -33,6 +33,9 @@ class LinkTile extends StatelessWidget {
           onTap: () async =>
               await canLaunch(link.uri) ? launch(link.uri) : null,
           title: Text(link.uri),
+          subtitle: link.isDone
+              ? Text(link.verb.pastParticle)
+              : Text(link.verb.infinitive),
           trailing: PopupMenuButton<LinkTileActions>(
             onSelected: (action) {
               switch (action) {
