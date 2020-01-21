@@ -6,6 +6,8 @@ import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
 
 class SearchLinksPage extends SearchDelegate {
+  final _container = Container();
+
   @override
   Widget buildSuggestions(BuildContext context) => buildResults(context);
 
@@ -25,6 +27,6 @@ class SearchLinksPage extends SearchDelegate {
             );
           },
         ),
-        child: ListView(),
+        child: _container,
       );
 }
