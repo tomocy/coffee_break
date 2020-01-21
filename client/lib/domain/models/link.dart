@@ -1,7 +1,5 @@
 import 'package:coffee_break/domain/models/verb.dart';
 
-final List<Link> initialDataOfListOfLinks = [];
-
 class Link {
   Link({
     this.uri,
