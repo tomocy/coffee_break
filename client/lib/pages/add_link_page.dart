@@ -50,7 +50,7 @@ class _AddLinkPageState extends State<AddLinkPage> {
                     constraints: const BoxConstraints(
                       minWidth: double.infinity,
                     ),
-                    child: RaisedButton.icon(
+                    child: FlatButton.icon(
                       onPressed: () {
                         if (!_formKey.currentState.validate()) {
                           return;
@@ -64,6 +64,7 @@ class _AddLinkPageState extends State<AddLinkPage> {
 
                         Navigator.pop(context);
                       },
+                      color: primaryOrSecondaryFrom(Theme.of(context)),
                       icon: const Icon(Icons.link),
                       label: const Text('Add'),
                     ),
