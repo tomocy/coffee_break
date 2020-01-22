@@ -9,7 +9,7 @@ class AddLinkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Add'),
+          title: const Text('Add link'),
         ),
         body: SafeArea(
           child: LinkForm(
