@@ -1,5 +1,6 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/pages/widgets/link_form.dart';
 import 'package:coffee_break/pages/widgets/search_delegate.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
@@ -28,50 +29,17 @@ class _AddLinkPageState extends State<AddLinkPage> {
           title: const Text('Add'),
         ),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    controller: _linkController,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'link',
-                    ),
-                    validator: (link) =>
-                        link.isEmpty ? 'Please enter link.' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minWidth: double.infinity,
-                    ),
-                    child: FlatButton.icon(
-                      onPressed: () {
-                        if (!_formKey.currentState.validate()) {
-                          return;
-                        }
+          child: LinkForm(
+            onSubmit: (linkController) {
+              final link = Link.todo(uri: linkController.text);
+              Provider.of<LinkBloc>(
+                context,
+                listen: false,
+              ).save.add(link);
 
-                        final link = Link.todo(uri: _linkController.text);
-                        Provider.of<LinkBloc>(
-                          context,
-                          listen: false,
-                        ).save.add(link);
-
-                        Navigator.pop(context);
-                      },
-                      color: primaryOrSecondaryFrom(Theme.of(context)),
-                      icon: const Icon(Icons.link),
-                      label: const Text('Add'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              Navigator.pop(context);
+            },
+            submitButtonLabel: 'Add',
           ),
         ),
       );
