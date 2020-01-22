@@ -62,7 +62,11 @@ class _LinkFormState extends State<LinkForm> {
                       return;
                     }
 
-                    final link = Link(uri: _uriController.text);
+                    final link = widget.link != null
+                        ? widget.link.copyWith(
+                            uri: _uriController.text,
+                          )
+                        : Link.todo(uri: _uriController.text);
                     widget.onSubmit(link);
                   },
                   color: primaryOrSecondaryFrom(Theme.of(context)),
