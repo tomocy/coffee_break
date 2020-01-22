@@ -48,4 +48,11 @@ class Link {
         createdAt: createdAt ?? this.createdAt,
         done: done ?? isDone,
       );
+
+  @override
+  bool operator ==(dynamic other) =>
+      other is Link && other.uri == uri && other.verb == verb;
+
+  @override
+  int get hashCode => uri.hashCode + verb.hashCode;
 }
