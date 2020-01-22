@@ -1,27 +1,11 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/widgets/link_form.dart';
-import 'package:coffee_break/pages/widgets/search_delegate.dart';
-import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
 
-class AddLinkPage extends StatefulWidget {
+class AddLinkPage extends StatelessWidget {
   const AddLinkPage({Key key}) : super(key: key);
-
-  @override
-  _AddLinkPageState createState() => _AddLinkPageState();
-}
-
-class _AddLinkPageState extends State<AddLinkPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _linkController = TextEditingController();
-
-  @override
-  void dispose() {
-    _linkController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
