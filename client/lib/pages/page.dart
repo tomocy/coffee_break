@@ -61,9 +61,11 @@ class Page extends StatelessWidget {
                   title: const Text('Add'),
                   onTap: () {
                     Navigator.pop(context);
-                    showSearch(
-                      context: context,
-                      delegate: AddLinkPage(),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<AddLinkPage>(
+                        builder: (_) => const AddLinkPage(),
+                      ),
                     );
                   },
                 ),
