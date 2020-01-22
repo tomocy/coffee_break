@@ -1,4 +1,5 @@
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/pages/add_verb_page.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +53,30 @@ class _LinkFormState extends State<LinkForm> {
                 validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
               ),
               const SizedBox(height: 16),
+              DropdownButtonFormField<VerbMenuItem>(
+                isDense: true,
+                onChanged: (item) {
+                  if (item is _AddVerbMenuItem) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<AddVerbPage>(
+                        builder: (_) => const AddVerbPage(),
+                      ),
+                    );
+                    return;
+                  }
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Verb',
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: _AddVerbMenuItem(),
+                    child: Text('Add verb'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
               ConstrainedBox(
                 constraints: const BoxConstraints(
                   minWidth: double.infinity,
@@ -78,4 +103,21 @@ class _LinkFormState extends State<LinkForm> {
           ),
         ),
       );
+}
+
+class _AddVerbMenuItem extends VerbMenuItem {
+  const _AddVerbMenuItem() : super('');
+}
+
+class VerbMenuItem {
+  const VerbMenuItem(this.value);
+
+  final String value;
+
+  @override
+  bool operator ==(dynamic other) =>
+      other is VerbMenuItem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
