@@ -14,8 +14,7 @@ class AddLinkPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: LinkForm(
-            onSubmit: (linkController) {
-              final link = Link.todo(uri: linkController.text);
+            onSubmit: (link) {
               Provider.of<LinkBloc>(
                 context,
                 listen: false,

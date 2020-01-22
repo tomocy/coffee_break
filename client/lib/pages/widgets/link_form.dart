@@ -1,14 +1,17 @@
+import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 
 class LinkForm extends StatefulWidget {
   const LinkForm({
     Key key,
+    this.link,
     @required this.onSubmit,
     @required this.submitButtonLabel,
   }) : super(key: key);
 
-  final Function(TextEditingController) onSubmit;
+  final Link link;
+  final Function(Link) onSubmit;
   final String submitButtonLabel;
 
   @override
@@ -17,11 +20,17 @@ class LinkForm extends StatefulWidget {
 
 class _LinkFormState extends State<LinkForm> {
   final _formKey = GlobalKey<FormState>();
-  final _linkController = TextEditingController();
+  final _uriController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _uriController.text = widget.link?.uri;
+  }
 
   @override
   void dispose() {
-    _linkController.dispose();
+    _uriController.dispose();
     super.dispose();
   }
 
@@ -34,13 +43,13 @@ class _LinkFormState extends State<LinkForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: _linkController,
+                controller: _uriController,
                 autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'link',
+                  labelText: 'URI',
                 ),
-                validator: (link) => link.isEmpty ? 'Please enter link.' : null,
+                validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
               ),
               const SizedBox(height: 16),
               ConstrainedBox(
@@ -53,7 +62,8 @@ class _LinkFormState extends State<LinkForm> {
                       return;
                     }
 
-                    widget.onSubmit(_linkController);
+                    final link = Link(uri: _uriController.text);
+                    widget.onSubmit(link);
                   },
                   color: primaryOrSecondaryFrom(Theme.of(context)),
                   icon: const Icon(Icons.link),
