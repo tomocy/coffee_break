@@ -24,6 +24,9 @@ ThemeData _from(ThemeData theme) => theme.copyWith(
         displayColor: theme.colorScheme.onBackground,
         bodyColor: theme.colorScheme.onBackground,
       ),
+      buttonTheme: theme.buttonTheme.copyWith(
+        buttonColor: primaryOrSecondaryFrom(theme),
+      ),
       primaryIconTheme: theme.primaryIconTheme.copyWith(
         color: theme.colorScheme.onBackground,
       ),

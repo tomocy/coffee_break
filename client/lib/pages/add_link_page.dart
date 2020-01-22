@@ -64,7 +64,6 @@ class _AddLinkPageState extends State<AddLinkPage> {
 
                         Navigator.pop(context);
                       },
-                      color: primaryOrSecondaryFrom(Theme.of(context)),
                       icon: const Icon(Icons.link),
                       label: const Text('Add'),
                     ),
