@@ -1,5 +1,4 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
-import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/widgets/link_form.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';

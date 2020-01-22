@@ -77,7 +77,7 @@ class LinkBloc {
       _savedController.add(true);
       _invokeNotify(null);
     } on LinkRepositorySaveException catch (e) {
-      print('failed to save');
+      _savedController.addError(e);
     }
   }
 

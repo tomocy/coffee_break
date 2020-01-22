@@ -13,7 +13,7 @@ class LinkRepositoryFetchException extends LinkRepositoryException {
 }
 
 class LinkRepositoryUpdateException extends LinkRepositoryException {
-  LinkRepositoryUpdateException(
+  const LinkRepositoryUpdateException(
     this.oldLink,
     this.newLink, [
     String message,
@@ -24,13 +24,19 @@ class LinkRepositoryUpdateException extends LinkRepositoryException {
 }
 
 class LinkRepositorySaveException extends LinkRepositoryException {
-  LinkRepositorySaveException(this.link, [String message]) : super(message);
+  const LinkRepositorySaveException(
+    this.link, [
+    String message,
+  ]) : super(message);
 
   final Link link;
 }
 
 class LinkRepositoryDeleteException extends LinkRepositoryException {
-  LinkRepositoryDeleteException(this.link, [String message]) : super(message);
+  const LinkRepositoryDeleteException(
+    this.link, [
+    String message,
+  ]) : super(message);
 
   final Link link;
 }
