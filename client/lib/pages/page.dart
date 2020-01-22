@@ -1,4 +1,5 @@
 import 'package:coffee_break/pages/add_link_page.dart';
+import 'package:coffee_break/pages/add_verb_page.dart';
 import 'package:coffee_break/pages/search_links_page.dart';
 import 'package:coffee_break/pages/widgets/stream_handlers.dart';
 import 'package:flutter/material.dart';
@@ -38,21 +39,33 @@ class Page extends StatelessWidget {
                     children: <Widget>[
                       ListTile(
                         title: const Text('Todo'),
-                        onTap: () => type == PageType.todo
-                            ? Navigator.pop(context)
-                            : Navigator.pushNamed(
-                                context,
-                                routes[PageType.todo],
-                              ),
+                        onTap: () {
+                          Navigator.pop(context);
+
+                          if (type == PageType.todo) {
+                            return;
+                          }
+
+                          Navigator.pushNamed(
+                            context,
+                            routes[PageType.todo],
+                          );
+                        },
                       ),
                       ListTile(
                         title: const Text('Done'),
-                        onTap: () => type == PageType.done
-                            ? Navigator.pop(context)
-                            : Navigator.pushNamed(
-                                context,
-                                routes[PageType.done],
-                              ),
+                        onTap: () {
+                          Navigator.pop(context);
+
+                          if (type == PageType.done) {
+                            return;
+                          }
+
+                          Navigator.pushNamed(
+                            context,
+                            routes[PageType.done],
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -81,12 +94,18 @@ class Page extends StatelessWidget {
                 ),
                 ListTile(
                   title: const Text('Settings'),
-                  onTap: () => type == PageType.settings
-                      ? Navigator.pop(context)
-                      : Navigator.pushNamed(
-                          context,
-                          routes[PageType.settings],
-                        ),
+                  onTap: () {
+                    Navigator.pop(context);
+
+                    if (type == PageType.settings) {
+                      return;
+                    }
+
+                    Navigator.pushNamed(
+                      context,
+                      routes[PageType.settings],
+                    );
+                  },
                 ),
               ],
             ),
