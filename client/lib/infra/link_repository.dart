@@ -21,6 +21,30 @@ class MockLinkRepository implements LinkRepository {
       : throw LinkRepositoryFetchException('failed to fetch links');
 
   @override
+  Future<void> update(Link oldLink, Link newLink) async {
+    if (_random.nextBool()) {
+      throw LinkRepositoryUpdateException(
+        oldLink,
+        newLink,
+        'failed to update link',
+      );
+    }
+    if (oldLink == newLink) {
+      return;
+    }
+
+    try {
+      await save(newLink);
+      await delete(oldLink);
+    } on LinkRepositorySaveException {
+      throw LinkRepositoryUpdateException(oldLink, newLink);
+    } on LinkRepositoryDeleteException {
+      _links.add(newLink);
+      throw LinkRepositoryUpdateException(oldLink, newLink);
+    }
+  }
+
+  @override
   Future<void> save(Link link) async {
     if (_random.nextBool()) {
       throw LinkRepositorySaveException(link, 'failed to save links');

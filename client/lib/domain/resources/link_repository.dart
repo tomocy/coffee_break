@@ -4,11 +4,23 @@ import 'package:coffee_break/domain/resources/resource.dart';
 abstract class LinkRepository {
   Future<List<Link>> fetch();
   Future<void> save(Link link);
+  Future<void> update(Link oldLink, Link newLink);
   Future<void> delete(Link link);
 }
 
 class LinkRepositoryFetchException extends LinkRepositoryException {
   LinkRepositoryFetchException([String message]) : super(message);
+}
+
+class LinkRepositoryUpdateException extends LinkRepositoryException {
+  LinkRepositoryUpdateException(
+    this.oldLink,
+    this.newLink, [
+    String message,
+  ]) : super(message);
+
+  final Link oldLink;
+  final Link newLink;
 }
 
 class LinkRepositorySaveException extends LinkRepositoryException {
