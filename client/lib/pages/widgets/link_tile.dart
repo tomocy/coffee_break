@@ -1,5 +1,6 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/pages/edit_link_page.dart';
 import 'package:coffee_break/pages/widgets/marked_link_tile_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,15 @@ class LinkTile extends StatelessWidget {
                     context,
                     listen: false,
                   ).delete.add(link);
+                  break;
+                case LinkTileActions.edit:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<EditLinkPage>(
+                      builder: (_) => EditLinkPage(link: link),
+                    ),
+                  );
+                  break;
               }
             },
             itemBuilder: (_) => [
@@ -56,10 +66,14 @@ class LinkTile extends StatelessWidget {
                 value: LinkTileActions.delete,
                 child: Text('Delete'),
               ),
+              const PopupMenuItem(
+                value: LinkTileActions.edit,
+                child: Text('Edit'),
+              ),
             ],
           ),
         ),
       );
 }
 
-enum LinkTileActions { delete }
+enum LinkTileActions { delete, edit }
