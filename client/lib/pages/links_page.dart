@@ -36,11 +36,8 @@ class DoneLinksPage extends StatelessWidget {
         builder: (_, bloc, child) => StreamBuilder<List<Link>>(
           stream: bloc.doneLinks,
           builder: (context, snapshot) {
-            if (!snapshot.hasData && !snapshot.hasError) {
+            if (!snapshot.hasData) {
               bloc.notify.add(null);
-              return child;
-            }
-            if (snapshot.hasError) {
               return child;
             }
 
