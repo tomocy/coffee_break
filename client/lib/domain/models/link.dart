@@ -35,4 +35,17 @@ class Link {
   final Verb verb;
   final DateTime createdAt;
   bool isDone;
+
+  Link copyWith({
+    String uri,
+    Verb verb,
+    DateTime createdAt,
+    bool done,
+  }) =>
+      Link(
+        uri: uri ?? this.uri,
+        verb: verb ?? this.verb,
+        createdAt: createdAt ?? this.createdAt,
+        done: done ?? isDone,
+      );
 }
