@@ -29,11 +29,7 @@ class App extends StatelessWidget {
               routes: {
                 routes[PageType.todo]: (context) => const TodoLinksPage(),
                 routes[PageType.done]: (context) => const DoneLinksPage(),
-                routes[PageType.settings]: (context) => const Page(
-                      type: PageType.settings,
-                      title: 'Settings',
-                      body: SettingsPage(),
-                    ),
+                routes[PageType.settings]: (context) => const SettingsPage(),
               },
             );
           },
