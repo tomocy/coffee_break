@@ -97,7 +97,7 @@ class LinkBloc {
       _invokeNotify(null);
     } on LinkRepositoryUpdateException catch (e) {
       _updatedController.addError(e);
-    } on Exception catch (e) {}
+    }
   }
 
   Future<void> _invokeDelete(Link link) async {
