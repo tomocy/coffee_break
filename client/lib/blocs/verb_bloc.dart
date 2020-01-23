@@ -33,6 +33,7 @@ class VerbBloc {
       _verbs
         ..clear()
         ..addAll(verbs);
+
       _invokeNotify(null);
     } on VerbRepositoryFetchException catch (e) {
       _verbsController.addError(e);
@@ -45,9 +46,11 @@ class VerbBloc {
       _verbs
         ..remove(verb)
         ..add(verb);
+
       _savedController.add(true);
       _invokeNotify(null);
     } on VerbRepositorySaveException catch (e) {
+      print(e);
       _savedController.addError(e);
     }
   }
