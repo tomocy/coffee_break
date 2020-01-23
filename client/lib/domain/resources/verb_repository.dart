@@ -11,7 +11,12 @@ class VerbRepositoryFetchException extends VerbRepositoryException {
 }
 
 class VerbRepositorySaveException extends VerbRepositoryException {
-  const VerbRepositorySaveException([String message]) : super(message);
+  const VerbRepositorySaveException(
+    this.verb, [
+    String message,
+  ]) : super(message);
+
+  final Verb verb;
 }
 
 class VerbRepositoryException extends ResourceException {

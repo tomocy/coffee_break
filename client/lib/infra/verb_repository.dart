@@ -17,7 +17,10 @@ class MockVerbRepository extends Mock implements VerbRepository {
   @override
   Future<void> save(Verb verb) async {
     if (doFail) {
-      throw const VerbRepositorySaveException('failed to save verb');
+      throw VerbRepositorySaveException(
+        verb,
+        'failed to save verb',
+      );
     }
 
     _verbs
