@@ -3,7 +3,7 @@ import 'package:coffee_break/domain/models/verb.dart';
 class Link {
   Link({
     this.uri,
-    this.verb = const Verb('todo', 'done'),
+    this.verb = const Verb('do', 'done'),
     DateTime createdAt,
     bool done,
   })  : createdAt = createdAt ?? DateTime.now(),
@@ -11,7 +11,7 @@ class Link {
 
   Link.todo({
     String uri,
-    Verb verb = const Verb('todo', 'done'),
+    Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
   }) : this(
           uri: uri,
@@ -22,7 +22,7 @@ class Link {
 
   Link.done({
     String uri,
-    Verb verb = const Verb('todo', 'done'),
+    Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
   }) : this(
           uri: uri,
