@@ -82,7 +82,12 @@ class _VerbFormState extends State<VerbForm> {
 }
 
 class VerbDropdownButtonFormField extends StatefulWidget {
-  const VerbDropdownButtonFormField({Key key}) : super(key: key);
+  const VerbDropdownButtonFormField({
+    Key key,
+    this.onSelected,
+  }) : super(key: key);
+
+  final Function(Verb) onSelected;
 
   @override
   _VerbDropdownButtonFormFieldState createState() =>
@@ -133,6 +138,9 @@ class _VerbDropdownButtonFormFieldState
               }
 
               setState(() => _value = item);
+              if (widget.onSelected != null) {
+                widget.onSelected(item.verb);
+              }
             },
             decoration: const InputDecoration(
               labelText: 'Verb',

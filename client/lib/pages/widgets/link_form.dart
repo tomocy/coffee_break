@@ -1,4 +1,5 @@
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/widgets/verb_form.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class LinkForm extends StatefulWidget {
 class _LinkFormState extends State<LinkForm> {
   final _formKey = GlobalKey<FormState>();
   final _uriController = TextEditingController();
+  Verb _selectedVerb;
 
   @override
   void initState() {
@@ -53,7 +55,9 @@ class _LinkFormState extends State<LinkForm> {
                 validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
               ),
               const SizedBox(height: 16),
-              const VerbDropdownButtonFormField(),
+              VerbDropdownButtonFormField(
+                onSelected: (verb) => setState(() => _selectedVerb = verb),
+              ),
               const SizedBox(height: 32),
               ConstrainedBox(
                 constraints: const BoxConstraints(
@@ -68,8 +72,12 @@ class _LinkFormState extends State<LinkForm> {
                     final link = widget.link != null
                         ? widget.link.copyWith(
                             uri: _uriController.text,
+                            verb: _selectedVerb,
                           )
-                        : Link.todo(uri: _uriController.text);
+                        : Link.todo(
+                            uri: _uriController.text,
+                            verb: _selectedVerb,
+                          );
                     widget.onSubmit(link);
                   },
                   color: primaryOrSecondaryFrom(Theme.of(context)),
