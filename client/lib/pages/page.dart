@@ -5,7 +5,6 @@ import 'package:coffee_break/pages/add_link_page.dart';
 import 'package:coffee_break/pages/search_links_page.dart';
 import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:coffee_break/pages/widgets/stream_handler.dart';
-import 'package:coffee_break/pages/widgets/stream_handlers.dart';
 import 'package:coffee_break/pages/widgets/undo_snack_bar_action.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -132,7 +131,7 @@ class Page extends StatelessWidget {
               context,
               listen: false,
             ).links,
-            onError: (_, error) => showSnackBar(
+            onError: (context, error) => showSnackBar(
               context,
               SnackBar(
                 action: RetrySnackBarAction(
@@ -150,7 +149,7 @@ class Page extends StatelessWidget {
               context,
               listen: false,
             ).saved,
-            onError: (_, error) {
+            onError: (context, error) {
               if (error is! LinkRepositorySaveException) {
                 return;
               }
@@ -187,7 +186,7 @@ class Page extends StatelessWidget {
                 content: const Text('Link was deleted.'),
               ),
             ),
-            onError: (_, error) {
+            onError: (context, error) {
               if (error is! LinkRepositoryDeleteException) {
                 return;
               }

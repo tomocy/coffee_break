@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 
+class MultiStreamHandler extends Nested {
+  MultiStreamHandler({
+    Key key,
+    @required List<StreamHandler> handlers,
+    @required Widget child,
+  })  : assert(handlers != null),
+        assert(child != null),
+        super(
+          key: key,
+          children: handlers,
+          child: child,
+        );
+}
+
 class StreamHandler<T> extends SingleChildStatelessWidget {
   const StreamHandler({
     Key key,

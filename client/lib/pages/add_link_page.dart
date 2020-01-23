@@ -6,7 +6,6 @@ import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/link_form.dart';
 import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:coffee_break/pages/widgets/stream_handler.dart';
-import 'package:coffee_break/pages/widgets/stream_handlers.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
 
@@ -42,7 +41,7 @@ class AddLinkPage extends StatelessWidget {
               context,
               listen: false,
             ).verbs,
-            onError: (_, error) {
+            onError: (context, error) {
               if (error is! VerbRepositoryFetchException) {
                 return;
               }
