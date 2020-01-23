@@ -3,7 +3,7 @@ import 'package:coffee_break/domain/resources/resource.dart';
 
 abstract class VerbRepository {
   Future<List<Verb>> fetch();
-  Future<void> save();
+  Future<void> save(Verb verb);
 }
 
 class VerbRepositoryFetchException extends VerbRepositoryException {
