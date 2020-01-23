@@ -4,6 +4,8 @@ class Verb {
   final String base;
   final String pastParticle;
 
+  String get capitalizedBase => base[0].toUpperCase() + base.substring(1);
+
   String get infinitive => 'to $base';
 
   @override
