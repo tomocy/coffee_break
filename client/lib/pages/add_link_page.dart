@@ -60,6 +60,31 @@ class AddLinkPage extends StatelessWidget {
               );
             },
           ),
+          StreamHandler<bool>(
+            stream: Provider.of<VerbBloc>(
+              context,
+              listen: false,
+            ).saved,
+            onError: (context, error) {
+              if (error is! VerbRepositorySaveException) {
+                return;
+              }
+
+              final saveError = error as VerbRepositorySaveException;
+              showSnackBar(
+                context,
+                SnackBar(
+                  action: RetrySnackBarAction(
+                    onPressed: () => Provider.of<VerbBloc>(
+                      context,
+                      listen: false,
+                    ).save.add(saveError.verb),
+                  ),
+                  content: Text(error.toString()),
+                ),
+              );
+            },
+          ),
         ],
         child: child,
       );

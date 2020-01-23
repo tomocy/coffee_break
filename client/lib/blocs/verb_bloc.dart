@@ -50,7 +50,6 @@ class VerbBloc {
       _savedController.add(true);
       _invokeNotify(null);
     } on VerbRepositorySaveException catch (e) {
-      print(e);
       _savedController.addError(e);
     }
   }
