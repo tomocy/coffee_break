@@ -139,7 +139,7 @@ class _VerbDropdownButtonFormFieldState
             ),
             items: snapshot.data
                 .map((verb) => DropdownMenuItem(
-                      value: VerbMenuItem(verb.base),
+                      value: VerbMenuItem(verb),
                       child: Text(verb.base),
                     ))
                 .toList()
@@ -153,18 +153,18 @@ class _VerbDropdownButtonFormFieldState
 }
 
 class _AddVerbMenuItem extends VerbMenuItem {
-  const _AddVerbMenuItem() : super('');
+  const _AddVerbMenuItem() : super(const Verb('', ''));
 }
 
 class VerbMenuItem {
-  const VerbMenuItem(this.value);
+  const VerbMenuItem(this.verb);
 
-  final String value;
+  final Verb verb;
 
   @override
   bool operator ==(dynamic other) =>
-      other is VerbMenuItem && other.value == value;
+      other is VerbMenuItem && other.verb == verb;
 
   @override
-  int get hashCode => value.hashCode;
+  int get hashCode => verb.hashCode;
 }
