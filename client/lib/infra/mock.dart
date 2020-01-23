@@ -1,9 +1,15 @@
-import 'dart:math';
-
 class Mock {
-  const Mock({this.randomToFail});
+  const Mock({this.failer});
 
-  final Random randomToFail;
+  final Failer failer;
 
-  bool get doFail => randomToFail?.nextBool() ?? false;
+  bool get doFail {
+    if (failer != null) {
+      return failer();
+    }
+
+    return false;
+  }
 }
+
+typedef Failer = bool Function();

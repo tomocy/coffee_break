@@ -4,7 +4,7 @@ import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/infra/mock.dart';
 
 class MockLinkRepository extends Mock implements LinkRepository {
-  MockLinkRepository({Random randomToFail}) : super(randomToFail: randomToFail);
+  MockLinkRepository({Failer failer}) : super(failer: failer);
 
   final _links = <Link>[
     Link.todo(
