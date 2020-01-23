@@ -15,18 +15,18 @@ class StreamHandler<T> extends SingleChildStatelessWidget {
         );
 
   final Stream<T> stream;
-  final Function(T) onData;
-  final Function(Object) onError;
+  final Function(BuildContext, T) onData;
+  final Function(BuildContext, Object) onError;
 
   @override
   Widget buildWithChild(BuildContext context, Widget child) => StreamBuilder<T>(
         stream: stream,
         builder: (_, snapshot) {
           if (snapshot.hasData && onData != null) {
-            onData(snapshot.data);
+            onData(context, snapshot.data);
           }
           if (snapshot.hasError && onError != null) {
-            onError(snapshot.error);
+            onError(context, snapshot.error);
           }
 
           return child ?? Container();

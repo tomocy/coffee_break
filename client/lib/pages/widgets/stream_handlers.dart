@@ -29,7 +29,7 @@ class StreamHandlers extends StatelessWidget {
               context,
               listen: false,
             ).links,
-            onError: (error) => showSnackBar(
+            onError: (_, error) => showSnackBar(
               context,
               SnackBar(
                 action: RetrySnackBarAction(
@@ -47,7 +47,7 @@ class StreamHandlers extends StatelessWidget {
               context,
               listen: false,
             ).saved,
-            onError: (error) {
+            onError: (_, error) {
               if (error is! LinkRepositorySaveException) {
                 return;
               }
@@ -72,7 +72,7 @@ class StreamHandlers extends StatelessWidget {
               context,
               listen: false,
             ).deleted,
-            onData: (link) => showSnackBar(
+            onData: (context, link) => showSnackBar(
               context,
               SnackBar(
                 action: UndoSnackBarAction(
@@ -84,7 +84,7 @@ class StreamHandlers extends StatelessWidget {
                 content: const Text('Link was deleted.'),
               ),
             ),
-            onError: (error) {
+            onError: (_, error) {
               if (error is! LinkRepositoryDeleteException) {
                 return;
               }
@@ -109,7 +109,7 @@ class StreamHandlers extends StatelessWidget {
               context,
               listen: false,
             ).verbs,
-            onError: (error) {
+            onError: (_, error) {
               if (error is! VerbRepositoryFetchException) {
                 return;
               }
