@@ -19,7 +19,7 @@ ThemeData _from(ThemeData theme) => theme.copyWith(
       cursorColor: primaryOrSecondaryFrom(theme),
       textSelectionColor: primaryOrSecondaryFrom(theme),
       textSelectionHandleColor: primaryOrSecondaryFrom(theme),
-      primaryColor: theme.colorScheme.background,
+      primaryColor: primaryOrSecondaryFrom(theme),
       primaryTextTheme: theme.textTheme.apply(
         displayColor: theme.colorScheme.onBackground,
         bodyColor: theme.colorScheme.onBackground,

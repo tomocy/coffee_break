@@ -13,7 +13,10 @@ abstract class SearchDelegate extends material.SearchDelegate<String> {
         );
 
   @override
-  ThemeData appBarTheme(BuildContext context) => Theme.of(context);
+  ThemeData appBarTheme(BuildContext context) {
+    final theme = Theme.of(context);
+    return theme.copyWith(primaryColor: theme.colorScheme.background);
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) => [
