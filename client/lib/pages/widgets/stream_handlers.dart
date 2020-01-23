@@ -1,6 +1,9 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
+import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/domain/resources/link_repository.dart';
+import 'package:coffee_break/domain/resources/verb_repository.dart';
 import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
 import 'package:coffee_break/pages/widgets/stream_handler.dart';
@@ -95,6 +98,30 @@ class StreamHandlers extends StatelessWidget {
                       context,
                       listen: false,
                     ).delete.add(deleteError.link),
+                  ),
+                  content: Text(error.toString()),
+                ),
+              );
+            },
+          ),
+          StreamHandler<List<Verb>>(
+            stream: Provider.of<VerbBloc>(
+              context,
+              listen: false,
+            ).verbs,
+            onError: (error) {
+              if (error is! VerbRepositoryFetchException) {
+                return;
+              }
+
+              showSnackBar(
+                context,
+                SnackBar(
+                  action: RetrySnackBarAction(
+                    onPressed: () => Provider.of<VerbBloc>(
+                      context,
+                      listen: false,
+                    ).fetch.add(null),
                   ),
                   content: Text(error.toString()),
                 ),
