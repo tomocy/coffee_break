@@ -1,7 +1,10 @@
+import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/add_verb_page.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LinkForm extends StatefulWidget {
   const LinkForm({
@@ -53,29 +56,7 @@ class _LinkFormState extends State<LinkForm> {
                 validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
               ),
               const SizedBox(height: 16),
-              DropdownButtonFormField<VerbMenuItem>(
-                isDense: true,
-                onChanged: (item) {
-                  if (item is _AddVerbMenuItem) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<AddVerbPage>(
-                        builder: (_) => const AddVerbPage(),
-                      ),
-                    );
-                    return;
-                  }
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Verb',
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: _AddVerbMenuItem(),
-                    child: Text('Add verb'),
-                  ),
-                ],
-              ),
+              const VerbDropdownButtonFormField(),
               const SizedBox(height: 32),
               ConstrainedBox(
                 constraints: const BoxConstraints(
@@ -102,6 +83,77 @@ class _LinkFormState extends State<LinkForm> {
             ],
           ),
         ),
+      );
+}
+
+class VerbDropdownButtonFormField extends StatefulWidget {
+  const VerbDropdownButtonFormField({Key key}) : super(key: key);
+
+  @override
+  _VerbDropdownButtonFormFieldState createState() =>
+      _VerbDropdownButtonFormFieldState();
+}
+
+class _VerbDropdownButtonFormFieldState
+    extends State<VerbDropdownButtonFormField> {
+  Stream<List<Verb>> _verbs;
+  VerbMenuItem _value;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _verbs = Provider.of<VerbBloc>(
+      context,
+      listen: false,
+    ).verbs;
+  }
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder<List<Verb>>(
+        stream: _verbs,
+        builder: (_, snapshot) {
+          if (!snapshot.hasData) {
+            Provider.of<VerbBloc>(
+              context,
+              listen: false,
+            ).notify.add(null);
+            return DropdownButtonFormField<void>(
+              onChanged: (item) {},
+              items: const [],
+            );
+          }
+
+          return DropdownButtonFormField<VerbMenuItem>(
+            isDense: true,
+            value: _value,
+            onChanged: (item) {
+              if (item is _AddVerbMenuItem) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<AddVerbPage>(
+                    builder: (_) => const AddVerbPage(),
+                  ),
+                );
+                return;
+              }
+
+              setState(() => _value = item);
+            },
+            decoration: const InputDecoration(
+              labelText: 'Verb',
+            ),
+            items: snapshot.data
+                .map((verb) => DropdownMenuItem(
+                      value: VerbMenuItem(verb.base),
+                      child: Text(verb.base),
+                    ))
+                .toList()
+                  ..add(const DropdownMenuItem(
+                    value: _AddVerbMenuItem(),
+                    child: Text('Add verb'),
+                  )),
+          );
+        },
       );
 }
 
