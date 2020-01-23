@@ -42,6 +42,7 @@ class _VerbFormState extends State<VerbForm> {
                 controller: _baseController,
                 autofocus: true,
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: 'Base form',
                 ),
               ),
@@ -49,6 +50,7 @@ class _VerbFormState extends State<VerbForm> {
               TextFormField(
                 controller: _pastParticleController,
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: 'Past particle form',
                 ),
               ),
