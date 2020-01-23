@@ -1,9 +1,10 @@
 import 'dart:math';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/domain/resources/link_repository.dart';
+import 'package:coffee_break/infra/mock.dart';
 
-class MockLinkRepository implements LinkRepository {
-  MockLinkRepository({this.randomToFail});
+class MockLinkRepository extends Mock implements LinkRepository {
+  MockLinkRepository({Random randomToFail}) : super(randomToFail: randomToFail);
 
   final _links = <Link>[
     Link.todo(
@@ -15,18 +16,15 @@ class MockLinkRepository implements LinkRepository {
       createdAt: DateTime(2020, 1, 11),
     ),
   ];
-  final Random randomToFail;
-
-  bool get _doFail => randomToFail?.nextBool() ?? false;
 
   @override
-  Future<List<Link>> fetch() async => !_doFail
+  Future<List<Link>> fetch() async => !doFail
       ? _links
       : throw LinkRepositoryFetchException('failed to fetch links');
 
   @override
   Future<void> update(Link oldLink, Link newLink) async {
-    if (_doFail) {
+    if (doFail) {
       throw LinkRepositoryUpdateException(
         oldLink,
         newLink,
@@ -50,7 +48,7 @@ class MockLinkRepository implements LinkRepository {
 
   @override
   Future<void> save(Link link) async {
-    if (_doFail) {
+    if (doFail) {
       throw LinkRepositorySaveException(link, 'failed to save links');
     }
 
@@ -64,7 +62,7 @@ class MockLinkRepository implements LinkRepository {
   }
 
   @override
-  Future<void> delete(Link link) async => !_doFail
+  Future<void> delete(Link link) async => !doFail
       ? _links.remove(link)
       : throw LinkRepositoryDeleteException(link, 'failed to delete link');
 }
