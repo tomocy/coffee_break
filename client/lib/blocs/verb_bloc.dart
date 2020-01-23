@@ -11,9 +11,9 @@ class VerbBloc {
 
   final VerbRepository _repository;
   final List<Verb> _verbs = [];
-  final _verbsController = StreamController<List<Verb>>();
+  final _verbsController = StreamController<List<Verb>>.broadcast();
   final _fetchController = StreamController<void>();
-  final _savedController = StreamController<bool>();
+  final _savedController = StreamController<bool>.broadcast();
   final _saveController = StreamController<Verb>();
   final _notifyController = StreamController<void>();
 
@@ -24,6 +24,8 @@ class VerbBloc {
   Stream<bool> get saved => _savedController.stream;
 
   Sink<Verb> get save => _saveController.sink;
+
+  Sink<void> get notify => _notifyController.sink;
 
   Future<void> _invokeFetch(void _) async {
     try {
