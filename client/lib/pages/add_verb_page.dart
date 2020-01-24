@@ -19,7 +19,10 @@ class AddVerbPage extends StatelessWidget {
                 listen: false,
               ).save.add(verb);
 
-              Navigator.pop(context);
+              Navigator.pop(
+                context,
+                verb,
+              );
             },
             submitButtonLabel: 'Add',
           ),
