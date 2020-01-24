@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 class VerbTile extends StatelessWidget {
   const VerbTile({
     Key key,
+    this.onTap,
     @required this.verb,
   })  : assert(verb != null),
         super(key: key);
 
+  final VoidCallback onTap;
   final Verb verb;
 
   @override
   Widget build(BuildContext context) => ListTile(
+        onTap: onTap,
         title: Text(verb.base),
         trailing: PopupMenuButton<VerbTileActions>(
           onSelected: (action) {
