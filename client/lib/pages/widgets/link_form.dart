@@ -29,6 +29,7 @@ class _LinkFormState extends State<LinkForm> {
   void initState() {
     super.initState();
     _uriController.text = widget.link?.uri;
+    _selectedVerb = widget.link?.verb;
   }
 
   @override
@@ -56,6 +57,7 @@ class _LinkFormState extends State<LinkForm> {
               ),
               const SizedBox(height: 16),
               SelectVerbButtonFormField(
+                verb: _selectedVerb,
                 onSelected: (verb) => setState(() => _selectedVerb = verb),
               ),
               const SizedBox(height: 32),
