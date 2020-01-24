@@ -25,6 +25,13 @@ class _VerbFormState extends State<VerbForm> {
   final _pastParticleController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _baseController.text = widget.verb?.base;
+    _pastParticleController.text = widget.verb?.pastParticle;
+  }
+
+  @override
   void dispose() {
     _baseController.dispose();
     _pastParticleController.dispose();
