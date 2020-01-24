@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' as material show SearchDelegate;
 import 'package:flutter/material.dart';
 
-abstract class SearchDelegate extends material.SearchDelegate<String> {
+abstract class SearchDelegate<T> extends material.SearchDelegate<T> {
   SearchDelegate({
     String searchFieldLabel,
     TextInputType keyboardType,
@@ -28,7 +28,7 @@ abstract class SearchDelegate extends material.SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) => IconButton(
-        onPressed: () => close(context, ''),
+        onPressed: () => close(context, null),
         icon: AnimatedIcon(
           progress: transitionAnimation,
           icon: AnimatedIcons.menu_arrow,

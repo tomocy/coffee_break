@@ -5,7 +5,7 @@ import 'package:coffee_break/pages/widgets/search_delegate.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
 
-class SearchLinksPage extends SearchDelegate {
+class SearchLinksPage extends SearchDelegate<String> {
   final _container = Container();
 
   @override
