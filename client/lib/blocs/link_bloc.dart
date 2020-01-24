@@ -112,15 +112,13 @@ class LinkBloc {
     }
   }
 
-  void _invokeSearch(String query) {
-    _searchedLinksController.add(
-      _links
-          .where((link) =>
-              query.isNotEmpty &&
-              link.uri.toLowerCase().contains(query.toLowerCase()))
-          .toList(),
-    );
-  }
+  void _invokeSearch(String query) => _searchedLinksController.add(
+        _links
+            .where((link) =>
+                query.isNotEmpty &&
+                link.uri.toLowerCase().contains(query.toLowerCase()))
+            .toList(),
+      );
 
   void _invokeNotify(void _) => _linksController
       .add(_links..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
