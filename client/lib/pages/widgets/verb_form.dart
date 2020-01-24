@@ -109,6 +109,9 @@ class _SelectVerbButtonFormFieldState extends State<SelectVerbButtonFormField> {
           }
 
           setState(() => _verb = verb);
+          if (widget.onSelected != null) {
+            widget.onSelected(_verb);
+          }
         },
         child: FormField<Verb>(
           builder: (state) {
