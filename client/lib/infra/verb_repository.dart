@@ -15,6 +15,39 @@ class MockVerbRepository extends Mock implements VerbRepository {
       : throw const VerbRepositoryFetchException('failed to fetch verbs');
 
   @override
+  Future<void> update(Verb oldVerb, Verb newVerb) async {
+    if (doFail) {
+      throw VerbRepositoryUpdateException(
+        oldVerb,
+        newVerb,
+        'failed to update verb',
+      );
+    }
+
+    if (oldVerb == newVerb) {
+      return;
+    }
+
+    try {
+      await save(newVerb);
+      await delete(oldVerb);
+    } on VerbRepositorySaveException {
+      throw VerbRepositoryUpdateException(
+        oldVerb,
+        newVerb,
+        'failed to update verb',
+      );
+    } on VerbRepositoryDeleteException {
+      await delete(newVerb);
+      throw VerbRepositoryUpdateException(
+        oldVerb,
+        newVerb,
+        'failed to update verb',
+      );
+    }
+  }
+
+  @override
   Future<void> save(Verb verb) async {
     if (doFail) {
       throw VerbRepositorySaveException(

@@ -4,6 +4,7 @@ import 'package:coffee_break/domain/resources/resource.dart';
 abstract class VerbRepository {
   Future<List<Verb>> fetch();
   Future<void> save(Verb verb);
+  Future<void> update(Verb oldVerb, Verb newVerb);
   Future<void> delete(Verb verb);
 }
 
@@ -18,6 +19,17 @@ class VerbRepositorySaveException extends VerbRepositoryException {
   ]) : super(message);
 
   final Verb verb;
+}
+
+class VerbRepositoryUpdateException extends VerbRepositoryException {
+  const VerbRepositoryUpdateException(
+    this.oldVerb,
+    this.newVerb, [
+    String message,
+  ]) : super(message);
+
+  final Verb oldVerb;
+  final Verb newVerb;
 }
 
 class VerbRepositoryDeleteException extends VerbRepositoryException {
