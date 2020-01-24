@@ -6,6 +6,7 @@ class VerbBloc {
   VerbBloc(this._repository) {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
+    _updateController.stream.listen(_invokeUpdate);
     _deleteController.stream.listen(_invokeDelete);
     _searchController.stream.listen(_invokeSearch);
     _notifyController.stream.listen(_invokeNotify);
@@ -17,6 +18,8 @@ class VerbBloc {
   final _fetchController = StreamController<void>();
   final _savedController = StreamController<bool>.broadcast();
   final _saveController = StreamController<Verb>();
+  final _updatedController = StreamController<bool>.broadcast();
+  final _updateController = StreamController<UpdateVerbEvent>();
   final _deletedController = StreamController<bool>.broadcast();
   final _deleteController = StreamController<Verb>();
   final _searchedVerbsController = StreamController<List<Verb>>.broadcast();
@@ -30,6 +33,10 @@ class VerbBloc {
   Stream<bool> get saved => _savedController.stream;
 
   Sink<Verb> get save => _saveController.sink;
+
+  Stream<bool> get updated => _updatedController.stream;
+
+  Sink<UpdateVerbEvent> get update => _updateController.sink;
 
   Stream<bool> get deleted => _deletedController.stream;
 
@@ -68,6 +75,24 @@ class VerbBloc {
     }
   }
 
+  Future<void> _invokeUpdate(UpdateVerbEvent event) async {
+    if (event.oldVerb == event.newVerb) {
+      return;
+    }
+
+    try {
+      await _repository.update(event.oldVerb, event.newVerb);
+      _verbs
+        ..remove(event.oldVerb)
+        ..add(event.newVerb);
+
+      _updatedController.add(true);
+      _invokeNotify(null);
+    } on VerbRepositoryUpdateException catch (e) {
+      _updatedController.addError(e);
+    }
+  }
+
   Future<void> _invokeDelete(Verb verb) async {
     try {
       await _repository.delete(verb);
@@ -95,10 +120,22 @@ class VerbBloc {
     _fetchController.close();
     _savedController.close();
     _saveController.close();
+    _updatedController.close();
+    _updateController.close();
     _deletedController.close();
     _deleteController.close();
     _searchedVerbsController.close();
     _searchController.close();
     _notifyController.close();
   }
+}
+
+class UpdateVerbEvent {
+  const UpdateVerbEvent({
+    this.oldVerb,
+    this.newVerb,
+  });
+
+  final Verb oldVerb;
+  final Verb newVerb;
 }
