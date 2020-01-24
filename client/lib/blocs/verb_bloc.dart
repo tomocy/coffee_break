@@ -6,6 +6,7 @@ class VerbBloc {
   VerbBloc(this._repository) {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
+    _deleteController.stream.listen(_invokeDelete);
     _searchController.stream.listen(_invokeSearch);
     _notifyController.stream.listen(_invokeNotify);
   }
@@ -16,6 +17,8 @@ class VerbBloc {
   final _fetchController = StreamController<void>();
   final _savedController = StreamController<bool>.broadcast();
   final _saveController = StreamController<Verb>();
+  final _deletedController = StreamController<bool>.broadcast();
+  final _deleteController = StreamController<Verb>();
   final _searchedVerbsController = StreamController<List<Verb>>.broadcast();
   final _searchController = StreamController<String>();
   final _notifyController = StreamController<void>();
@@ -27,6 +30,10 @@ class VerbBloc {
   Stream<bool> get saved => _savedController.stream;
 
   Sink<Verb> get save => _saveController.sink;
+
+  Stream<bool> get deleted => _deletedController.stream;
+
+  Sink<Verb> get delete => _deleteController.sink;
 
   Stream<List<Verb>> get searchedVerbs => _searchedVerbsController.stream;
 
@@ -61,6 +68,18 @@ class VerbBloc {
     }
   }
 
+  Future<void> _invokeDelete(Verb verb) async {
+    try {
+      await _repository.delete(verb);
+      _verbs.remove(verb);
+
+      _deletedController.add(true);
+      _invokeNotify(null);
+    } on VerbRepositoryDeleteException catch (e) {
+      _deletedController.addError(e);
+    }
+  }
+
   void _invokeSearch(String query) => _searchedVerbsController.add(
         _verbs
             .where((verb) =>
@@ -76,6 +95,8 @@ class VerbBloc {
     _fetchController.close();
     _savedController.close();
     _saveController.close();
+    _deletedController.close();
+    _deleteController.close();
     _searchedVerbsController.close();
     _searchController.close();
     _notifyController.close();
