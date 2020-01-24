@@ -27,4 +27,12 @@ class MockVerbRepository extends Mock implements VerbRepository {
       ..remove(verb)
       ..add(verb);
   }
+
+  @override
+  Future<void> delete(Verb verb) async => !doFail
+      ? _verbs.remove(verb)
+      : throw VerbRepositoryDeleteException(
+          verb,
+          'failed to delete verb',
+        );
 }
