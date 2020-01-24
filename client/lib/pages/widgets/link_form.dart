@@ -55,7 +55,7 @@ class _LinkFormState extends State<LinkForm> {
                 validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
               ),
               const SizedBox(height: 16),
-              VerbDropdownButtonFormField(
+              SelectVerbButtonFormField(
                 onSelected: (verb) => setState(() => _selectedVerb = verb),
               ),
               const SizedBox(height: 32),
