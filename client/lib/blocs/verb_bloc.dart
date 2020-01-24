@@ -6,6 +6,7 @@ class VerbBloc {
   VerbBloc(this._repository) {
     _fetchController.stream.listen(_invokeFetch);
     _saveController.stream.listen(_invokeSave);
+    _searchController.stream.listen(_invokeSearch);
     _notifyController.stream.listen(_invokeNotify);
   }
 
@@ -15,6 +16,8 @@ class VerbBloc {
   final _fetchController = StreamController<void>();
   final _savedController = StreamController<bool>.broadcast();
   final _saveController = StreamController<Verb>();
+  final _searchedVerbsController = StreamController<List<Verb>>.broadcast();
+  final _searchController = StreamController<String>();
   final _notifyController = StreamController<void>();
 
   Stream<List<Verb>> get verbs => _verbsController.stream;
@@ -24,6 +27,10 @@ class VerbBloc {
   Stream<bool> get saved => _savedController.stream;
 
   Sink<Verb> get save => _saveController.sink;
+
+  Stream<List<Verb>> get searchedVerbs => _searchedVerbsController.stream;
+
+  Sink<String> get search => _searchController.sink;
 
   Sink<void> get notify => _notifyController.sink;
 
@@ -54,6 +61,14 @@ class VerbBloc {
     }
   }
 
+  void _invokeSearch(String query) => _searchedVerbsController.add(
+        _verbs
+            .where((verb) =>
+                query.isNotEmpty &&
+                verb.base.toLowerCase().contains(query.toLowerCase()))
+            .toList(),
+      );
+
   void _invokeNotify(void _) => _verbsController.add(_verbs);
 
   void dispose() {
@@ -61,6 +76,8 @@ class VerbBloc {
     _fetchController.close();
     _savedController.close();
     _saveController.close();
+    _searchedVerbsController.close();
+    _searchController.close();
     _notifyController.close();
   }
 }
