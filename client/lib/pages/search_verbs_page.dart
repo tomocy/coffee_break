@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/add_verb_page.dart';
+import 'package:coffee_break/pages/widgets/verb_tile.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:coffee_break/pages/widgets/search_delegate.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +22,12 @@ class SearchVerbsPage extends SearchDelegate<Verb> {
 
             return ListView.builder(
               itemCount: snapshot.data.length,
-              itemBuilder: (_, i) => ListTile(
+              itemBuilder: (_, i) => VerbTile(
                 onTap: () => close(
                   context,
                   snapshot.data[i],
                 ),
-                title: Text(snapshot.data[i].base),
+                verb: snapshot.data[i],
               ),
             );
           },
