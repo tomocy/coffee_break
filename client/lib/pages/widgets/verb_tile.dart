@@ -1,5 +1,7 @@
+import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/verb.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VerbTile extends StatelessWidget {
   const VerbTile({
@@ -20,6 +22,11 @@ class VerbTile extends StatelessWidget {
           onSelected: (action) {
             switch (action) {
               case VerbTileActions.delete:
+                Provider.of<VerbBloc>(
+                  context,
+                  listen: false,
+                ).delete.add(verb);
+                break;
               case VerbTileActions.edit:
             }
           },
