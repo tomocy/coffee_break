@@ -1,5 +1,6 @@
 import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/verb.dart';
+import 'package:coffee_break/pages/edit_verb_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,13 @@ class VerbTile extends StatelessWidget {
                 ).delete.add(verb);
                 break;
               case VerbTileActions.edit:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<EditVerbPage>(
+                    builder: (_) => EditVerbPage(verb: verb),
+                  ),
+                );
+                break;
             }
           },
           itemBuilder: (_) => [
