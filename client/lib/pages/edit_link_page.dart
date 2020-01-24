@@ -15,7 +15,7 @@ class EditLinkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Add'),
+          title: const Text('Edit'),
         ),
         body: SafeArea(
           child: LinkForm(
