@@ -118,6 +118,7 @@ class _SelectVerbButtonFormFieldState extends State<SelectVerbButtonFormField> {
           final verb = await showSearch(
             context: context,
             delegate: SearchVerbsPage(),
+            query: _verb != null ? _verb.base : '',
           );
           if (verb == null) {
             return;
