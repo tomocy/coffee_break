@@ -1,9 +1,7 @@
-import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/verb.dart';
-import 'package:coffee_break/pages/add_verb_page.dart';
+import 'package:coffee_break/pages/search_verbs_page.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class VerbForm extends StatefulWidget {
   const VerbForm({
@@ -81,8 +79,8 @@ class _VerbFormState extends State<VerbForm> {
       );
 }
 
-class VerbDropdownButtonFormField extends StatefulWidget {
-  const VerbDropdownButtonFormField({
+class SelectVerbButtonFormField extends StatefulWidget {
+  const SelectVerbButtonFormField({
     Key key,
     this.onSelected,
   }) : super(key: key);
@@ -90,89 +88,39 @@ class VerbDropdownButtonFormField extends StatefulWidget {
   final Function(Verb) onSelected;
 
   @override
-  _VerbDropdownButtonFormFieldState createState() =>
-      _VerbDropdownButtonFormFieldState();
+  _SelectVerbButtonFormFieldState createState() =>
+      _SelectVerbButtonFormFieldState();
 }
 
-class _VerbDropdownButtonFormFieldState
-    extends State<VerbDropdownButtonFormField> {
-  Stream<List<Verb>> _verbs;
-  VerbMenuItem _value;
+class _SelectVerbButtonFormFieldState extends State<SelectVerbButtonFormField> {
+  Verb _verb;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _verbs = Provider.of<VerbBloc>(
-      context,
-      listen: false,
-    ).verbs;
-  }
-
-  @override
-  Widget build(BuildContext context) => StreamBuilder<List<Verb>>(
-        stream: _verbs,
-        builder: (_, snapshot) {
-          if (!snapshot.hasData) {
-            Provider.of<VerbBloc>(
-              context,
-              listen: false,
-            ).notify.add(null);
-            return DropdownButtonFormField<void>(
-              onChanged: (item) {},
-              items: const [],
-            );
+  Widget build(BuildContext context) => FlatButton(
+        padding: const EdgeInsets.all(0),
+        splashColor: Colors.transparent,
+        onPressed: () async {
+          final verb = await showSearch(
+            context: context,
+            delegate: SearchVerbsPage(),
+          );
+          if (verb == null) {
+            return;
           }
 
-          return DropdownButtonFormField<VerbMenuItem>(
-            isDense: true,
-            value: _value,
-            onChanged: (item) {
-              if (item is _AddVerbMenuItem) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<AddVerbPage>(
-                    builder: (_) => const AddVerbPage(),
-                  ),
-                );
-                return;
-              }
-
-              setState(() => _value = item);
-              if (widget.onSelected != null) {
-                widget.onSelected(item.verb);
-              }
-            },
-            decoration: const InputDecoration(
-              labelText: 'Verb',
-            ),
-            items: snapshot.data
-                .map((verb) => DropdownMenuItem(
-                      value: VerbMenuItem(verb),
-                      child: Text(verb.base),
-                    ))
-                .toList()
-                  ..add(const DropdownMenuItem(
-                    value: _AddVerbMenuItem(),
-                    child: Text('Add verb'),
-                  )),
-          );
+          setState(() => _verb = verb);
         },
+        child: FormField<Verb>(
+          builder: (state) {
+            return InputDecorator(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: _verb != null ? 'Verb' : 'Select verb',
+              ),
+              isEmpty: _verb == null,
+              child: _verb != null ? Text(_verb.base) : null,
+            );
+          },
+        ),
       );
-}
-
-class _AddVerbMenuItem extends VerbMenuItem {
-  const _AddVerbMenuItem() : super(const Verb('', ''));
-}
-
-class VerbMenuItem {
-  const VerbMenuItem(this.verb);
-
-  final Verb verb;
-
-  @override
-  bool operator ==(dynamic other) =>
-      other is VerbMenuItem && other.verb == verb;
-
-  @override
-  int get hashCode => verb.hashCode;
 }
