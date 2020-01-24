@@ -82,9 +82,11 @@ class _VerbFormState extends State<VerbForm> {
 class SelectVerbButtonFormField extends StatefulWidget {
   const SelectVerbButtonFormField({
     Key key,
+    this.verb,
     this.onSelected,
   }) : super(key: key);
 
+  final Verb verb;
   final Function(Verb) onSelected;
 
   @override
@@ -94,6 +96,12 @@ class SelectVerbButtonFormField extends StatefulWidget {
 
 class _SelectVerbButtonFormFieldState extends State<SelectVerbButtonFormField> {
   Verb _verb;
+
+  @override
+  void initState() {
+    super.initState();
+    _verb = widget.verb;
+  }
 
   @override
   Widget build(BuildContext context) => FlatButton(
