@@ -21,7 +21,10 @@ class SearchLinksPage extends SearchDelegate<String> {
               return child;
             }
 
-            return buildLinkListView(snapshot.data);
+            return buildLinkListView(
+              linkKeyPrefix: 'SearchLinksPage',
+              links: snapshot.data,
+            );
           },
         ),
         child: _container,

@@ -6,23 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-ListView buildLinkListView([List<Link> links = const []]) => ListView.builder(
+ListView buildLinkListView({
+  String linkKeyPrefix,
+  List<Link> links = const [],
+}) =>
+    ListView.builder(
       itemCount: links.length,
-      itemBuilder: (_, i) => LinkTile(link: links[i]),
+      itemBuilder: (_, i) => LinkTile(
+        key: Key('${linkKeyPrefix}_${links[i].uri}'),
+        link: links[i],
+      ),
     );
 
 class LinkTile extends StatelessWidget {
   const LinkTile({
-    Key key,
+    @required Key key,
     @required this.link,
-  })  : assert(link != null),
+  })  : assert(key != null),
+        assert(link != null),
         super(key: key);
 
   final Link link;
 
   @override
   Widget build(BuildContext context) => Dismissible(
-        key: UniqueKey(),
+        key: key,
         onDismissed: (_) {
           link.isDone = !link.isDone;
           Provider.of<LinkBloc>(

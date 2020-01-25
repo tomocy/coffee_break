@@ -6,10 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class StreamedLinksListView extends StatelessWidget {
-  const StreamedLinksListView({Key key, @required this.stream})
-      : assert(stream != null),
+  const StreamedLinksListView({
+    Key key,
+    this.linkKeyPrefix,
+    @required this.stream,
+  })  : assert(stream != null),
         super(key: key);
 
+  final String linkKeyPrefix;
   final Stream<List<Link>> Function(LinkBloc) stream;
 
   @override
@@ -25,21 +29,28 @@ class StreamedLinksListView extends StatelessWidget {
               return child;
             }
 
-            return _buildFetchableLinkListView(context, snapshot.data);
+            return _buildFetchableLinkListView(
+              context,
+              linkKeyPrefix: linkKeyPrefix,
+              links: snapshot.data,
+            );
           },
         ),
         child: _buildFetchableLinkListView(context),
       );
 
   Widget _buildFetchableLinkListView(
-    BuildContext context, [
+    BuildContext context, {
+    String linkKeyPrefix,
     List<Link> links = const [],
-  ]) =>
+  }) =>
       Refreshable(
         onRefresh: () async => Provider.of<LinkBloc>(
           context,
           listen: false,
         ).fetch.add(null),
-        child: buildLinkListView(links),
+        child: buildLinkListView(
+          links: links,
+        ),
       );
 }
