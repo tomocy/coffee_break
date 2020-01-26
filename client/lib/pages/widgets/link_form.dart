@@ -1,5 +1,6 @@
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/domain/models/verb.dart';
+import 'package:coffee_break/pages/widgets/flat_button_form_field.dart';
 import 'package:coffee_break/pages/widgets/verb_form.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +25,14 @@ class _LinkFormState extends State<LinkForm> {
   final _formKey = GlobalKey<FormState>();
   final _uriController = TextEditingController();
   Verb _selectedVerb;
+  DateTime _selectedDueDate;
 
   @override
   void initState() {
     super.initState();
     _uriController.text = widget.link?.uri;
     _selectedVerb = widget.link?.verb;
+    _selectedDueDate = widget.link?.dueDate;
   }
 
   @override
@@ -60,6 +63,12 @@ class _LinkFormState extends State<LinkForm> {
                 verb: _selectedVerb,
                 onSelected: (verb) => setState(() => _selectedVerb = verb),
               ),
+              const SizedBox(height: 16),
+              SelectDueDateButtonFormField(
+                dueDate: _selectedDueDate,
+                onSelected: (dueDate) =>
+                    setState(() => _selectedDueDate = dueDate),
+              ),
               const SizedBox(height: 32),
               ConstrainedBox(
                 constraints: const BoxConstraints(
@@ -75,10 +84,12 @@ class _LinkFormState extends State<LinkForm> {
                         ? widget.link.copyWith(
                             uri: _uriController.text,
                             verb: _selectedVerb,
+                            dueDate: _selectedDueDate,
                           )
                         : Link.todo(
                             uri: _uriController.text,
                             verb: _selectedVerb,
+                            dueDate: _selectedDueDate,
                           );
                     widget.onSubmit(link);
                   },
@@ -90,5 +101,48 @@ class _LinkFormState extends State<LinkForm> {
             ],
           ),
         ),
+      );
+}
+
+class SelectDueDateButtonFormField extends StatelessWidget {
+  const SelectDueDateButtonFormField({
+    Key key,
+    @required this.dueDate,
+    @required this.onSelected,
+  }) : super(key: key);
+
+  final DateTime dueDate;
+  final Function(DateTime) onSelected;
+
+  @override
+  Widget build(BuildContext context) => FlatButtonFormField<DateTime>(
+        value: dueDate,
+        onPressed: (olddueDate) async {
+          final now = DateTime.now();
+          final dueDate = await showDatePicker(
+            context: context,
+            initialDate: this.dueDate ?? now,
+            firstDate: DateTime(now.year >= 1 ? now.year - 1 : 0),
+            lastDate: DateTime(now.year + 1),
+          );
+          if (dueDate == null) {
+            return olddueDate;
+          }
+
+          if (onSelected != null) {
+            onSelected(dueDate);
+          }
+          return dueDate;
+        },
+        labelBuilder: (dueDate) =>
+            dueDate != null ? 'Due date' : 'Select due date',
+        builder: (dueDate) {
+          if (dueDate == null) {
+            return null;
+          }
+
+          final local = dueDate.toLocal();
+          return Text('${local.year}/${local.month}/${local.day}');
+        },
       );
 }
