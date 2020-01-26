@@ -107,9 +107,8 @@ class VerbBloc {
 
   void _invokeSearch(String query) => _searchedVerbsController.add(
         _verbs
-            .where((verb) =>
-                query.isNotEmpty &&
-                verb.base.toLowerCase().contains(query.toLowerCase()))
+            .where(
+                (verb) => verb.base.toLowerCase().contains(query.toLowerCase()))
             .toList(),
       );
 
