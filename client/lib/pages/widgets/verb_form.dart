@@ -91,10 +91,12 @@ class SelectVerbButtonFormField extends StatelessWidget {
   const SelectVerbButtonFormField({
     Key key,
     this.verb,
+    this.validator,
     this.onSelected,
   }) : super(key: key);
 
   final Verb verb;
+  final String Function(Verb) validator;
   final Function(Verb) onSelected;
 
   @override
@@ -115,6 +117,7 @@ class SelectVerbButtonFormField extends StatelessWidget {
           }
           return verb;
         },
+        validator: validator,
         labelBuilder: (verb) => verb != null ? 'Verb' : 'Select verb',
         builder: (verb) => verb != null ? Text(verb.base) : null,
       );
