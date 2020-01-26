@@ -1,5 +1,6 @@
 import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/search_verbs_page.dart';
+import 'package:coffee_break/pages/widgets/flat_button_form_field.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -86,7 +87,7 @@ class _VerbFormState extends State<VerbForm> {
       );
 }
 
-class SelectVerbButtonFormField extends StatefulWidget {
+class SelectVerbButtonFormField extends StatelessWidget {
   const SelectVerbButtonFormField({
     Key key,
     this.verb,
@@ -97,49 +98,24 @@ class SelectVerbButtonFormField extends StatefulWidget {
   final Function(Verb) onSelected;
 
   @override
-  _SelectVerbButtonFormFieldState createState() =>
-      _SelectVerbButtonFormFieldState();
-}
-
-class _SelectVerbButtonFormFieldState extends State<SelectVerbButtonFormField> {
-  Verb _verb;
-
-  @override
-  void initState() {
-    super.initState();
-    _verb = widget.verb;
-  }
-
-  @override
-  Widget build(BuildContext context) => FlatButton(
-        padding: const EdgeInsets.all(0),
-        splashColor: Colors.transparent,
-        onPressed: () async {
+  Widget build(BuildContext context) => FlatButtonFormField<Verb>(
+        value: verb,
+        onPressed: (oldVerb) async {
           final verb = await showSearch(
             context: context,
             delegate: SearchVerbsPage(),
-            query: _verb != null ? _verb.base : '',
+            query: oldVerb != null ? oldVerb.base : '',
           );
           if (verb == null) {
-            return;
+            return oldVerb;
           }
 
-          setState(() => _verb = verb);
-          if (widget.onSelected != null) {
-            widget.onSelected(_verb);
+          if (onSelected != null) {
+            onSelected(verb);
           }
+          return verb;
         },
-        child: FormField<Verb>(
-          builder: (state) {
-            return InputDecorator(
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: _verb != null ? 'Verb' : 'Select verb',
-              ),
-              isEmpty: _verb == null,
-              child: _verb != null ? Text(_verb.base) : null,
-            );
-          },
-        ),
+        labelBuilder: (verb) => verb != null ? 'Verb' : 'Select verb',
+        builder: (verb) => verb != null ? Text(verb.base) : null,
       );
 }
