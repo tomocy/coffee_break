@@ -1,5 +1,8 @@
 import 'package:coffee_break/domain/models/verb.dart';
 
+String toDueDateString(DateTime dueDate) =>
+    '${dueDate.year}/${dueDate.month}/${dueDate.day}';
+
 class Link {
   Link({
     this.uri,

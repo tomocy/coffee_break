@@ -47,9 +47,13 @@ class LinkTile extends StatelessWidget {
           onTap: () async =>
               await canLaunch(link.uri) ? launch(link.uri) : null,
           title: Text(link.uri),
-          subtitle: link.isDone
-              ? Text(link.verb.pastParticle)
-              : Text(link.verb.infinitive),
+          subtitle: Row(
+            children: [
+              _buildVerb(context),
+              const SizedBox(width: 5),
+              _buildDueDate(context),
+            ],
+          ),
           trailing: PopupMenuButton<LinkTileActions>(
             onSelected: (action) {
               switch (action) {
@@ -82,6 +86,17 @@ class LinkTile extends StatelessWidget {
           ),
         ),
       );
+
+  Widget _buildVerb(BuildContext context) =>
+      link.isDone ? Text(link.verb.pastParticle) : Text(link.verb.infinitive);
+
+  Widget _buildDueDate(BuildContext context) {
+    if (link.dueDate == null || link.isDone) {
+      return Container();
+    }
+
+    return Text('due ${toDueDateString(link.dueDate)}');
+  }
 }
 
 enum LinkTileActions { delete, edit }
