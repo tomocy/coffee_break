@@ -28,6 +28,9 @@ class LinkBloc {
 
   Stream<List<Link>> get links => _linksController.stream;
 
+  Stream<List<Link>> get todayLinks =>
+      links.map((links) => links.where((link) => link.isDueToday).toList());
+
   Stream<List<Link>> get todoLinks =>
       links.map((links) => links.where((link) => !link.isDone).toList());
 
