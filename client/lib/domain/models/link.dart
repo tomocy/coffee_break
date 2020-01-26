@@ -57,6 +57,17 @@ class Link {
         done: done ?? isDone,
       );
 
+  bool get isToday {
+    if (dueDate == null) {
+      return false;
+    }
+
+    final now = DateTime.now();
+    return dueDate.year == now.year &&
+        dueDate.month == now.month &&
+        dueDate.day == now.day;
+  }
+
   @override
   bool operator ==(dynamic other) =>
       other is Link &&
