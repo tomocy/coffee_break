@@ -54,6 +54,8 @@ class _VerbFormState extends State<VerbForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Base form',
                 ),
+                validator: (base) =>
+                    base.isEmpty ? 'Please enter base form.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -62,6 +64,9 @@ class _VerbFormState extends State<VerbForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Past particle form',
                 ),
+                validator: (pastParticle) => pastParticle.isEmpty
+                    ? 'Please enter past particle form.'
+                    : null,
               ),
               const SizedBox(height: 16),
               ConstrainedBox(
@@ -70,6 +75,10 @@ class _VerbFormState extends State<VerbForm> {
                 ),
                 child: FlatButton.icon(
                   onPressed: () {
+                    if (!_formKey.currentState.validate()) {
+                      return;
+                    }
+
                     final verb = Verb(
                       _baseController.text,
                       _pastParticleController.text,
