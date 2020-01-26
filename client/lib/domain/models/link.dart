@@ -57,7 +57,7 @@ class Link {
         done: done ?? isDone,
       );
 
-  bool get isToday {
+  bool get isDueToday {
     if (dueDate == null) {
       return false;
     }
