@@ -44,6 +44,21 @@ class Page extends StatelessWidget {
                   child: ListView(
                     children: <Widget>[
                       ListTile(
+                        title: const Text('Today'),
+                        onTap: () {
+                          Navigator.pop(context);
+
+                          if (type == PageType.today) {
+                            return;
+                          }
+
+                          Navigator.pushNamed(
+                            context,
+                            routes[PageType.today],
+                          );
+                        },
+                      ),
+                      ListTile(
                         title: const Text('Todo'),
                         onTap: () {
                           Navigator.pop(context);

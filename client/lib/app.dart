@@ -3,6 +3,7 @@ import 'package:coffee_break/domain/models/settings.dart';
 import 'package:coffee_break/pages/done_links_page.dart';
 import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/settings_page.dart';
+import 'package:coffee_break/pages/today_links_page.dart';
 import 'package:coffee_break/pages/todo_links_page.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class App extends StatelessWidget {
               darkTheme: dark(),
               initialRoute: routes[PageType.todo],
               routes: {
+                routes[PageType.today]: (_) => const TodayLinksPage(),
                 routes[PageType.todo]: (context) => const TodoLinksPage(),
                 routes[PageType.done]: (context) => const DoneLinksPage(),
                 routes[PageType.settings]: (context) => const SettingsPage(),
