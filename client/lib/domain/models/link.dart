@@ -5,6 +5,7 @@ class Link {
     this.uri,
     this.verb = const Verb('do', 'done'),
     DateTime createdAt,
+    this.dueDateTime,
     bool done,
   })  : createdAt = createdAt ?? DateTime.now(),
         isDone = done;
@@ -13,10 +14,12 @@ class Link {
     String uri,
     Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
+    DateTime dueDateTime,
   }) : this(
           uri: uri,
           verb: verb,
           createdAt: createdAt,
+          dueDateTime: dueDateTime,
           done: false,
         );
 
@@ -24,16 +27,19 @@ class Link {
     String uri,
     Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
+    DateTime dueDateTime,
   }) : this(
           uri: uri,
           verb: verb,
           createdAt: createdAt,
+          dueDateTime: dueDateTime,
           done: true,
         );
 
   final String uri;
   final Verb verb;
   final DateTime createdAt;
+  final DateTime dueDateTime;
   bool isDone;
 
   Link copyWith({
