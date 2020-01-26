@@ -10,12 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 const routes = <PageType, String>{
+  PageType.today: '/today',
   PageType.todo: '/todo',
   PageType.done: '/done',
   PageType.settings: '/settings',
 };
 
-enum PageType { todo, done, settings }
+enum PageType { today, todo, done, settings }
 
 class Page extends StatelessWidget {
   const Page({
