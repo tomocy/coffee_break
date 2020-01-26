@@ -1,5 +1,3 @@
-import 'package:coffee_break/domain/models/verb.dart';
-import 'package:coffee_break/pages/search_verbs_page.dart';
 import 'package:flutter/material.dart';
 
 class FlatButtonFormField<T> extends StatefulWidget {
@@ -7,6 +5,7 @@ class FlatButtonFormField<T> extends StatefulWidget {
     Key key,
     this.value,
     @required this.onPressed,
+    this.validator,
     @required this.labelBuilder,
     @required this.builder,
   })  : assert(onPressed != null),
@@ -16,6 +15,7 @@ class FlatButtonFormField<T> extends StatefulWidget {
 
   final T value;
   final Future<T> Function(T) onPressed;
+  final String Function(T) validator;
   final String Function(T) labelBuilder;
   final Widget Function(T) builder;
 
@@ -41,11 +41,14 @@ class _FlatButtonFormFieldState<T> extends State<FlatButtonFormField<T>> {
           setState(() => _value = value);
         },
         child: FormField<T>(
+          validator:
+              widget.validator != null ? (_) => widget.validator(_value) : null,
           builder: (state) {
             return InputDecorator(
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: widget.labelBuilder(_value),
+                errorText: state.errorText,
               ),
               isEmpty: _value == null,
               child: widget.builder(_value),
