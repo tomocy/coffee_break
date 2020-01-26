@@ -59,8 +59,11 @@ class Link {
 
   @override
   bool operator ==(dynamic other) =>
-      other is Link && other.uri == uri && other.verb == verb;
+      other is Link &&
+      other.uri == uri &&
+      other.verb == verb &&
+      other.dueDate == dueDate;
 
   @override
-  int get hashCode => uri.hashCode + verb.hashCode;
+  int get hashCode => uri.hashCode + verb.hashCode + dueDate.hashCode;
 }
