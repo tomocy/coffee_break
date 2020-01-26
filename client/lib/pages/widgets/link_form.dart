@@ -61,10 +61,8 @@ class _LinkFormState extends State<LinkForm> {
               const SizedBox(height: 16),
               SelectVerbButtonFormField(
                 verb: _selectedVerb,
-                validator: (verb) {
-                  print(verb);
-                  return verb == null ? 'Please select verb.' : null;
-                },
+                validator: (verb) =>
+                    verb == null ? 'Please select verb.' : null,
                 onSelected: (verb) => setState(() => _selectedVerb = verb),
               ),
               const SizedBox(height: 16),
