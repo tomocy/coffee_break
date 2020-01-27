@@ -14,18 +14,54 @@ ListView buildLinkListView({
       itemCount: links.length,
       itemBuilder: (_, i) => LinkTile(
         key: Key('${linkKeyPrefix}_${links[i].uri}'),
+        onMarked: () {},
         link: links[i],
       ),
     );
 
+class LinkListView extends StatefulWidget {
+  const LinkListView({
+    Key key,
+    this.links = const [],
+  }) : super(key: key);
+
+  final List<Link> links;
+
+  @override
+  _LinkListViewState createState() => _LinkListViewState();
+}
+
+class _LinkListViewState extends State<LinkListView> {
+  List<Link> _links;
+
+  @override
+  void initState() {
+    super.initState();
+    _links = widget.links;
+  }
+
+  @override
+  Widget build(BuildContext context) => ListView.builder(
+        itemCount: _links.length,
+        itemBuilder: (_, i) => LinkTile(
+          key: Key(_links[i].uri),
+          onMarked: () => setState(() => _links.removeAt(i)),
+          link: _links[i],
+        ),
+      );
+}
+
 class LinkTile extends StatelessWidget {
   const LinkTile({
     @required Key key,
+    @required this.onMarked,
     @required this.link,
   })  : assert(key != null),
+        assert(onMarked != null),
         assert(link != null),
         super(key: key);
 
+  final VoidCallback onMarked;
   final Link link;
 
   @override
@@ -37,6 +73,8 @@ class LinkTile extends StatelessWidget {
             context,
             listen: false,
           ).save.add(link);
+
+          onMarked();
         },
         background: MarkedLinkTileBackground(link: link),
         secondaryBackground: MarkedLinkTileBackground(
