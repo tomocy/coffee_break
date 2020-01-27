@@ -21,8 +21,11 @@ class SearchLinksPage extends SearchDelegate<String> {
               return child;
             }
 
-            return LinkListView(
-              links: snapshot.data,
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (_, i) => LinkTile(
+                link: snapshot.data[i],
+              ),
             );
           },
         ),

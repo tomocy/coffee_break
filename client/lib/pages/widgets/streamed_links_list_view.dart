@@ -49,7 +49,7 @@ class StreamedLinksListView extends StatelessWidget {
         ).fetch.add(null),
         child: ListView.builder(
           itemCount: links.length,
-          itemBuilder: (_, i) => LinkTile(
+          itemBuilder: (_, i) => MarkableLinkTile(
             key: Key('${links[i].uri}'),
             onMarked: () {},
             link: links[i],
