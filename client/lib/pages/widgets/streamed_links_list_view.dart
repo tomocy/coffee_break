@@ -31,7 +31,6 @@ class StreamedLinksListView extends StatelessWidget {
 
             return _buildFetchableLinkListView(
               context,
-              linkKeyPrefix: linkKeyPrefix,
               links: snapshot.data,
             );
           },
@@ -41,7 +40,6 @@ class StreamedLinksListView extends StatelessWidget {
 
   Widget _buildFetchableLinkListView(
     BuildContext context, {
-    String linkKeyPrefix,
     List<Link> links = const [],
   }) =>
       Refreshable(
@@ -49,8 +47,13 @@ class StreamedLinksListView extends StatelessWidget {
           context,
           listen: false,
         ).fetch.add(null),
-        child: buildLinkListView(
-          links: links,
+        child: ListView.builder(
+          itemCount: links.length,
+          itemBuilder: (_, i) => LinkTile(
+            key: Key('${links[i].uri}'),
+            onMarked: () {},
+            link: links[i],
+          ),
         ),
       );
 }

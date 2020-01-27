@@ -6,19 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-ListView buildLinkListView({
-  String linkKeyPrefix,
-  List<Link> links = const [],
-}) =>
-    ListView.builder(
-      itemCount: links.length,
-      itemBuilder: (_, i) => LinkTile(
-        key: Key('${linkKeyPrefix}_${links[i].uri}'),
-        onMarked: () {},
-        link: links[i],
-      ),
-    );
-
 class LinkListView extends StatefulWidget {
   const LinkListView({
     Key key,
