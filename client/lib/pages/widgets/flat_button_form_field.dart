@@ -43,17 +43,15 @@ class _FlatButtonFormFieldState<T> extends State<FlatButtonFormField<T>> {
         child: FormField<T>(
           validator:
               widget.validator != null ? (_) => widget.validator(_value) : null,
-          builder: (state) {
-            return InputDecorator(
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: widget.labelBuilder(_value),
-                errorText: state.errorText,
-              ),
-              isEmpty: _value == null,
-              child: widget.builder(_value),
-            );
-          },
+          builder: (state) => InputDecorator(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: widget.labelBuilder(_value),
+              errorText: state.errorText,
+            ),
+            isEmpty: _value == null,
+            child: widget.builder(_value),
+          ),
         ),
       );
 }
