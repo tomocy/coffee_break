@@ -229,5 +229,5 @@ class Page extends StatelessWidget {
 
 void showSnackBar(BuildContext context, SnackBar snackbar) =>
     WidgetsBinding.instance.addPostFrameCallback((_) => Scaffold.of(context)
-      ..hideCurrentSnackBar()
+      ..removeCurrentSnackBar()
       ..showSnackBar(snackbar));
