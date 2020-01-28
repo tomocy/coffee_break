@@ -51,7 +51,6 @@ class _LinkFormState extends State<LinkForm> {
             children: [
               TextFormField(
                 controller: _uriController,
-                autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'URI',
