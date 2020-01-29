@@ -53,7 +53,7 @@ class LinkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
         onTap: () async => await canLaunch(link.uri) ? launch(link.uri) : null,
-        title: Text(link.uri),
+        title: Text(link.title),
         subtitle: Row(
           children: [
             _buildVerb(context),
