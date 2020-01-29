@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/edit_verb_page.dart';
+import 'package:coffee_break/pages/widgets/fade_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,8 +32,11 @@ class VerbTile extends StatelessWidget {
               case VerbTileActions.edit:
                 Navigator.push(
                   context,
-                  MaterialPageRoute<EditVerbPage>(
-                    builder: (_) => EditVerbPage(verb: verb),
+                  FadePageRoute<EditVerbPage>(
+                    builder: (_, animation, __) => EditVerbPage(
+                      animation: animation,
+                      verb: verb,
+                    ),
                   ),
                 );
                 break;
