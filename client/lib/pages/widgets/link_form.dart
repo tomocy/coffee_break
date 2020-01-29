@@ -1,9 +1,12 @@
+import 'package:coffee_break/blocs/open_graph_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
+import 'package:coffee_break/domain/models/open_graph.dart';
 import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/widgets/flat_button_form_field.dart';
 import 'package:coffee_break/pages/widgets/verb_form.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LinkForm extends StatefulWidget {
   const LinkForm({
@@ -24,6 +27,7 @@ class LinkForm extends StatefulWidget {
 class _LinkFormState extends State<LinkForm> {
   final _formKey = GlobalKey<FormState>();
   final _uriController = TextEditingController();
+  final _titleController = TextEditingController();
   Verb _selectedVerb;
   DateTime _selectedDueDate;
 
@@ -31,6 +35,7 @@ class _LinkFormState extends State<LinkForm> {
   void initState() {
     super.initState();
     _uriController.text = widget.link?.uri;
+    _titleController.text = widget.link?.title;
     _selectedVerb = widget.link?.verb;
     _selectedDueDate = widget.link?.dueDate;
   }
@@ -38,6 +43,7 @@ class _LinkFormState extends State<LinkForm> {
   @override
   void dispose() {
     _uriController.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -55,7 +61,36 @@ class _LinkFormState extends State<LinkForm> {
                   border: OutlineInputBorder(),
                   labelText: 'URI',
                 ),
+                onChanged: (uri) =>
+                    Provider.of<OpenGraphBloc>(context, listen: false)
+                        .fetch
+                        .add(uri),
                 validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
+              ),
+              const SizedBox(height: 16),
+              Consumer<OpenGraphBloc>(
+                builder: (_, bloc, child) => StreamBuilder<OpenGraph>(
+                  stream: bloc.openGraph,
+                  builder: (_, snapshot) {
+                    if (!snapshot.hasData || _titleController.text.isNotEmpty) {
+                      return child;
+                    }
+
+                    WidgetsBinding.instance.addPostFrameCallback(
+                        (_) => _titleController.text = snapshot.data.title);
+
+                    return child;
+                  },
+                ),
+                child: TextFormField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Title',
+                  ),
+                  validator: (title) =>
+                      title.isEmpty ? 'Please enter title.' : null,
+                ),
               ),
               const SizedBox(height: 16),
               SelectVerbButtonFormField(
@@ -84,11 +119,13 @@ class _LinkFormState extends State<LinkForm> {
                     final link = widget.link != null
                         ? widget.link.copyWith(
                             uri: _uriController.text,
+                            title: _titleController.text,
                             verb: _selectedVerb,
                             dueDate: _selectedDueDate,
                           )
                         : Link.todo(
                             uri: _uriController.text,
+                            title: _titleController.text,
                             verb: _selectedVerb,
                             dueDate: _selectedDueDate,
                           );
