@@ -42,6 +42,9 @@ class SearchVerbsPage extends SearchDelegate<Verb> {
                     builder: (_) => const AddVerbPage(),
                   ),
                 );
+                if (verb == null) {
+                  return;
+                }
 
                 query = verb.base;
               },
