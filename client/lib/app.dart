@@ -1,10 +1,10 @@
 import 'package:coffee_break/blocs/settings_bloc.dart';
 import 'package:coffee_break/domain/models/settings.dart';
 import 'package:coffee_break/pages/done_links_page.dart';
-import 'package:coffee_break/pages/page.dart';
 import 'package:coffee_break/pages/settings_page.dart';
 import 'package:coffee_break/pages/today_links_page.dart';
 import 'package:coffee_break/pages/todo_links_page.dart';
+import 'package:coffee_break/pages/widgets/page_scaffold.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

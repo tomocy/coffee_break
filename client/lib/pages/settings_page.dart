@@ -1,6 +1,6 @@
 import 'package:coffee_break/blocs/settings_bloc.dart';
 import 'package:coffee_break/domain/models/settings.dart';
-import 'package:coffee_break/pages/page.dart';
+import 'package:coffee_break/pages/widgets/page_scaffold.dart';
 import 'package:coffee_break/pages/widgets/setting_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Page(
+  Widget build(BuildContext context) => PageScaffold(
         type: PageType.settings,
         title: 'Settings',
         body: Consumer<SettingsBloc>(
@@ -22,7 +22,7 @@ class SettingsPage extends StatelessWidget {
               }
 
               return ListView(
-                children: <Widget>[
+                children: [
                   SettingTile(
                     title: 'Theme',
                     onChanged: (theme) {

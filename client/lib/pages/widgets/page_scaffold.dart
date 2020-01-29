@@ -1,13 +1,6 @@
-import 'package:coffee_break/blocs/link_bloc.dart';
-import 'package:coffee_break/domain/models/link.dart';
-import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/pages/add_link_page.dart';
 import 'package:coffee_break/pages/search_links_page.dart';
-import 'package:coffee_break/pages/widgets/retry_snack_bar_action.dart';
-import 'package:coffee_break/pages/widgets/stream_handler.dart';
-import 'package:coffee_break/pages/widgets/undo_snack_bar_action.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 const routes = <PageType, String>{
   PageType.today: '/today',
@@ -18,8 +11,8 @@ const routes = <PageType, String>{
 
 enum PageType { today, todo, done, settings }
 
-class Page extends StatelessWidget {
-  const Page({
+class PageScaffold extends StatelessWidget {
+  const PageScaffold({
     Key key,
     @required this.type,
     @required this.title,
@@ -39,10 +32,10 @@ class Page extends StatelessWidget {
           elevation: 1,
           child: SafeArea(
             child: Column(
-              children: <Widget>[
+              children: [
                 Expanded(
                   child: ListView(
-                    children: <Widget>[
+                    children: [
                       ListTile(
                         title: const Text('Today'),
                         onTap: () {
@@ -133,97 +126,7 @@ class Page extends StatelessWidget {
           ),
         ),
         drawerScrimColor: Colors.transparent,
-        body: _buildStreamHandlers(
-          context,
-          SafeArea(child: body),
-        ),
-      );
-
-  Widget _buildStreamHandlers(BuildContext context, Widget child) =>
-      MultiStreamHandler(
-        handlers: [
-          StreamHandler<List<Link>>(
-            stream: Provider.of<LinkBloc>(
-              context,
-              listen: false,
-            ).links,
-            onError: (context, error) => showSnackBar(
-              context,
-              SnackBar(
-                action: RetrySnackBarAction(
-                  onPressed: () => Provider.of<LinkBloc>(
-                    context,
-                    listen: false,
-                  ).fetch.add(null),
-                ),
-                content: Text(error.toString()),
-              ),
-            ),
-          ),
-          StreamHandler<void>(
-            stream: Provider.of<LinkBloc>(
-              context,
-              listen: false,
-            ).saved,
-            onError: (context, error) {
-              if (error is! LinkRepositorySaveException) {
-                return;
-              }
-
-              final saveError = error as LinkRepositorySaveException;
-              showSnackBar(
-                context,
-                SnackBar(
-                  action: RetrySnackBarAction(
-                    onPressed: () => Provider.of<LinkBloc>(
-                      context,
-                      listen: false,
-                    ).save.add(saveError.link),
-                  ),
-                  content: Text(error.toString()),
-                ),
-              );
-            },
-          ),
-          StreamHandler<Link>(
-            stream: Provider.of<LinkBloc>(
-              context,
-              listen: false,
-            ).deleted,
-            onData: (context, link) => showSnackBar(
-              context,
-              SnackBar(
-                action: UndoSnackBarAction(
-                  onPressed: () => Provider.of<LinkBloc>(
-                    context,
-                    listen: false,
-                  ).save.add(link),
-                ),
-                content: const Text('Link was deleted.'),
-              ),
-            ),
-            onError: (context, error) {
-              if (error is! LinkRepositoryDeleteException) {
-                return;
-              }
-
-              final deleteError = error as LinkRepositoryDeleteException;
-              showSnackBar(
-                context,
-                SnackBar(
-                  action: RetrySnackBarAction(
-                    onPressed: () => Provider.of<LinkBloc>(
-                      context,
-                      listen: false,
-                    ).delete.add(deleteError.link),
-                  ),
-                  content: Text(error.toString()),
-                ),
-              );
-            },
-          ),
-        ],
-        child: child,
+        body: SafeArea(child: body),
       );
 }
 
