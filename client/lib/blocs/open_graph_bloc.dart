@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:coffee_break/domain/models/open_graph.dart';
 import 'package:coffee_break/domain/resources/open_graph_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OpenGraphBloc {
   OpenGraphBloc(this._repository) {
@@ -16,6 +17,10 @@ class OpenGraphBloc {
   Sink<String> get fetch => _fetchController.sink;
 
   Future<void> _invokeFetch(String uri) async {
+    if (!await canLaunch(uri)) {
+      return;
+    }
+
     try {
       final openGraph = await _repository.fetch(uri);
       _openGraphController.add(openGraph);
