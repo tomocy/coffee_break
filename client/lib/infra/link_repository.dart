@@ -8,11 +8,13 @@ class MockLinkRepository extends Mock implements LinkRepository {
   final _links = <Link>[
     Link.todo(
       uri: 'https://twitter.com/towocy',
+      title: 'Twitter',
       createdAt: DateTime(2020, 1, 1),
       dueDate: DateTime.now(),
     ),
     Link.todo(
       uri: 'https://github.com/tomocy',
+      title: 'GitHub',
       createdAt: DateTime(2020, 1, 11),
     ),
   ];
