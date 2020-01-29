@@ -90,9 +90,7 @@ class PageScaffold extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute<AddLinkPage>(
-                        builder: (_) => const AddLinkPage(),
-                      ),
+                      AddLinkPageRoute(),
                     );
                   },
                 ),
