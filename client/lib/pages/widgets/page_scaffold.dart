@@ -45,7 +45,7 @@ class PageScaffold extends StatelessWidget {
                             return;
                           }
 
-                          Navigator.pushNamed(
+                          Navigator.pushReplacementNamed(
                             context,
                             routes[PageType.today],
                           );
@@ -60,7 +60,7 @@ class PageScaffold extends StatelessWidget {
                             return;
                           }
 
-                          Navigator.pushNamed(
+                          Navigator.pushReplacementNamed(
                             context,
                             routes[PageType.todo],
                           );
@@ -75,7 +75,7 @@ class PageScaffold extends StatelessWidget {
                             return;
                           }
 
-                          Navigator.pushNamed(
+                          Navigator.pushReplacementNamed(
                             context,
                             routes[PageType.done],
                           );
@@ -115,7 +115,7 @@ class PageScaffold extends StatelessWidget {
                       return;
                     }
 
-                    Navigator.pushNamed(
+                    Navigator.pushReplacementNamed(
                       context,
                       routes[PageType.settings],
                     );
