@@ -9,12 +9,66 @@ import 'package:coffee_break/pages/widgets/stream_handler.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:provider/provider.dart';
 
+class AddLinkPageRoute extends PageRoute<AddLinkPage> {
+  @override
+  Color get barrierColor => null;
+
+  @override
+  String get barrierLabel => null;
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 300);
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    return AddLinkPage(
+      animation: animation,
+    );
+  }
+}
+
 class AddLinkPage extends StatelessWidget {
-  const AddLinkPage({Key key}) : super(key: key);
+  const AddLinkPage({
+    Key key,
+    @required this.animation,
+  }) : super(key: key);
+
+  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Add link')),
+        appBar: AppBar(
+          leading: Navigator.canPop(context)
+              ? IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: AnimatedIcon(
+                    progress: animation,
+                    icon: AnimatedIcons.menu_arrow,
+                  ),
+                )
+              : null,
+          title: const Text('Add link'),
+        ),
         body: _buildStreamHandlers(
           context,
           SafeArea(
