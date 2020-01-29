@@ -1,5 +1,6 @@
 import 'package:coffee_break/pages/add_link_page.dart';
 import 'package:coffee_break/pages/search_links_page.dart';
+import 'package:coffee_break/pages/widgets/fade_page_route.dart';
 import 'package:flutter/material.dart';
 
 const routes = <PageType, String>{
@@ -90,7 +91,10 @@ class PageScaffold extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      AddLinkPageRoute(),
+                      FadePageRoute<AddLinkPage>(
+                        builder: (_, animation, __) =>
+                            AddLinkPage(animation: animation),
+                      ),
                     );
                   },
                 ),
