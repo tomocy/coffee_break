@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/link_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/pages/edit_link_page.dart';
+import 'package:coffee_break/pages/widgets/fade_page_route.dart';
 import 'package:coffee_break/pages/widgets/marked_link_tile_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -72,8 +73,11 @@ class LinkTile extends StatelessWidget {
               case LinkTileActions.edit:
                 Navigator.push(
                   context,
-                  MaterialPageRoute<EditLinkPage>(
-                    builder: (_) => EditLinkPage(link: link),
+                  FadePageRoute<EditLinkPage>(
+                    builder: (_, animation, __) => EditLinkPage(
+                      animation: animation,
+                      link: link,
+                    ),
                   ),
                 );
                 break;
