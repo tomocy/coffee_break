@@ -6,6 +6,7 @@ String toDueDateString(DateTime dueDate) =>
 class Link {
   Link({
     this.uri,
+    this.title,
     this.verb = const Verb('do', 'done'),
     DateTime createdAt,
     this.dueDate,
@@ -15,11 +16,13 @@ class Link {
 
   Link.todo({
     String uri,
+    String title,
     Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
     DateTime dueDate,
   }) : this(
           uri: uri,
+          title: title,
           verb: verb,
           createdAt: createdAt,
           dueDate: dueDate,
@@ -28,11 +31,13 @@ class Link {
 
   Link.done({
     String uri,
+    String title,
     Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
     DateTime dueDate,
   }) : this(
           uri: uri,
+          title: title,
           verb: verb,
           createdAt: createdAt,
           dueDate: dueDate,
@@ -40,6 +45,7 @@ class Link {
         );
 
   final String uri;
+  final String title;
   final Verb verb;
   final DateTime createdAt;
   final DateTime dueDate;
@@ -47,6 +53,7 @@ class Link {
 
   Link copyWith({
     String uri,
+    String title,
     Verb verb,
     DateTime createdAt,
     DateTime dueDate,
@@ -54,6 +61,7 @@ class Link {
   }) =>
       Link(
         uri: uri ?? this.uri,
+        title: title ?? this.title,
         verb: verb ?? this.verb,
         createdAt: createdAt ?? this.createdAt,
         dueDate: dueDate ?? this.dueDate,
