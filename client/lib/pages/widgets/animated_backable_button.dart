@@ -4,7 +4,8 @@ class AnimatedBackableButton extends StatelessWidget {
   const AnimatedBackableButton({
     Key key,
     @required this.animation,
-  }) : super(key: key);
+  })  : assert(animation != null),
+        super(key: key);
 
   final Animation<double> animation;
 
