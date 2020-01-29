@@ -16,7 +16,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<SettingsBloc>(
         builder: (_, bloc, child) => StreamBuilder<Settings>(
           stream: bloc.settings,
-          builder: (context, snapshot) {
+          builder: (_, snapshot) {
             if (!snapshot.hasData) {
               bloc.fetch.add(null);
               return child;
@@ -29,9 +29,9 @@ class App extends StatelessWidget {
               initialRoute: routes[PageType.todo],
               routes: {
                 routes[PageType.today]: (_) => const TodayLinksPage(),
-                routes[PageType.todo]: (context) => const TodoLinksPage(),
-                routes[PageType.done]: (context) => const DoneLinksPage(),
-                routes[PageType.settings]: (context) => const SettingsPage(),
+                routes[PageType.todo]: (_) => const TodoLinksPage(),
+                routes[PageType.done]: (_) => const DoneLinksPage(),
+                routes[PageType.settings]: (_) => const SettingsPage(),
               },
             );
           },
