@@ -1,6 +1,7 @@
 import 'package:coffee_break/blocs/verb_bloc.dart';
 import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/add_verb_page.dart';
+import 'package:coffee_break/pages/widgets/fade_page_route.dart';
 import 'package:coffee_break/pages/widgets/verb_tile.dart';
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:coffee_break/pages/widgets/search_delegate.dart';
@@ -38,8 +39,10 @@ class SearchVerbsPage extends SearchDelegate<Verb> {
               onTap: () async {
                 final verb = await Navigator.push<Verb>(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const AddVerbPage(),
+                  FadePageRoute(
+                    builder: (_, animation, __) => AddVerbPage(
+                      animation: animation,
+                    ),
                   ),
                 );
                 if (verb == null) {
