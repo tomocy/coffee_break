@@ -9,14 +9,11 @@ abstract class VerbRepository {
 }
 
 class VerbRepositoryFetchException extends VerbRepositoryException {
-  const VerbRepositoryFetchException([String message]) : super(message);
+  const VerbRepositoryFetchException() : super('failed to fetch verbs');
 }
 
 class VerbRepositorySaveException extends VerbRepositoryException {
-  const VerbRepositorySaveException(
-    this.verb, [
-    String message,
-  ]) : super(message);
+  const VerbRepositorySaveException(this.verb) : super('failed to save verb');
 
   final Verb verb;
 }
@@ -24,19 +21,16 @@ class VerbRepositorySaveException extends VerbRepositoryException {
 class VerbRepositoryUpdateException extends VerbRepositoryException {
   const VerbRepositoryUpdateException(
     this.oldVerb,
-    this.newVerb, [
-    String message,
-  ]) : super(message);
+    this.newVerb,
+  ) : super('failed to update verb');
 
   final Verb oldVerb;
   final Verb newVerb;
 }
 
 class VerbRepositoryDeleteException extends VerbRepositoryException {
-  const VerbRepositoryDeleteException(
-    this.verb, [
-    String message,
-  ]) : super(message);
+  const VerbRepositoryDeleteException(this.verb)
+      : super('failed to delete verb');
 
   final Verb verb;
 }

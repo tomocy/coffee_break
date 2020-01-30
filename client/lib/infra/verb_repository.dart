@@ -10,9 +10,8 @@ class MockVerbRepository extends Mock implements VerbRepository {
   ];
 
   @override
-  Future<List<Verb>> fetch() async => !doFail
-      ? _verbs
-      : throw const VerbRepositoryFetchException('failed to fetch verbs');
+  Future<List<Verb>> fetch() async =>
+      !doFail ? _verbs : throw const VerbRepositoryFetchException();
 
   @override
   Future<void> update(Verb oldVerb, Verb newVerb) async {
@@ -20,7 +19,6 @@ class MockVerbRepository extends Mock implements VerbRepository {
       throw VerbRepositoryUpdateException(
         oldVerb,
         newVerb,
-        'failed to update verb',
       );
     }
 
@@ -35,14 +33,12 @@ class MockVerbRepository extends Mock implements VerbRepository {
       throw VerbRepositoryUpdateException(
         oldVerb,
         newVerb,
-        'failed to update verb',
       );
     } on VerbRepositoryDeleteException {
       await delete(newVerb);
       throw VerbRepositoryUpdateException(
         oldVerb,
         newVerb,
-        'failed to update verb',
       );
     }
   }
@@ -50,10 +46,7 @@ class MockVerbRepository extends Mock implements VerbRepository {
   @override
   Future<void> save(Verb verb) async {
     if (doFail) {
-      throw VerbRepositorySaveException(
-        verb,
-        'failed to save verb',
-      );
+      throw VerbRepositorySaveException(verb);
     }
 
     _verbs
@@ -62,10 +55,6 @@ class MockVerbRepository extends Mock implements VerbRepository {
   }
 
   @override
-  Future<void> delete(Verb verb) async => !doFail
-      ? _verbs.remove(verb)
-      : throw VerbRepositoryDeleteException(
-          verb,
-          'failed to delete verb',
-        );
+  Future<void> delete(Verb verb) async =>
+      !doFail ? _verbs.remove(verb) : throw VerbRepositoryDeleteException(verb);
 }
