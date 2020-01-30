@@ -7,7 +7,8 @@ abstract class OpenGraphRepository {
 }
 
 class OpenGraphRepositoryFetchException extends OpenGraphRepositoryException {
-  const OpenGraphRepositoryFetchException([String message]) : super(message);
+  const OpenGraphRepositoryFetchException()
+      : super('failed to fetch open graph');
 }
 
 class OpenGraphRepositoryException extends ResourceException {

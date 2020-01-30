@@ -12,6 +12,5 @@ class MockOpenGraphRepository extends Mock implements OpenGraphRepository {
   @override
   Future<OpenGraph> fetch(String uri) async => !doFail
       ? _openGraphs[uri]
-      : throw const OpenGraphRepositoryFetchException(
-          'failed to fetch open graph');
+      : throw const OpenGraphRepositoryFetchException();
 }
