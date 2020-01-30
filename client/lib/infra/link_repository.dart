@@ -20,9 +20,8 @@ class MockLinkRepository extends Mock implements LinkRepository {
   ];
 
   @override
-  Future<List<Link>> fetch() async => !doFail
-      ? _links
-      : throw LinkRepositoryFetchException('failed to fetch links');
+  Future<List<Link>> fetch() async =>
+      !doFail ? _links : throw LinkRepositoryFetchException();
 
   @override
   Future<void> update(Link oldLink, Link newLink) async {
@@ -30,7 +29,6 @@ class MockLinkRepository extends Mock implements LinkRepository {
       throw LinkRepositoryUpdateException(
         oldLink,
         newLink,
-        'failed to update link',
       );
     }
     if (oldLink == newLink) {
@@ -51,7 +49,7 @@ class MockLinkRepository extends Mock implements LinkRepository {
   @override
   Future<void> save(Link link) async {
     if (doFail) {
-      throw LinkRepositorySaveException(link, 'failed to save links');
+      throw LinkRepositorySaveException(link);
     }
 
     final i = _links.indexOf(link);
@@ -64,7 +62,6 @@ class MockLinkRepository extends Mock implements LinkRepository {
   }
 
   @override
-  Future<void> delete(Link link) async => !doFail
-      ? _links.remove(link)
-      : throw LinkRepositoryDeleteException(link, 'failed to delete link');
+  Future<void> delete(Link link) async =>
+      !doFail ? _links.remove(link) : throw LinkRepositoryDeleteException(link);
 }

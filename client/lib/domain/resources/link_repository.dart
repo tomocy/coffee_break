@@ -9,34 +9,28 @@ abstract class LinkRepository {
 }
 
 class LinkRepositoryFetchException extends LinkRepositoryException {
-  LinkRepositoryFetchException([String message]) : super(message);
+  LinkRepositoryFetchException() : super('failed to fetch links');
 }
 
 class LinkRepositoryUpdateException extends LinkRepositoryException {
   const LinkRepositoryUpdateException(
     this.oldLink,
-    this.newLink, [
-    String message,
-  ]) : super(message);
+    this.newLink,
+  ) : super('failed to update link');
 
   final Link oldLink;
   final Link newLink;
 }
 
 class LinkRepositorySaveException extends LinkRepositoryException {
-  const LinkRepositorySaveException(
-    this.link, [
-    String message,
-  ]) : super(message);
+  const LinkRepositorySaveException(this.link) : super('failed to save link');
 
   final Link link;
 }
 
 class LinkRepositoryDeleteException extends LinkRepositoryException {
-  const LinkRepositoryDeleteException(
-    this.link, [
-    String message,
-  ]) : super(message);
+  const LinkRepositoryDeleteException(this.link)
+      : super('failed to delete link');
 
   final Link link;
 }
