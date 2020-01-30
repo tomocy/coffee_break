@@ -8,12 +8,11 @@ class MockSettingsRepository implements SettingsRepository {
   final _random = Random();
 
   @override
-  Future<Settings> fetch() async => _random.nextBool()
-      ? _settings
-      : throw SettingsRepositoryFetchException('failed to fetch settings.');
+  Future<Settings> fetch() async =>
+      _random.nextBool() ? _settings : throw SettingsRepositoryFetchException();
 
   @override
   Future<void> save(Settings settings) async => _random.nextBool()
       ? _settings = settings
-      : throw SettingsRepositorySaveException('failed to save settings.');
+      : throw SettingsRepositorySaveException();
 }

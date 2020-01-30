@@ -8,11 +8,11 @@ abstract class SettingsRepository {
 }
 
 class SettingsRepositoryFetchException extends SettingsRepositoryException {
-  SettingsRepositoryFetchException([String message]) : super(message);
+  SettingsRepositoryFetchException() : super('failed to fetch settings');
 }
 
 class SettingsRepositorySaveException extends SettingsRepositoryException {
-  SettingsRepositorySaveException([String message]) : super(message);
+  SettingsRepositorySaveException() : super('failed to save settings');
 }
 
 class SettingsRepositoryException extends ResourceException {
