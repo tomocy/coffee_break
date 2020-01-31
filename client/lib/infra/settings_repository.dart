@@ -2,17 +2,16 @@ import 'dart:math';
 
 import 'package:coffee_break/domain/models/settings.dart';
 import 'package:coffee_break/domain/resources/settings_repository.dart';
+import 'package:coffee_break/infra/mock.dart';
 
-class MockSettingsRepository implements SettingsRepository {
+class MockSettingsRepository extends Mock implements SettingsRepository {
   var _settings = Settings();
-  final _random = Random();
 
   @override
   Future<Settings> fetch() async =>
-      _random.nextBool() ? _settings : throw SettingsRepositoryFetchException();
+      !doFail ? _settings : throw SettingsRepositoryFetchException();
 
   @override
-  Future<void> save(Settings settings) async => _random.nextBool()
-      ? _settings = settings
-      : throw SettingsRepositorySaveException();
+  Future<void> save(Settings settings) async =>
+      !doFail ? _settings = settings : throw SettingsRepositorySaveException();
 }
