@@ -8,11 +8,11 @@ abstract class SettingsRepository {
 }
 
 class SettingsRepositoryFetchException extends SettingsRepositoryException {
-  SettingsRepositoryFetchException() : super('failed to fetch settings');
+  const SettingsRepositoryFetchException() : super('failed to fetch settings');
 }
 
 class SettingsRepositorySaveException extends SettingsRepositoryException {
-  SettingsRepositorySaveException() : super('failed to save settings');
+  const SettingsRepositorySaveException() : super('failed to save settings');
 }
 
 class SettingsRepositoryException extends ResourceException {
