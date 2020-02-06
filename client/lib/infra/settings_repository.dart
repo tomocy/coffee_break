@@ -7,9 +7,10 @@ class MockSettingsRepository extends Mock implements SettingsRepository {
 
   @override
   Future<Settings> fetch() async =>
-      !doFail ? _settings : throw SettingsRepositoryFetchException();
+      !doFail ? _settings : throw const SettingsRepositoryFetchException();
 
   @override
-  Future<void> save(Settings settings) async =>
-      !doFail ? _settings = settings : throw SettingsRepositorySaveException();
+  Future<void> save(Settings settings) async => !doFail
+      ? _settings = settings
+      : throw const SettingsRepositorySaveException();
 }
