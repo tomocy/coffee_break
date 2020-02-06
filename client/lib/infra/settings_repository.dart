@@ -3,14 +3,19 @@ import 'package:coffee_break/domain/resources/settings_repository.dart';
 import 'package:coffee_break/infra/mock.dart';
 
 class MockSettingsRepository extends Mock implements SettingsRepository {
-  var _settings = Settings();
+  MockSettingsRepository({Failer failer, this.settings})
+      : super(failer: failer) {
+    settings ??= Settings();
+  }
+
+  Settings settings;
 
   @override
   Future<Settings> fetch() async =>
-      !doFail ? _settings : throw const SettingsRepositoryFetchException();
+      !doFail ? settings : throw const SettingsRepositoryFetchException();
 
   @override
   Future<void> save(Settings settings) async => !doFail
-      ? _settings = settings
+      ? this.settings = settings
       : throw const SettingsRepositorySaveException();
 }
