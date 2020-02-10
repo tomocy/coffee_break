@@ -3,14 +3,19 @@ import 'package:coffee_break/domain/resources/open_graph_repository.dart';
 import 'package:coffee_break/infra/mock.dart';
 
 class MockOpenGraphRepository extends Mock implements OpenGraphRepository {
-  final _openGraphs = <String, OpenGraph>{
-    'https://github.com': const OpenGraph(title: 'GitHub'),
-    'https://twitter.com':
-        const OpenGraph(title: "Twitter. It's what's happening."),
-  };
+  MockOpenGraphRepository({
+    Failer failer,
+    this.openGraphs = const <String, OpenGraph>{
+      'https://github.com': OpenGraph(title: 'GitHub'),
+      'https://twitter.com':
+          OpenGraph(title: "Twitter. It's what's happening."),
+    },
+  }) : super(failer: failer);
+
+  final Map<String, OpenGraph> openGraphs;
 
   @override
   Future<OpenGraph> fetch(String uri) async => !doFail
-      ? _openGraphs[uri]
+      ? openGraphs[uri]
       : throw const OpenGraphRepositoryFetchException();
 }
