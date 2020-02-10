@@ -3,7 +3,7 @@ import 'package:coffee_break/domain/resources/open_graph_repository.dart';
 import 'package:coffee_break/infra/mock.dart';
 
 class MockOpenGraphRepository extends Mock implements OpenGraphRepository {
-  MockOpenGraphRepository({
+  const MockOpenGraphRepository({
     Failer failer,
     this.openGraphs = const <String, OpenGraph>{
       'https://github.com': OpenGraph(title: 'GitHub'),
