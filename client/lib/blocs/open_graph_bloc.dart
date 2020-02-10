@@ -17,10 +17,6 @@ class OpenGraphBloc {
   Sink<String> get fetch => _fetchController.sink;
 
   Future<void> _invokeFetch(String uri) async {
-    if (!await canLaunch(uri)) {
-      return;
-    }
-
     try {
       final openGraph = await _repository.fetch(uri);
       _openGraphController.add(openGraph);
