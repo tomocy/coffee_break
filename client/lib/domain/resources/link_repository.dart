@@ -9,7 +9,7 @@ abstract class LinkRepository {
 }
 
 class LinkRepositoryFetchException extends LinkRepositoryException {
-  LinkRepositoryFetchException() : super('failed to fetch links');
+  const LinkRepositoryFetchException() : super('failed to fetch links');
 }
 
 class LinkRepositoryUpdateException extends LinkRepositoryException {
