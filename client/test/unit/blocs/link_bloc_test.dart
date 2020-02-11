@@ -132,4 +132,44 @@ void main() => group('LinkBloc test', () {
           bloc.dispose();
         });
       });
+
+      group('delete', () {
+        test('success', () async {
+          final link = Link.todo(
+            uri: 'uri 1',
+            title: 'title 1',
+          );
+          final repository = MockLinkRepository(
+            links: [link],
+          );
+          final bloc = LinkBloc(repository);
+
+          bloc.delete.add(link);
+          await expectLater(
+            bloc.links,
+            emits(<Link>[]),
+          );
+          bloc.save.add(link);
+          bloc.delete.add(link);
+          await expectLater(
+            bloc.deleted,
+            emits(link),
+          );
+          bloc.dispose();
+        });
+
+        test('failed', () async {
+          final repository = MockLinkRepository(
+            failer: () => true,
+          );
+          final bloc = LinkBloc(repository);
+
+          bloc.delete.add(Link());
+          await expectLater(
+            bloc.deleted,
+            emitsError(isInstanceOf<LinkRepositoryDeleteException>()),
+          );
+          bloc.dispose();
+        });
+      });
     });
