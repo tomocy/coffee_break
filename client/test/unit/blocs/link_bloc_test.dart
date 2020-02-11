@@ -85,4 +85,51 @@ void main() => group('LinkBloc test', () {
           bloc.dispose();
         });
       });
+
+      group('update', () {
+        test('success', () async {
+          final old = Link.todo(
+            uri: 'uri 1',
+            title: 'title 2',
+          );
+          final expected = old.copyWith(
+            done: true,
+          );
+          final repository = MockLinkRepository();
+          final bloc = LinkBloc(repository);
+
+          final event = UpdateLinkEvent(
+            oldLink: old,
+            newLink: expected,
+          );
+          bloc.update.add(event);
+          await expectLater(
+            bloc.links,
+            emitsThrough(<Link>[expected]),
+          );
+          bloc.update.add(event);
+          await expectLater(
+            bloc.updated,
+            emits(true),
+          );
+          bloc.dispose();
+        });
+
+        test('failed', () async {
+          final repository = MockLinkRepository(
+            failer: () => true,
+          );
+          final bloc = LinkBloc(repository);
+
+          bloc.update.add(UpdateLinkEvent(
+            oldLink: Link(),
+            newLink: Link(),
+          ));
+          await expectLater(
+            bloc.updated,
+            emitsError(isInstanceOf<LinkRepositoryUpdateException>()),
+          );
+          bloc.dispose();
+        });
+      });
     });
