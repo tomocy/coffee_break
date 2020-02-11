@@ -3,25 +3,30 @@ import 'package:coffee_break/domain/resources/link_repository.dart';
 import 'package:coffee_break/infra/mock.dart';
 
 class MockLinkRepository extends Mock implements LinkRepository {
-  MockLinkRepository({Failer failer}) : super(failer: failer);
+  MockLinkRepository({
+    Failer failer,
+    this.links,
+  }) : super(failer: failer) {
+    links ??= [
+      Link.todo(
+        uri: 'https://twitter.com/towocy',
+        title: 'Twitter',
+        createdAt: DateTime(2020, 1, 1),
+        dueDate: DateTime.now(),
+      ),
+      Link.todo(
+        uri: 'https://github.com/tomocy',
+        title: 'GitHub',
+        createdAt: DateTime(2020, 1, 11),
+      ),
+    ];
+  }
 
-  final _links = <Link>[
-    Link.todo(
-      uri: 'https://twitter.com/towocy',
-      title: 'Twitter',
-      createdAt: DateTime(2020, 1, 1),
-      dueDate: DateTime.now(),
-    ),
-    Link.todo(
-      uri: 'https://github.com/tomocy',
-      title: 'GitHub',
-      createdAt: DateTime(2020, 1, 11),
-    ),
-  ];
+  List<Link> links;
 
   @override
   Future<List<Link>> fetch() async =>
-      !doFail ? _links : throw LinkRepositoryFetchException();
+      !doFail ? links : throw const LinkRepositoryFetchException();
 
   @override
   Future<void> update(Link oldLink, Link newLink) async {
@@ -41,7 +46,7 @@ class MockLinkRepository extends Mock implements LinkRepository {
     } on LinkRepositorySaveException {
       throw LinkRepositoryUpdateException(oldLink, newLink);
     } on LinkRepositoryDeleteException {
-      _links.remove(newLink);
+      links.remove(newLink);
       throw LinkRepositoryUpdateException(oldLink, newLink);
     }
   }
@@ -52,16 +57,16 @@ class MockLinkRepository extends Mock implements LinkRepository {
       throw LinkRepositorySaveException(link);
     }
 
-    final i = _links.indexOf(link);
+    final i = links.indexOf(link);
     if (i < 0) {
-      _links.add(link);
+      links.add(link);
       return;
     }
 
-    _links[i] = link;
+    links[i] = link;
   }
 
   @override
   Future<void> delete(Link link) async =>
-      !doFail ? _links.remove(link) : throw LinkRepositoryDeleteException(link);
+      !doFail ? links.remove(link) : throw LinkRepositoryDeleteException(link);
 }
