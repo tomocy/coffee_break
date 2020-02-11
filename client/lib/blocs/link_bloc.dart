@@ -86,11 +86,6 @@ class LinkBloc {
 
   Future<void> _invokeUpdate(UpdateLinkEvent event) async {
     try {
-      if (event.oldLink == event.newLink) {
-        _updatedController.add(true);
-        return;
-      }
-
       await _repository.update(event.oldLink, event.newLink);
       _links
         ..remove(event.oldLink)
