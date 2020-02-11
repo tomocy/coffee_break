@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:coffee_break/domain/models/open_graph.dart';
 import 'package:coffee_break/domain/resources/open_graph_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class OpenGraphBloc {
   OpenGraphBloc(this._repository) {
