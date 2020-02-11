@@ -48,4 +48,41 @@ void main() => group('LinkBloc test', () {
           bloc.dispose();
         });
       });
+
+      group('save', () {
+        test('success', () async {
+          final expected = Link.todo(
+            uri: 'uri 1',
+            title: 'title 1',
+          );
+          final repository = MockLinkRepository();
+          final bloc = LinkBloc(repository);
+
+          bloc.save.add(expected);
+          await expectLater(
+            bloc.links,
+            emitsThrough(<Link>[expected]),
+          );
+          bloc.save.add(expected);
+          await expectLater(
+            bloc.saved,
+            emits(true),
+          );
+          bloc.dispose();
+        });
+
+        test('failed', () async {
+          final repository = MockLinkRepository(
+            failer: () => true,
+          );
+          final bloc = LinkBloc(repository);
+
+          bloc.save.add(Link());
+          await expectLater(
+            bloc.saved,
+            emitsError(isInstanceOf<LinkRepositorySaveException>()),
+          );
+          bloc.dispose();
+        });
+      });
     });
