@@ -49,7 +49,7 @@ void main() => runApp(MultiProvider(
           dispose: (_, bloc) => bloc.dispose(),
         ),
         Provider<OpenGraphRepository>(
-          create: (_) => MockOpenGraphRepository(),
+          create: (_) => const MockOpenGraphRepository(),
         ),
         Provider<OpenGraphBloc>(
           create: (context) => OpenGraphBloc(Provider.of<OpenGraphRepository>(
