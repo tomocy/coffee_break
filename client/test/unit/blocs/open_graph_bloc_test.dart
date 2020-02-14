@@ -32,7 +32,7 @@ void main() => group('OpenGraphBloc test', () {
           bloc.fetch.add('');
           await expectLater(
             bloc.openGraph,
-            emitsError(const OpenGraphRepositoryFetchException()),
+            emitsError(isInstanceOf<OpenGraphRepositoryFetchException>()),
           );
           bloc.dispose();
         });
