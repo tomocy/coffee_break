@@ -43,7 +43,7 @@ void main() => group('LinkBloc test', () {
           bloc.fetch.add(null);
           await expectLater(
             bloc.links,
-            emitsError(const LinkRepositoryFetchException()),
+            emitsError(isInstanceOf<LinkRepositoryFetchException>()),
           );
           bloc.dispose();
         });
