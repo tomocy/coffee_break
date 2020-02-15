@@ -8,7 +8,9 @@ void main() => group('SettingsBloc test', () {
       group('fetch', () {
         test('success', () async {
           final expected = Settings();
-          final repository = MockSettingsRepository(settings: expected);
+          final repository = MockSettingsRepository(
+            settings: expected,
+          );
           final bloc = SettingsBloc(repository);
 
           bloc.fetch.add(null);
@@ -21,7 +23,9 @@ void main() => group('SettingsBloc test', () {
 
         test('failed', () async {
           final expected = Settings();
-          final repository = MockSettingsRepository(failer: () => true);
+          final repository = MockSettingsRepository(
+            failer: () => true,
+          );
           final bloc = SettingsBloc(repository);
 
           bloc.fetch.add(null);
@@ -35,7 +39,9 @@ void main() => group('SettingsBloc test', () {
 
       group('save', () {
         test('success', () async {
-          final expected = Settings(themeMode: ThemeMode.dark);
+          final expected = Settings(
+            themeMode: ThemeMode.dark,
+          );
           final repository = MockSettingsRepository();
           final bloc = SettingsBloc(repository);
 
@@ -48,8 +54,12 @@ void main() => group('SettingsBloc test', () {
         });
 
         test('failed', () async {
-          final expected = Settings(themeMode: ThemeMode.dark);
-          final repository = MockSettingsRepository(failer: () => true);
+          final expected = Settings(
+            themeMode: ThemeMode.dark,
+          );
+          final repository = MockSettingsRepository(
+            failer: () => true,
+          );
           final bloc = SettingsBloc(repository);
 
           bloc.save.add(expected);
