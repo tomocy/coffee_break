@@ -15,7 +15,9 @@ abstract class SearchDelegate<T> extends material.SearchDelegate<T> {
   @override
   ThemeData appBarTheme(BuildContext context) {
     final theme = Theme.of(context);
-    return theme.copyWith(primaryColor: theme.colorScheme.background);
+    return theme.copyWith(
+      primaryColor: theme.colorScheme.background,
+    );
   }
 
   @override

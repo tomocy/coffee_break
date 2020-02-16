@@ -28,7 +28,9 @@ class PageScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(
+          title: Text(title),
+        ),
         drawer: Drawer(
           elevation: 1,
           child: SafeArea(
@@ -128,7 +130,9 @@ class PageScaffold extends StatelessWidget {
           ),
         ),
         drawerScrimColor: Colors.transparent,
-        body: SafeArea(child: body),
+        body: SafeArea(
+          child: body,
+        ),
       );
 }
 

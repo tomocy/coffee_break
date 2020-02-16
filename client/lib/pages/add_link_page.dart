@@ -21,7 +21,9 @@ class AddLinkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          leading: AnimatedBackableButton(animation: animation),
+          leading: AnimatedBackableButton(
+            animation: animation,
+          ),
           title: const Text('Add link'),
         ),
         body: _buildStreamHandlers(

@@ -61,10 +61,10 @@ class _LinkFormState extends State<LinkForm> {
                   border: OutlineInputBorder(),
                   labelText: 'URI',
                 ),
-                onChanged: (uri) =>
-                    Provider.of<OpenGraphBloc>(context, listen: false)
-                        .fetch
-                        .add(uri),
+                onChanged: (uri) => Provider.of<OpenGraphBloc>(
+                  context,
+                  listen: false,
+                ).fetch.add(uri),
                 validator: (uri) => uri.isEmpty ? 'Please enter URI.' : null,
               ),
               const SizedBox(height: 16),

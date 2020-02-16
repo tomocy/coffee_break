@@ -32,12 +32,16 @@ class MarkableLinkTile extends StatelessWidget {
 
           onMarked();
         },
-        background: MarkedLinkTileBackground(link: link),
+        background: MarkedLinkTileBackground(
+          link: link,
+        ),
         secondaryBackground: MarkedLinkTileBackground(
           direction: AxisDirection.left,
           link: link,
         ),
-        child: LinkTile(link: link),
+        child: LinkTile(
+          link: link,
+        ),
       );
 }
 
