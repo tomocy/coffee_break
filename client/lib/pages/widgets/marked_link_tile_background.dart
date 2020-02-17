@@ -30,14 +30,14 @@ class MarkedLinkTileBackground extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: link.isDone
           ? Text(
-              link.verb.capitalizedInfinitive,
+              'To read',
               style: Theme.of(context)
                   .textTheme
                   .caption
                   .copyWith(color: onBackground),
             )
           : Text(
-              link.verb.capitalizedPastParticle,
+              'Read',
               style: Theme.of(context)
                   .textTheme
                   .caption

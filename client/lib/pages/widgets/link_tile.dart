@@ -58,13 +58,7 @@ class LinkTile extends StatelessWidget {
   Widget build(BuildContext context) => ListTile(
         onTap: () async => await canLaunch(link.uri) ? launch(link.uri) : null,
         title: Text(link.title),
-        subtitle: Row(
-          children: [
-            _buildVerb(context),
-            const SizedBox(width: 5),
-            _buildDueDate(context),
-          ],
-        ),
+        subtitle: _buildDueDate(context),
         trailing: PopupMenuButton<LinkTileActions>(
           onSelected: (action) {
             switch (action) {
@@ -99,9 +93,6 @@ class LinkTile extends StatelessWidget {
           ],
         ),
       );
-
-  Widget _buildVerb(BuildContext context) =>
-      link.isDone ? Text(link.verb.pastParticle) : Text(link.verb.infinitive);
 
   Widget _buildDueDate(BuildContext context) {
     if (link.dueDate == null || link.isDone) {

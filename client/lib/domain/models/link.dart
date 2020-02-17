@@ -1,5 +1,3 @@
-import 'package:coffee_break/domain/models/verb.dart';
-
 String toDueDateString(DateTime dueDate) =>
     '${dueDate.year}/${dueDate.month}/${dueDate.day}';
 
@@ -7,7 +5,6 @@ class Link {
   Link({
     this.uri,
     this.title,
-    this.verb = const Verb('do', 'done'),
     DateTime createdAt,
     this.dueDate,
     bool done,
@@ -17,13 +14,11 @@ class Link {
   Link.todo({
     String uri,
     String title,
-    Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
     DateTime dueDate,
   }) : this(
           uri: uri,
           title: title,
-          verb: verb,
           createdAt: createdAt,
           dueDate: dueDate,
           done: false,
@@ -32,13 +27,11 @@ class Link {
   Link.done({
     String uri,
     String title,
-    Verb verb = const Verb('do', 'done'),
     DateTime createdAt,
     DateTime dueDate,
   }) : this(
           uri: uri,
           title: title,
-          verb: verb,
           createdAt: createdAt,
           dueDate: dueDate,
           done: true,
@@ -46,7 +39,6 @@ class Link {
 
   final String uri;
   final String title;
-  final Verb verb;
   final DateTime createdAt;
   final DateTime dueDate;
   bool isDone;
@@ -54,7 +46,6 @@ class Link {
   Link copyWith({
     String uri,
     String title,
-    Verb verb,
     DateTime createdAt,
     DateTime dueDate,
     bool done,
@@ -62,7 +53,6 @@ class Link {
       Link(
         uri: uri ?? this.uri,
         title: title ?? this.title,
-        verb: verb ?? this.verb,
         createdAt: createdAt ?? this.createdAt,
         dueDate: dueDate ?? this.dueDate,
         done: done ?? isDone,
@@ -83,11 +73,8 @@ class Link {
 
   @override
   bool operator ==(dynamic other) =>
-      other is Link &&
-      other.uri == uri &&
-      other.verb == verb &&
-      other.dueDate == dueDate;
+      other is Link && other.uri == uri && other.dueDate == dueDate;
 
   @override
-  int get hashCode => uri.hashCode + verb.hashCode + dueDate.hashCode;
+  int get hashCode => uri.hashCode + dueDate.hashCode;
 }

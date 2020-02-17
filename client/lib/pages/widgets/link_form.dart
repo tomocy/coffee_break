@@ -1,9 +1,7 @@
 import 'package:coffee_break/blocs/open_graph_bloc.dart';
 import 'package:coffee_break/domain/models/link.dart';
 import 'package:coffee_break/domain/models/open_graph.dart';
-import 'package:coffee_break/domain/models/verb.dart';
 import 'package:coffee_break/pages/widgets/flat_button_form_field.dart';
-import 'package:coffee_break/pages/widgets/verb_form.dart';
 import 'package:coffee_break/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +26,6 @@ class _LinkFormState extends State<LinkForm> {
   final _formKey = GlobalKey<FormState>();
   final _uriController = TextEditingController();
   final _titleController = TextEditingController();
-  Verb _selectedVerb;
   DateTime _selectedDueDate;
 
   @override
@@ -36,7 +33,6 @@ class _LinkFormState extends State<LinkForm> {
     super.initState();
     _uriController.text = widget.link?.uri;
     _titleController.text = widget.link?.title;
-    _selectedVerb = widget.link?.verb;
     _selectedDueDate = widget.link?.dueDate;
   }
 
@@ -93,12 +89,6 @@ class _LinkFormState extends State<LinkForm> {
                 ),
               ),
               const SizedBox(height: 16),
-              SelectVerbButtonFormField(
-                verb: _selectedVerb,
-                validator: (verb) =>
-                    verb == null ? 'Please select verb.' : null,
-                onSelected: (verb) => setState(() => _selectedVerb = verb),
-              ),
               const SizedBox(height: 16),
               SelectDueDateButtonFormField(
                 dueDate: _selectedDueDate,
@@ -120,13 +110,11 @@ class _LinkFormState extends State<LinkForm> {
                         ? widget.link.copyWith(
                             uri: _uriController.text,
                             title: _titleController.text,
-                            verb: _selectedVerb,
                             dueDate: _selectedDueDate,
                           )
                         : Link.todo(
                             uri: _uriController.text,
                             title: _titleController.text,
-                            verb: _selectedVerb,
                             dueDate: _selectedDueDate,
                           );
                     widget.onSubmit(link);
