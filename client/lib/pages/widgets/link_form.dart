@@ -89,7 +89,6 @@ class _LinkFormState extends State<LinkForm> {
                 ),
               ),
               const SizedBox(height: 16),
-              const SizedBox(height: 16),
               SelectDueDateButtonFormField(
                 dueDate: _selectedDueDate,
                 onSelected: (dueDate) =>

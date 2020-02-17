@@ -8,7 +8,7 @@ class TodoLinksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LinksPageScaffold(
-        title: 'Todo',
+        title: 'To Read',
         type: PageType.todo,
         body: StreamedLinksListView(
           stream: (bloc) => bloc.todoLinks,

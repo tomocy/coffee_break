@@ -55,7 +55,7 @@ class PageScaffold extends StatelessWidget {
                         },
                       ),
                       ListTile(
-                        title: const Text('Todo'),
+                        title: const Text('To Read'),
                         onTap: () {
                           Navigator.pop(context);
 
@@ -70,7 +70,7 @@ class PageScaffold extends StatelessWidget {
                         },
                       ),
                       ListTile(
-                        title: const Text('Done'),
+                        title: const Text('Read'),
                         onTap: () {
                           Navigator.pop(context);
 

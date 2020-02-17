@@ -8,7 +8,7 @@ class DoneLinksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LinksPageScaffold(
-        title: 'Done',
+        title: 'Read',
         type: PageType.done,
         body: StreamedLinksListView(
           stream: (bloc) => bloc.doneLinks,
